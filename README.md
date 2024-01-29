@@ -1,2 +1,2 @@
-# WSR-S2024
-Web Server Programming Sring 2024 Repo
+# README
+This is the repo for the final project
