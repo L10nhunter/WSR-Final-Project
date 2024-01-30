@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="html">
+<head>
+    <meta charset="utf-8">
+    <title>Web Server Development CSS Assignment</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, system-ui;
+            background-color: #dcfae6;
+        }
+
+        .top-nav {
+            background: #279c40;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dropdown {
+            display: block;
+            font-size: large;
+            margin: 0;
+            font-weight: bold;
+            position: relative;
+            min-width: 80px;
+            padding: 5px 10px;
+        }
+
+        .edit {font-weight: normal;}
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 31px;
+            width: 100%;
+            overflow: auto;
+            font-weight: normal;
+            font-size: initial;
+            list-style-type: none;
+        }
+
+        .dropdown:hover, .edit:focus {background-color: #27c440;}
+
+        .dropdown:hover .dropdown-content, .edit:focus .dropdown-content {display: block;}
+
+        .dropdown-content a {
+            display: block;
+            background-color: #27c440;;
+            padding: 5px 10px;
+            text-decoration: none;
+        }
+
+        .dropdown-content a:hover {background-color: #27ff40;}
+
+        .centering{
+            margin: auto;
+            /*I used windows paint to do pixel measurements to get the max width from your example.*/
+            max-width: 1231px;
+        }
+
+        .textbox {
+            text-align: left;
+            font-size: 12pt;
+            display: block;
+            background-color: white;
+            margin: 25px;
+            padding: 15px;
+            border-left: 5px solid;
+        }
+
+        /*I made an extra textbox with my notes, but then I realized I should just do those in comments, so all of that is commented out now.
+        .red {border-left-color: red}*/
+
+        .yellow {border-left-color: #f5f550}
+
+        .green{border-left-color: #27c440}
+
+        h3 {margin: 0;}
+    </style>
+</head>
+<body>
+<div class="top-nav">
+    <div class="dropdown">File
+        <div class="dropdown-content">
+            <a href="">New</a>
+            <a href="">Open</a>
+            <a href="">Save</a>
+            <a href="">Print</a>
+            <a href="">Close</a>
+        </div>
+    </div>
+    <div class="edit dropdown" tabindex="-1">Edit
+        <div class="dropdown-content">
+            <a href="">Undo</a>
+            <a href="">Redo</a>
+            <a href="">Cut</a>
+            <a href="">Copy</a>
+            <a href="">Paste</a>
+            <a href="">Delete</a>
+            <a href="">Select All</a>
+        </div>
+    </div>
+    <div class="dropdown">View
+        <div class="dropdown-content">
+            <a href="">Zoom In</a>
+            <a href="">Zoom Out</a>
+            <a href="">Actual Size</a>
+            <a href="">Fit Page</a>
+            <a href="">Fit Width</a>
+            <a href="">Fit Height</a>
+            <a href="">Rotate Left</a>
+            <a href="">Rotate Right</a>
+            <a href="">Full Screen</a>
+        </div>
+    </div>
+</div>
+<div class="centering">
+    <div class="green textbox">
+        <h3>Instructions</h3>
+        <p>Recreate this page using <b><i>only CSS</i></b>. Do yourself a favor and 1) Do not view the source. Figure it out yourself. 2) Do not search for the solution. Learn CSS until you know enough to do this.</p>
+    </div>
+    <div class="yellow textbox">
+        <h3>Extra Credit</h3>
+        <p>Notice how the Edit menu (besides for not being bold) reacts to clicks. If you click the edit menu, it remains open until you click somewhere else. (This you might need to search for)</p>
+    </div>
+    <!--
+    <div class="red textbox">
+        <h3>Notes From Yours Truly</h3>
+        <p>I tried to do everything from scratch. The only part where I had to check the source is how to stop the nav bar from wrapping when the window gets to narrow to show all 3 menu options at the same time, because all the research I tried to do to learn it myself kept telling me to either use JavaScript or some other framework or library, which you told us not to use. I did learn some other stuff from reading the source though, like how you used 2 classes for the extra credit box. I used that to condense a lot of my code, since I made what was effectively a duplicate class for the edit dropdown. I got rid of my edit-dropdown class and all the focus and hover selectors for that class. All the functionality got folded into a "parent" class called dropdown and a "child" extended class called edit. I did the same thing with the colors for the textboxes. I don't like how style tags look inside div statements, so I just moved it out into its own class.</p>
+    </div>
+    -->
+</div>
+</body>
+</html>
