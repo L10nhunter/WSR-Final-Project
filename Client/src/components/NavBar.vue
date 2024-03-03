@@ -3,16 +3,24 @@ import {RouterLink} from 'vue-router';
 import {ref} from 'vue';
 import "bulma/css/bulma.css";
 
-const props = defineProps({
-    isMobile: Boolean,
-});
-
+const isMobile = ref(false)
 const isBurgerActive = ref(false);
 
 
 function toggleBurgerActive() {
     isBurgerActive.value = !isBurgerActive.value;
 }
+
+function checkMobile() {
+    isMobile.value = window.innerWidth < 1024;
+}
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 1024) {
+        isBurgerActive.value = false;
+    }
+    checkMobile();
+});
 
 </script>
 
@@ -23,7 +31,8 @@ function toggleBurgerActive() {
                 <img src="../assets/logo.svg" width="28" height="28" alt="bulma logo">
             </router-link>
 
-            <a role="button" :class="isBurgerActive && 'is-active'" @click="toggleBurgerActive()" class="navbar-burger" aria-label="menu" aria-expanded="false"
+            <a role="button" :class="isBurgerActive && 'is-active'" @click="toggleBurgerActive()" class="navbar-burger"
+               aria-label="menu" aria-expanded="false"
                data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -31,6 +40,25 @@ function toggleBurgerActive() {
             </a>
         </div>
 
+        <div class="navbar-menu" :class="isBurgerActive && 'is-active', !isMobile && 'is-hidden'">
+            <div class="navbar-start">
+                <router-link class="navbar-item" to="/">
+                    Home
+                </router-link>
+                <router-link class="navbar-item" to="/documentation">
+                    Documentation
+                </router-link>
+                <router-link class="navbar-item" to="/about">
+                    About
+                </router-link>
+                <router-link class="navbar-item" to="/contact">
+                    Contact Us
+                </router-link>
+                <router-link class="navbar-item" to="/report">
+                    Report an issue
+                </router-link>
+            </div>
+        </div>
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
@@ -38,9 +66,9 @@ function toggleBurgerActive() {
                     Home
                 </router-link>
 
-                <a class="navbar-item">
+                <router-link class="navbar-item" to="/documentation">
                     Documentation
-                </a>
+                </router-link>
 
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
@@ -51,16 +79,13 @@ function toggleBurgerActive() {
                         <router-link class="navbar-item" to="/about">
                             About
                         </router-link>
-                        <a class="navbar-item">
-                            Jobs
-                        </a>
-                        <a class="navbar-item">
-                            Contact
-                        </a>
+                        <router-link class="navbar-item" to="/contact">
+                            Contact Us
+                        </router-link>
                         <hr class="navbar-divider">
-                        <a class="navbar-item">
+                        <router-link class="navbar-item" to="/report">
                             Report an issue
-                        </a>
+                        </router-link>
                     </div>
                 </div>
             </div>
