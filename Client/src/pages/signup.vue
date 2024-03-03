@@ -1,115 +1,66 @@
 <script setup lang="ts">
-import {onBeforeUnmount, onMounted, ref} from "vue";
+import {ref} from "vue";
 import "bulma/css/bulma.css";
-import "@/assets/main.css";
+import SignupTextField from "@/components/SignupTextField.vue";
 
 const user = {
     firstName: ref(''),
     lastName: ref(''),
+    username: ref(''),
     email: ref(''),
     password: ref(''),
-    passwordCheck: ref('')
+    passwordCheck: ref(''),
+    tosAccept: ref(false),
 };
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+const enableSubmit = ref(false);
 
-function isValid(): boolean {
-    return true;
+function isValid(): void {
+    enableSubmit.value = isValidFirstName() && isValidLastName() && isValidUsername() && isValidEmail() && isValidPassword() && isValidPasswordCheck() && user.tosAccept.value;
+    console.log(enableSubmit.value);
+    console.log({user});
 }
-
-const boxes = ref<NodeListOf<HTMLInputElement>>();
-
-onMounted(() => {
-    boxes.value = document.querySelectorAll('input');
-    console.log(boxes.value)
-    for (let box of boxes.value) {
-        box.addEventListener('input', () => function () {
-            if (box.name === 'firstname') {
-                user.firstName.value = box.value;
-                console.log(user.firstName.value);
-            }
-            if (box.name === 'lastname') {
-                user.lastName.value = box.value;
-                console.log(user.lastName.value);
-            }
-            if (box.name === 'email') {
-                user.email.value = box.value;
-                console.log(user.email.value);
-            }
-            if (box.name === 'password') {
-                user.password.value = box.value;
-                console.log(user.password.value);
-            }
-            if (box.name === 'passwordcheck') {
-                user.passwordCheck.value = box.value;
-                console.log(user.passwordCheck.value);
-            }
-        });
-        console.log("Event Listener added to " + box.name);
-    }
-    console.log('mounted');
-});
-
-onBeforeUnmount(() => {
-    for (let box of boxes.value!) {
-        box.removeEventListener('input', () => function () {
-            console.log(box.name + ' ' + box.value);
-            if (box.name === 'firstname') {
-                user.firstName.value = box.value;
-            }
-            if (box.name === 'lastname') {
-                user.lastName.value = box.value;
-            }
-            if (box.name === 'email') {
-                user.email.value = box.value;
-            }
-            if (box.name === 'password') {
-                user.password.value = box.value;
-            }
-            if (box.name === 'passwordcheck') {
-                user.passwordCheck.value = box.value;
-            }
-        });
-    }
-    console.log('unmounted');
-});
-
+function isValidFirstName(): boolean {
+    return user.firstName.value !== '';
+}
+function isValidLastName(): boolean {
+    return user.lastName.value !== '';
+}
+function isValidUsername(): boolean {
+    return user.username.value !== '';
+}
+function isValidEmail(): boolean {
+    return (user.email.value !== '') && emailRegex.test(user.email.value);
+}
+function isValidPassword(): boolean {
+    return (user.password.value !== '') && user.password.value.length >= 8;
+}
+function isValidPasswordCheck(): boolean {
+    return user.passwordCheck.value === user.password.value;
+}
 </script>
 
 <template>
     <div>
-        <form>
-            <h2>Register</h2>
-            <div class="control">
-                <label class="label">First Name</label>
-                <input required class="input" type="text" placeholder="John" name="firstname" id="firstname">
-            </div>
-            <div>
-                <label class="label">Last Name</label>
-                <input required class="input" type="text" placeholder="Smith" name="lastname" id="lastname">
-            </div>
-            <div>
-                <label class="label">Email</label>
-                <input required class="input" type="text" placeholder="johnsmith@gmail.com" name="email" id="email">
-            </div>
-            <div>
-                <label class="label">Password</label>
-                <input required class="input" type="text" placeholder="" name="password" id="password">
-            </div>
-            <div>
-                <label class="label">Password Verification</label>
-                <input required class="input" type="text" placeholder="" name="passwordcheck" id="passwordcheck">
-            </div>
+        <h1 class="title">Register</h1>
+        <form autocomplete="on">
+            <SignupTextField v-model=user.firstName.value @input="isValid()" label="First Name" placeholder="John"/>
+            <SignupTextField v-model=user.lastName.value @input="isValid()" label="Last Name" placeholder="Smith"/>
+            <SignupTextField v-model=user.email.value @input=" isValid()" label="Email Address" placeholder="johnsmith@gmail.com"/>
+            <SignupTextField v-model=user.username.value @input="isValid()" label="Username" placeholder="JohnSmith123"/>
+            <SignupTextField v-model=user.password.value @input="isValid()" label="Password" placeholder="Password"/>
+            <SignupTextField v-model=user.passwordCheck.value @input="isValid()" label="Password Verification" placeholder="Password"/>
             <div class="field">
                 <div class="control">
                     <label class="checkbox">
-                        <input required type="checkbox">
+                        <input type="checkbox" v-model="user.tosAccept.value" @input="isValid()" name="tosAccept">
                         I agree to the <a href="#">Terms and Conditions</a>
                     </label>
                 </div>
             </div>
             <div class="field is-grouped">
                 <div class="control">
-                    <button class="button is-link">Submit</button>
+                    <button class="button is-link" :disabled="!enableSubmit">Submit</button>
                 </div>
                 <div class="control">
                     <button class="button is-link is-light">Cancel</button>
@@ -120,11 +71,18 @@ onBeforeUnmount(() => {
 </template>
 <style scoped>
 @media (prefers-color-scheme: dark) {
+    h1 {
+        color: white;
+    }
     label {
         color: white;
     }
 }
+
 @media (prefers-color-scheme: light) {
+    h1 {
+        color: black;
+    }
     label {
         color: black;
     }
