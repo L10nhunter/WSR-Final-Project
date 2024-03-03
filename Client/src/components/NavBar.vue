@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {RouterLink} from 'vue-router';
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import "bulma/css/bulma.css";
 
 const isMobile = ref(false)
@@ -19,6 +19,10 @@ window.addEventListener('resize', () => {
     if (window.innerWidth > 1024) {
         isBurgerActive.value = false;
     }
+    checkMobile();
+});
+
+onMounted(() => {
     checkMobile();
 });
 
@@ -105,3 +109,21 @@ window.addEventListener('resize', () => {
         </div>
     </nav>
 </template>
+
+<style scoped>
+@media (prefers-color-scheme: dark) {
+    .navbar {
+        background: #181818;
+        border-bottom: 1px solid #232323;
+    }
+}
+@media (prefers-color-scheme: light) {
+    .navbar {
+        background: #ffffff;
+        border-bottom: 1px solid #dbdbdb;
+    }
+}
+.navbar {
+
+}
+</style>
