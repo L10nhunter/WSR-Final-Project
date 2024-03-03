@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import {RouterLink} from 'vue-router';
 import {ref} from 'vue';
+import "bulma/css/bulma.css";
+
+const props = defineProps({
+    isMobile: Boolean,
+});
 
 const isBurgerActive = ref(false);
+
 
 function toggleBurgerActive() {
     isBurgerActive.value = !isBurgerActive.value;
@@ -24,6 +30,7 @@ function toggleBurgerActive() {
                 <span aria-hidden="true"></span>
             </a>
         </div>
+
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
@@ -61,21 +68,15 @@ function toggleBurgerActive() {
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-primary">
+                        <router-link class="button is-primary" to="/signup">
                             <strong>Sign up</strong>
-                        </a>
-                        <a class="button is-light">
+                        </router-link>
+                        <router-link class="button is-light" to="/login">
                             Log in
-                        </a>
+                        </router-link>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
 </template>
-
-<style scoped>
-.router-link-active {
-    color: red;
-}
-</style>
