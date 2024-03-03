@@ -10,6 +10,7 @@ const isBurgerActive = ref(false);
 function toggleBurgerActive() {
     isBurgerActive.value = !isBurgerActive.value;
 }
+
 function checkMobile() {
     isMobile.value = window.innerWidth < 1024;
 }
@@ -30,7 +31,8 @@ window.addEventListener('resize', () => {
                 <img src="../assets/logo.svg" width="28" height="28" alt="bulma logo">
             </router-link>
 
-            <a role="button" :class="isBurgerActive && 'is-active'" @click="toggleBurgerActive()" class="navbar-burger" aria-label="menu" aria-expanded="false"
+            <a role="button" :class="isBurgerActive && 'is-active'" @click="toggleBurgerActive()" class="navbar-burger"
+               aria-label="menu" aria-expanded="false"
                data-target="navbarBasicExample">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -38,49 +40,35 @@ window.addEventListener('resize', () => {
             </a>
         </div>
 
-        <div class="navbar-menu" :class="isBurgerActive && 'is-active', isMobile && 'is-hidden'">
+        <div class="navbar-menu" :class="isBurgerActive && 'is-active', !isMobile && 'is-hidden'">
             <div class="navbar-start">
                 <router-link class="navbar-item" to="/">
                     Home
                 </router-link>
-
-                <a class="navbar-item">
+                <router-link class="navbar-item" to="/documentation">
                     Documentation
-                </a>
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        More
-                    </a>
-
-                    <div class="navbar-dropdown">
-                        <router-link class="navbar-item" to="/about">
-                            About
-                        </router-link>
-                        <a class="navbar-item">
-                            Jobs
-                        </a>
-                        <a class="navbar-item">
-                            Contact
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item">
-                            Report an issue
-                        </a>
-                    </div>
-                </div>
+                </router-link>
+                <router-link class="navbar-item" to="/about">
+                    About
+                </router-link>
+                <router-link class="navbar-item" to="/contact">
+                    Contact Us
+                </router-link>
+                <router-link class="navbar-item" to="/report">
+                    Report an issue
+                </router-link>
             </div>
         </div>
 
-        <div id="navbarBasicExample" class="navbar-menu" >
+        <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
                 <router-link class="navbar-item" to="/">
                     Home
                 </router-link>
 
-                <a class="navbar-item">
+                <router-link class="navbar-item" to="/documentation">
                     Documentation
-                </a>
+                </router-link>
 
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
@@ -91,16 +79,13 @@ window.addEventListener('resize', () => {
                         <router-link class="navbar-item" to="/about">
                             About
                         </router-link>
-                        <a class="navbar-item">
-                            Jobs
-                        </a>
-                        <a class="navbar-item">
-                            Contact
-                        </a>
+                        <router-link class="navbar-item" to="/contact">
+                            Contact Us
+                        </router-link>
                         <hr class="navbar-divider">
-                        <a class="navbar-item">
+                        <router-link class="navbar-item" to="/report">
                             Report an issue
-                        </a>
+                        </router-link>
                     </div>
                 </div>
             </div>
