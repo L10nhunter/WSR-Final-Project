@@ -38,7 +38,7 @@ window.addEventListener('resize', () => {
             </a>
         </div>
 
-        <div class="navbar-menu" :class="isBurgerActive && 'is-active', !isMobile && 'is-hidden'">
+        <div class="navbar-menu" :class="isBurgerActive && 'is-active', isMobile && 'is-hidden'">
             <div class="navbar-start">
                 <router-link class="navbar-item" to="/">
                     Home
