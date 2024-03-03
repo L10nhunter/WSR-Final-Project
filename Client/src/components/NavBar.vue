@@ -3,16 +3,23 @@ import {RouterLink} from 'vue-router';
 import {ref} from 'vue';
 import "bulma/css/bulma.css";
 
-const props = defineProps({
-    isMobile: Boolean,
-});
-
+const isMobile = ref(false)
 const isBurgerActive = ref(false);
 
 
 function toggleBurgerActive() {
     isBurgerActive.value = !isBurgerActive.value;
 }
+function checkMobile() {
+    isMobile.value = window.innerWidth < 1024;
+}
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 1024) {
+        isBurgerActive.value = false;
+    }
+    checkMobile();
+});
 
 </script>
 
@@ -31,8 +38,41 @@ function toggleBurgerActive() {
             </a>
         </div>
 
+        <div class="navbar-menu" :class="isBurgerActive && 'is-active', !isMobile && 'is-hidden'">
+            <div class="navbar-start">
+                <router-link class="navbar-item" to="/">
+                    Home
+                </router-link>
 
-        <div id="navbarBasicExample" class="navbar-menu">
+                <a class="navbar-item">
+                    Documentation
+                </a>
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        More
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <router-link class="navbar-item" to="/about">
+                            About
+                        </router-link>
+                        <a class="navbar-item">
+                            Jobs
+                        </a>
+                        <a class="navbar-item">
+                            Contact
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item">
+                            Report an issue
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu" >
             <div class="navbar-start">
                 <router-link class="navbar-item" to="/">
                     Home
