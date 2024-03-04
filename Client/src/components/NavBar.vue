@@ -2,6 +2,7 @@
 import {RouterLink} from 'vue-router';
 import {onMounted, ref} from 'vue';
 import "bulma/css/bulma.css";
+import "../assets/base.css";
 
 const isMobile = ref(false)
 const isBurgerActive = ref(false);
@@ -97,10 +98,10 @@ onMounted(() => {
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <router-link class="button is-primary" to="/signup">
-                            <strong>Sign up</strong>
+                        <router-link class="button is-primary has-text-black has-text-weight-bold" to="/signup">
+                            Sign up
                         </router-link>
-                        <router-link class="button is-light" to="/login">
+                        <router-link class="button is-light has-text-weight-bold" to="/login">
                             Log in
                         </router-link>
                     </div>
@@ -116,14 +117,40 @@ onMounted(() => {
         background: #181818;
         border-bottom: 1px solid #232323;
     }
+    .navbar-menu {
+        background: #181818;
+        color: white;
+    }
+    .navbar-dropdown {
+        background: #181818;
+        color: white;
+    }
+    .navbar-item {
+        background: #181818;
+        color: white;
+    }
+    .navbar-item:hover {
+        background: #232323;
+        color: white;
+    }
+    a.navbar-link {
+        background: #181818;
+        color: white;
+    }
+    a.navbar-link:hover {
+        background: #232323;
+        color: white;
+    }
+    a:hover {
+        background: #232323;
+        color: white;
+    }
 }
 @media (prefers-color-scheme: light) {
     .navbar {
         background: #ffffff;
         border-bottom: 1px solid #dbdbdb;
     }
-}
-.navbar {
 
 }
 </style>

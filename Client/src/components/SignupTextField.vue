@@ -3,6 +3,7 @@ import "@fortawesome/free-brands-svg-icons";
 import {defineProps, defineModel} from "vue";
 const textField = defineModel({type: String, default: ''});
 
+
 const text = defineProps({
     label: String,
     placeholder: String,
@@ -22,7 +23,7 @@ function leftIcon(): string {
     } else if (text.label === 'Password') {
         return 'fas fa-lock';
     } else if (text.label === 'Password Verification') {
-        return 'Client/node_modules/@fortawesome/fontawesome-free/sprites/solid.svg#lock';
+        return 'fas fa-lock';
     } else {
         return '';
     }
@@ -31,7 +32,7 @@ function leftIcon(): string {
 </script>
 
 <template>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <div class="field">
         <label>{{ text.label }}</label>
         <div class="control has-icons-left">
@@ -45,13 +46,12 @@ function leftIcon(): string {
 
 <style scoped>
 @media (prefers-color-scheme: dark) {
-    label {
+    input {
+        background-color: #363636;
         color: white;
     }
-}
-@media (prefers-color-scheme: light) {
-    label {
-        color: black;
+    input::placeholder {
+        color: #707070;
     }
 }
 </style>

@@ -13,6 +13,12 @@
     div {
         color: white;
     }
+    h1 {
+        color: white;
+    }
+    label {
+        color: white;
+    }
 }
 @media (prefers-color-scheme: light) {
     :root {
@@ -25,6 +31,12 @@
         --color-text: var(--vt-c-text-light-1);
     }
     div {
+        color: black;
+    }
+    h1 {
+        color: black;
+    }
+    label {
         color: black;
     }
 

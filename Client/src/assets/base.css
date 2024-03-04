@@ -34,6 +34,15 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+  div {
+    color: black;
+  }
+  h1 {
+    color: black;
+  }
+  label {
+    color: black;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,6 +56,15 @@
 
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
+    div {
+      color: white;
+    }
+    h1 {
+      color: white;
+    }
+    label {
+      color: white;
+    }
   }
 }
 

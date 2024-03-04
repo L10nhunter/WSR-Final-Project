@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import "bulma/css/bulma.css";
+import "../assets/main.css";
 import SignupTextField from "@/components/SignupTextField.vue";
 
 const user = {
@@ -13,6 +14,7 @@ const user = {
     tosAccept: ref(false),
 };
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
 const enableSubmit = ref(false);
 
 function isValid(): void {
@@ -33,7 +35,7 @@ function isValidEmail(): boolean {
     return (user.email.value !== '') && emailRegex.test(user.email.value);
 }
 function isValidPassword(): boolean {
-    return (user.password.value !== '') && user.password.value.length >= 8;
+    return (user.password.value !== '') && passwordRegex.test(user.password.value);
 }
 function isValidPasswordCheck(): boolean {
     return user.passwordCheck.value === user.password.value;
@@ -58,35 +60,15 @@ function isValidPasswordCheck(): boolean {
                     </label>
                 </div>
             </div>
-            <div class="field is-grouped">
+            <div class="field">
                 <div class="control">
-                    <button class="button is-link" :disabled="!enableSubmit">Submit</button>
-                </div>
-                <div class="control">
-                    <button class="button is-link is-light">Cancel</button>
+                    <button class="button is-primary has-text-black has-text-weight-bold" :disabled="!enableSubmit">Submit</button>
                 </div>
             </div>
         </form>
     </div>
 </template>
 <style scoped>
-@media (prefers-color-scheme: dark) {
-    h1 {
-        color: white;
-    }
-    label {
-        color: white;
-    }
-}
-
-@media (prefers-color-scheme: light) {
-    h1 {
-        color: black;
-    }
-    label {
-        color: black;
-    }
-}
 
 </style>
 ```
