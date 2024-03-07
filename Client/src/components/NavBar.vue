@@ -3,9 +3,11 @@ import {RouterLink} from 'vue-router';
 import {onMounted, ref} from 'vue';
 import "bulma/css/bulma.css";
 import "../assets/base.css";
+import LoginModal from "@/components/LoginModal.vue";
 
 const isMobile = ref(false)
 const isBurgerActive = ref(false);
+const isModalActive = ref(false);
 
 
 function toggleBurgerActive() {
@@ -30,10 +32,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <router-link @click="isBurgerActive = false" class="navbar-item" to="/">
-                <img src="../assets/logo.svg" width="28" height="28" alt="bulma logo">
+                <img src="/l10nfitnessIcon.png" width="28" alt="logo">
             </router-link>
 
             <a role="button" :class="isBurgerActive && 'is-active'" @click="toggleBurgerActive()" class="navbar-burger"
@@ -47,19 +49,25 @@ onMounted(() => {
 
         <div class="navbar-menu" :class="isBurgerActive && 'is-active', !isMobile && 'is-hidden'">
             <div class="navbar-start">
-                <router-link class="navbar-item" to="/">
+                <router-link class="navbar-item" to="/" @click="isBurgerActive = false">
                     Home
                 </router-link>
-                <router-link class="navbar-item" to="/documentation">
+                <router-link class="navbar-item" to="/documentation" @click="isBurgerActive = false">
                     Documentation
                 </router-link>
-                <router-link class="navbar-item" to="/about">
+                <router-link class="navbar-item" to="/products" @click="isBurgerActive = false">
+                    Products
+                </router-link>
+                <router-link class="navbar-item" to="/users" @click="isBurgerActive = false">
+                    Users
+                </router-link>
+                <router-link class="navbar-item" to="/about" @click="isBurgerActive = false">
                     About
                 </router-link>
-                <router-link class="navbar-item" to="/contact">
+                <router-link class="navbar-item" to="/contact" @click="isBurgerActive = false">
                     Contact Us
                 </router-link>
-                <router-link class="navbar-item" to="/report">
+                <router-link class="navbar-item" to="/report" @click="isBurgerActive = false">
                     Report an issue
                 </router-link>
             </div>
@@ -70,16 +78,19 @@ onMounted(() => {
                 <router-link class="navbar-item" to="/">
                     Home
                 </router-link>
-
                 <router-link class="navbar-item" to="/documentation">
                     Documentation
                 </router-link>
-
+                <router-link class="navbar-item" to="/products">
+                    Products
+                </router-link>
+                <router-link class="navbar-item" to="/users">
+                    Users
+                </router-link>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         More
                     </a>
-
                     <div class="navbar-dropdown">
                         <router-link class="navbar-item" to="/about">
                             About
@@ -94,21 +105,21 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
                         <router-link class="button is-primary has-text-black has-text-weight-bold" to="/signup">
                             Sign up
                         </router-link>
-                        <router-link class="button is-light has-text-weight-bold" to="/login">
+                        <button class="button is-light has-text-weight-bold" @click="isModalActive = true">
                             Log in
-                        </router-link>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
+    <login-modal :class="isModalActive && 'is-active'" @hideModal="(mod: boolean) => isModalActive = mod"/>
 </template>
 
 <style scoped>
@@ -121,24 +132,29 @@ onMounted(() => {
         background: #181818;
         color: white;
     }
+    .navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active .navbar-link{
+        background: #232323;
+        color: white;
+    }
+    .navbar-item, .navbar-item.has-dropdown .navbar-item{
+        background: #181818;
+        color: white;
+    }
+    .navbar .navbar-item:has(.buttons):hover {
+        background: #181818;
+    }
+    .navbar .navbar-item:hover {
+        background: #232323;
+        color: white;
+    }
+    .navbar .navbar-dropdown .navbar-item:hover {
+        background: #232323;
+        color: white;
+    }
     .navbar-dropdown {
         background: #181818;
-        color: white;
     }
-    .navbar-item {
-        background: #181818;
-        color: white;
-    }
-    .navbar-item:hover {
-        background: #232323;
-        color: white;
-    }
-    a.navbar-link {
-        background: #181818;
-        color: white;
-    }
-    a.navbar-link:hover {
-        background: #232323;
+    a.navbar-link{
         color: white;
     }
     a:hover {

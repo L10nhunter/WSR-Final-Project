@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import "@fortawesome/free-brands-svg-icons";
 import {defineProps, defineModel} from "vue";
 const textField = defineModel({type: String, default: ''});
 
@@ -13,17 +12,17 @@ const text = defineProps({
 
 function leftIcon(): string {
     if (text.label === 'First Name') {
-        return 'fas fa-F';
+        return 'fa-solid fa-F';
     } else if (text.label === 'Last Name') {
-        return 'fas fa-L';
+        return 'fa-solid fa-L';
     } else if (text.label === 'Email Address') {
-        return 'fas fa-envelope';
+        return 'fa-solid fa-envelope';
     } else if (text.label === 'Username') {
-        return 'fas fa-user';
+        return 'fa-solid fa-user';
     } else if (text.label === 'Password') {
-        return 'fas fa-lock';
+        return 'fa-solid fa-lock';
     } else if (text.label === 'Password Verification') {
-        return 'fas fa-lock';
+        return 'fa-solid fa-lock';
     } else {
         return '';
     }
