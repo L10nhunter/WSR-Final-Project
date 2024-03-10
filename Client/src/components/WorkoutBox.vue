@@ -43,17 +43,19 @@ function howLongAgo(date: string, time: string): string {
     const weeks = Math.floor(days / 7);
     const months = Math.floor(weeks / 4);
     const years = Math.floor(months / 12);
-    if (years > 0) return years + "y";
-    if (months > 0) return months + "m";
-    if (weeks > 0) return weeks + "w";
-    if (days > 0) return days + "d";
-    if (hours > 0) return hours + "h";
-    if (minutes > 0) return minutes + "m";
-    return seconds + "s";
+    let retString: string;
+    if (years > 0) retString = years + "y";
+    else if (months > 0) retString = months + "m";
+    else if (weeks > 0) retString = weeks + "w";
+    else if (days > 0) retString = days + "d";
+    else if (hours > 0) retString = hours + "h";
+    else if (minutes > 0) retString = minutes + "m";
+    else retString = seconds + "s";
+    return retString + " ago";
 }
 
 function imageProcess(image: string): string {
-    if (!image) return "/public/l10nFitnessIcon.png";
+    if (!image) return "/l10nFitnessIcon.png";
     return image;
 }
 
