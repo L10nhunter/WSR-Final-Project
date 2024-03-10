@@ -52,7 +52,7 @@ onMounted(() => {
             </a>
         </div>
 
-        <div class="navbar-menu nav-color-scheme is-hovered-nav" :class="[isBurgerActive && 'is-active', !isMobile && 'is-hidden']">
+        <div class="navbar-menu nav-color-scheme" :class="[isBurgerActive && 'is-active', !isMobile && 'is-hidden']">
             <div class="navbar-start">
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/myactivity" @click="isBurgerActive = false">
                     My Activity
