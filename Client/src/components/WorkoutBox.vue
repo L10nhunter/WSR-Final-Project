@@ -21,20 +21,10 @@ function durationFormat(duration?: number): string {
     return hoursString + ":" + minutesString;
 }
 
-function howLongAgo(date: string, time: string): string {
+function howLongAgo( time: number): string {
     const now = new Date();
-    // split the data into an array, and convert each part to an integer
-    const timeArray = time.split(":");
-    const Hours = parseInt(timeArray[0]) ;
-    const Minutes = parseInt(timeArray[1]);
-    const Seconds = parseInt(timeArray[2]);
-    // split the data into an array, and convert each part to an integer
-    const dateArray = date.split("-");
-    const Year = parseInt(dateArray[0]);
-    const Month = parseInt(dateArray[1])-1;
-    const Day = parseInt(dateArray[2]);
-    // create a new date object with the data
-    const then = new Date(Year, Month, Day, Hours, Minutes, Seconds);
+
+    const then = new Date(time);
     const diff = now.getTime() - then.getTime();
     const seconds = Math.floor(diff / 1000);
     const minutes = Math.floor(seconds / 60);
@@ -77,7 +67,7 @@ function imageProcess(image: string): string {
                         &nbsp;
                         <small class="soft-color">@{{ workout.user.username }}</small>
                         &nbsp;
-                        <small class="soft-color">{{ howLongAgo(workout.date, workout.time) }}</small>
+                        <small class="soft-color">{{ howLongAgo( workout.time) }}</small>
                         <br>
                         {{ workout.title }} - {{ workout.location}}
                         <span class="columns dcs">

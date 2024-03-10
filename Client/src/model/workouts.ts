@@ -5,8 +5,7 @@ export interface Workout {
     user: User
     id: string
     title: string
-    date: string
-    time: string
+    time: number
     duration: number
     distance?: number
     calories?: number
@@ -20,4 +19,8 @@ export interface Workout {
 
 export function getWorkouts(): Workout[] {
     return data.items;
+}
+
+export function getWorkoutsByUser(user?: User): Workout[] {
+    return data.items.filter(workout => workout.user.id === user?.id);
 }
