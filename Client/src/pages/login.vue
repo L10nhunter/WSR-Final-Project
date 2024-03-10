@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SignupTextField from "@/components/SignupTextField.vue";
+import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import "../assets/main.css";
 
 import {ref} from "vue";

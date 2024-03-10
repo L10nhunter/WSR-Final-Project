@@ -11,13 +11,9 @@
         --color-heading: var(--vt-c-white);
         --color-text: var(--vt-c-white);
         --color-text-soft: var(--vt-c-text-dark-2);
-        --color-text-mute: var(--vt-c-black-mute);
-
-        input.input, select#type.form-control {
-            background-color: var(--vt-c-black-soft);
-        }
-        input.input::placeholder {
-            color: #707070;
+        --color-text-mute: var(--vt-c-text-dark-3);
+        input, textarea, select, button {
+            color-scheme: dark !important;
         }
     }
 
@@ -32,11 +28,18 @@
         --color-heading: var(--vt-c-text-light-1);
         --color-text: var(--vt-c-text-light-1);
         --color-text-soft: var(--vt-c-text-light-2);
+        input, textarea, select, button{
+            color-scheme: light !important;
+        }
     }
 }
 .dcs
 {
     background: var(--color-background) !important;
+    color: var(--color-text) !important;
+}
+.ics{
+    background: var(--color-background-soft) !important;
     color: var(--color-text) !important;
 }
 .main-color{
@@ -55,6 +58,16 @@
     background-color: var(--color-background-soft) !important;
 }
 .bordered{
-    border: 2px var(--color-border) solid;
-    border-radius: .25rem;
+    border: 2px var(--color-border) solid !important;
+    border-radius: .25rem !important;
+}
+*::placeholder {
+    color: var(--color-text-mute) !important;
+}
+div.form{
+    margin: 1rem !important;
+    margin-right: 1.25rem !important;
+}
+label{
+    margin-bottom: .125rem !important;
 }

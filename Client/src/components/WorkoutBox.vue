@@ -128,7 +128,7 @@ function imageProcess(image: string): string {
 <style scoped>
 button.delete {
     position: absolute;
-    right: 1.5rem;
+    right: 1rem;
     top: 1rem;
 }
 

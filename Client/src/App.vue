@@ -26,7 +26,7 @@ import {RouterView} from 'vue-router'
     color: var(--color-text);
 }
 .container {
-    padding-top: calc(1rem + 4px);
+    padding-top: 1.25rem;
     display: flex;
     flex-direction: column;
 }

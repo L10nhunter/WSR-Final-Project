@@ -1,0 +1,92 @@
+{
+  "items": [
+    {
+      "uid": 1,
+      "label": "First Name",
+      "type": "text",
+      "placeholder": "John"
+    },
+    {
+      "uid": 2,
+      "label": "Last Name",
+      "type": "text",
+      "placeholder": "Smith"
+    },
+    {
+      "uid": 3,
+      "label": "Email Address",
+      "type": "email",
+      "placeholder": "johnsmith@gmail.com",
+      "for": "EmailReg"
+    },
+    {
+      "uid": 4,
+      "label": "Username",
+      "type": "text",
+      "placeholder": "johnsmith"
+    },
+    {
+      "uid": 5,
+      "label": "Password",
+      "type": "password",
+      "for": "PasswordReg",
+      "placeholder": "Enter your password"
+    },
+    {
+      "uid": 6,
+      "label": "Password Verification",
+      "type": "password",
+      "placeholder": "Re-enter your password",
+      "for": "PasswordVerification"
+    },
+    {
+      "uid": 7,
+      "label": "Title",
+      "type": "text",
+      "placeholder": "Title"
+    },
+    {
+      "uid": 8,
+      "label": "Workout Date",
+      "type": "date"
+    },
+    {
+      "uid": 9,
+      "label": "Duration in Minutes",
+      "type": "number",
+      "for": "Duration"
+    },
+    {
+      "uid": 10,
+      "label": "Distance in Feet",
+      "type": "number",
+      "for": "Distance"
+    },
+    {
+      "uid": 11,
+      "label": "Location",
+      "type": "text"
+    },
+    {
+      "uid": 12,
+      "label": "Picture",
+      "type": "text"
+    },
+    {
+      "uid": 13,
+      "label": "Email Address",
+      "type": "email",
+      "placeholder": "Email Address",
+      "for": "EmailLogin",
+      "autocomplete": "email-address"
+    },
+    {
+      "uid": 14,
+      "label": "Password",
+      "type": "password",
+      "for": "PasswordLogin",
+      "placeholder": "Enter your password",
+      "autocomplete": "password"
+    }
+  ]
+}

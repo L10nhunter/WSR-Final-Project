@@ -1,9 +1,12 @@
 <script setup lang="ts">
 
-import SignupTextField from "@/components/SignupTextField.vue";
+import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {ref} from "vue";
 import {updateLoggedInUser} from "@/model/Globals";
 import {users} from "@/model/Globals";
+import {getTextFieldsFromLabels} from "@/model/TextField";
+
+const textFields = getTextFieldsFromLabels(["EmailLogin", "PasswordLogin"]);
 
 const input = {
     email: ref(''),
@@ -22,7 +25,7 @@ function login() {
 
 <template>
     <div class="modal" :class="isModalActive && 'is-active'">
-        <div class="modal-background"></div>
+        <div class="modal-background" @click="$emit('hideModal', false)"></div>
         <div class="modal-card dcs bordered">
             <header class="modal-card-head dcs">
                 <p class="modal-card-title dcs">Log In</p>
@@ -30,8 +33,8 @@ function login() {
             </header>
             <section class="modal-content">
                 <form autocomplete="on">
-                    <SignupTextField v-model=input.email.value label="Email Address" placeholder="Email Address"/>
-                    <SignupTextField v-model=input.password.value label="Password" placeholder="Password"/>
+                    <SignupTextField v-bind="textFields[0]" v-model=input.email.value />
+                    <SignupTextField v-bind="textFields[1]" v-model=input.password.value />
                     <div class="control">
                         <button class="button is-primary has-text-black has-text-weight-bold" @click="[isModalActive = false, login()]">Log In</button>
                     </div>

@@ -10,5 +10,6 @@ export const workouts = ref(getWorkouts())
 export const LoggedInUser = ref(users.value.find(user => user.id === userID.value));
 
 export function updateLoggedInUser(userId: number) {
+    console.log("Updating logged in user");
     LoggedInUser.value = users.value.find(user => user.id === userId);
 }
