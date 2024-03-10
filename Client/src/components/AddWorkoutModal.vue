@@ -3,8 +3,6 @@ import {ref} from "vue";
 import {getTextFieldsFromLabels} from "@/model/TextField";
 import WorkoutTextField from "@/components/Fields/WorkoutTextField.vue";
 
-const textFields = getTextFieldsFromLabels(["Title", "Workout Date", "Duration", "Distance", "Location", "Picture"]);
-
 const workout = {
     Title: ref(""),
     WorkoutDate: ref(""),
@@ -13,6 +11,9 @@ const workout = {
     Location: ref(""),
     Picture: ref(""),
 };
+const indices = [0, 1, 2, 3, 4, 5];
+const textFields = getTextFieldsFromLabels(["Title", "Workout Date", "Duration", "Distance", "Location", "Picture"]);
+const models = [workout.Title, workout.WorkoutDate, workout.Duration, workout.Distance, workout.Location, workout.Picture]
 
 
 </script>
@@ -27,12 +28,7 @@ const workout = {
             </header>
             <section class="modal-content dcs">
                 <div class="form">
-                    <WorkoutTextField v-bind="textFields[0]" v-model="workout.Title.value"/>
-                    <WorkoutTextField v-bind="textFields[1]" v-model="workout.WorkoutDate.value"/>
-                    <WorkoutTextField v-bind="textFields[2]" v-model="workout.Duration.value"/>
-                    <WorkoutTextField v-bind="textFields[3]" v-model="workout.Distance.value"/>
-                    <WorkoutTextField v-bind="textFields[4]" v-model="workout.Location.value"/>
-                    <WorkoutTextField v-bind="textFields[5]" v-model="workout.Picture.value"/>
+                    <WorkoutTextField v-for="index in indices" v-bind="textFields[index]" v-model="models[index].value"/>
                     <div class="field">
                         <label class="label dcs" for="type">Type</label>
                         <div class="select is-fullwidth ">
