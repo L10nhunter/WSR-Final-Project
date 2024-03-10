@@ -2,9 +2,7 @@
 import "bulma/css/bulma.css";
 import NavBar from "@/components/NavBar.vue";
 import {RouterView} from 'vue-router'
-import {ref} from "vue";
 
-const isModalActive = ref(false);
 
 
 </script>
@@ -28,7 +26,7 @@ const isModalActive = ref(false);
     color: var(--color-text);
 }
 .container {
-    padding-top: 4px;
+    padding-top: calc(1rem + 4px);
     display: flex;
     flex-direction: column;
 }

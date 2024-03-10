@@ -4,18 +4,17 @@ import {ref} from "vue";
 import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
 import {type Workout, getWorkouts} from "@/model/workouts";
 import WorkoutCard from "@/components/WorkoutBox.vue";
-import {getUsers} from "@/model/users";
+import {LoggedInUser} from "@/model/Globals";
 
 const showAddWorkoutModal = ref(false);
 const workouts = ref([] as Workout[]);
 
-const loggedInUser = ref(getUsers().find((user) => user.id === 31));
 
 function getWorkoutsByUserId(workouts: Workout[], userId: number): Workout[] {
     return workouts.filter(workout => workout.user.id === userId);
 }
 
-workouts.value = getWorkoutsByUserId(getWorkouts(), loggedInUser.value!.id);
+workouts.value = getWorkoutsByUserId(getWorkouts(), LoggedInUser.value?.id ?? 0);
 
 </script>
 
@@ -35,8 +34,5 @@ workouts.value = getWorkoutsByUserId(getWorkouts(), loggedInUser.value!.id);
 </template>
 
 <style scoped>
-.columns {
-    padding-top: 1rem;
-}
 
 </style>

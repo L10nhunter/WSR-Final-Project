@@ -2,8 +2,10 @@
 
 import SignupTextField from "@/components/SignupTextField.vue";
 import {ref} from "vue";
+import {updateLoggedInUser} from "@/model/Globals";
+import {users} from "@/model/Globals";
 
-const user = {
+const input = {
     email: ref(''),
     password: ref(''),
 };
@@ -12,6 +14,9 @@ const props = defineProps({
     isModalActive: Boolean
 });
 const isModalActive = ref(props.isModalActive);
+
+function login() {
+    updateLoggedInUser((users.value.find(user => (user.email === input.email.value) && (user.password === input.password.value))?.id) ?? 0);}
 
 </script>
 
@@ -25,10 +30,10 @@ const isModalActive = ref(props.isModalActive);
             </header>
             <section class="modal-content">
                 <form autocomplete="on">
-                    <SignupTextField v-model=user.email.value label="Email Address" placeholder="Email Address"/>
-                    <SignupTextField v-model=user.password.value label="Password" placeholder="Password"/>
+                    <SignupTextField v-model=input.email.value label="Email Address" placeholder="Email Address"/>
+                    <SignupTextField v-model=input.password.value label="Password" placeholder="Password"/>
                     <div class="control">
-                        <button class="button is-primary has-text-black has-text-weight-bold" @click="isModalActive = false">Log In</button>
+                        <button class="button is-primary has-text-black has-text-weight-bold" @click="[isModalActive = false, login()]">Log In</button>
                     </div>
                 </form>
             </section>

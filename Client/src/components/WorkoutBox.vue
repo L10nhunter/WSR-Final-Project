@@ -136,7 +136,8 @@ button.delete {
     margin: 0;
 }
 div.box {
-    margin: 10px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     border: 2px var(--color-border) solid;
     border-radius: .25rem;
 }
