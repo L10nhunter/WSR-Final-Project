@@ -6,12 +6,16 @@ import {updateLoggedInUser} from "@/model/Globals";
 import {users} from "@/model/Globals";
 import {getTextFieldsFromLabels} from "@/model/TextField";
 
-const textFields = getTextFieldsFromLabels(["EmailLogin", "PasswordLogin"]);
+
 
 const input = {
     email: ref(''),
     password: ref(''),
 };
+
+const textFields = getTextFieldsFromLabels(["EmailLogin", "PasswordLogin"]);
+const inputFields = [input.email, input.password];
+const indices = [0, 1];
 
 const props = defineProps({
     isModalActive: Boolean
@@ -19,6 +23,7 @@ const props = defineProps({
 const isModalActive = ref(props.isModalActive);
 
 function login() {
+    // this doesnt work because the page gets instantly reloaded. i need to pass the result of this function to the reloaded page
     updateLoggedInUser((users.value.find(user => (user.email === input.email.value) && (user.password === input.password.value))?.id) ?? 0);}
 
 </script>
@@ -33,8 +38,7 @@ function login() {
             </header>
             <section class="modal-content">
                 <form autocomplete="on">
-                    <SignupTextField v-bind="textFields[0]" v-model=input.email.value />
-                    <SignupTextField v-bind="textFields[1]" v-model=input.password.value />
+                    <SignupTextField v-for="index in indices" :key="index" v-bind="textFields[index]" v-model="inputFields[index].value"/>
                     <div class="control">
                         <button class="button is-primary" @click="[isModalActive = false, login()]">Log In</button>
                     </div>
