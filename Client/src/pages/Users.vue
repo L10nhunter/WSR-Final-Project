@@ -10,46 +10,42 @@ users.value = getUsers();
 </script>
 
 <template>
-<div class="table">
-    <table class="table is-striped">
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Username</th>
-                <th>Phone Number</th>
-                <th>Admin</th>
-            </tr>
-        </thead>
-        <tbody v-for="user in users">
-            <tr>
-                <td>{{user.firstName}}</td>
-                <td>{{user.lastName}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.username}}</td>
-                <td>{{user.phone}}</td>
-                <td>{{user.admin}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <div class="columns is-centered">
+        <div class="column is-narrow">
+            <div class="dcs">
+                <table class="table is-striped dcs">
+                    <thead>
+                    <tr>
+                        <th class="dcs">First Name</th>
+                        <th class="dcs">Last Name</th>
+                        <th class="dcs">Email</th>
+                        <th class="dcs">Username</th>
+                        <th class="dcs">Phone Number</th>
+                        <th class="dcs">Admin</th>
+                    </tr>
+                    </thead>
+                    <tbody v-for="user in users">
+                    <tr>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.lastName }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.phone }}</td>
+                        <td>{{ user.admin }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </template>
 
 <style scoped>
-@media(prefers-color-scheme:dark) {
-    .table {
-        background-color: #232323;
-        color: white;
-    }
-    .table thead {
-        background-color: #232323;
-        color: white;
-    }
-    .table th {
-        background-color: #232323;
-        color: white;
-    }
+.table {
+    padding-top: 1rem;
+    border: 1px var(--color-border) solid;
+    border-radius: .25rem;
 }
 
 </style>

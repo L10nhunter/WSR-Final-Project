@@ -10,15 +10,14 @@ export interface Workout {
     duration: number
     distance?: number
     calories?: number
-    location:
-    {
+    location: {
         latitude: string
         longitude: string
-    }
-    picture: string
+    } | string
+    picture?: string
     type: string
 }
 
 export function getWorkouts(): Workout[] {
-    return data.items as Workout[];
+    return data.items;
 }

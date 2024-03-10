@@ -11,8 +11,7 @@
         --color-heading: var(--vt-c-white);
         --color-text: var(--vt-c-white);
         --color-text-soft: var(--vt-c-text-dark-2);
-
-
+        --color-text-mute: var(--vt-c-black-mute);
 
         input.input, select#type.form-control {
             background-color: var(--vt-c-black-soft);
@@ -34,24 +33,28 @@
         --color-text: var(--vt-c-text-light-1);
         --color-text-soft: var(--vt-c-text-light-2);
     }
-    section.modal-content, div.form {
-        background: var(--color-background);
-    }
 }
-.default-color-scheme
+.dcs
 {
     background: var(--color-background) !important;
     color: var(--color-text) !important;
 }
-.has-main-color{
+.main-color{
     color: var(--color-text) !important;
 }
-.has-soft-color{
+.soft-color{
     color: var(--color-text-soft) !important;
 }
-.has-mute-color{
+.mute-color{
     color: var(--color-background-mute) !important;
 }
 .is-hovered-text:hover{
     color: var(--color-text-soft) !important;
+}
+.background-soft{
+    background-color: var(--color-background-soft) !important;
+}
+.bordered{
+    border: 2px var(--color-border) solid;
+    border-radius: .25rem;
 }

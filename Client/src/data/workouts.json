@@ -1,11 +1,11 @@
 {
-  "items": {
-    "user": {
+  "items": [
+    {
+      "user": {
       "id": 31,
       "admin": true,
       "firstName": "Ari",
       "lastName": "Yeger",
-      "maidenName": "",
       "age": 24,
       "gender": "male",
       "email": "yegera1@newpaltz.edu",
@@ -14,16 +14,8 @@
       "password": "Testing123!",
       "birthDate": "1999-04-11",
       "image": "",
-      "bloodGroup": "A-",
       "height": 170,
       "weight": 107.2,
-      "eyeColor": "Brown",
-      "hair": {
-        "color": "Brown",
-        "type": "Wavy"
-      },
-      "domain": "ow.ly",
-      "ip": "97.11.116.84",
       "address": {
         "address": "249 Shady Brook Lane",
         "city": "Pomona",
@@ -33,52 +25,98 @@
         },
         "postalCode": "10970",
         "state": "NY"
-      },
-      "macAddress": "42:87:72:A1:4D:9A",
-      "university": "Poznan School of Banking",
-      "bank": {
-        "cardExpire": "02/24",
-        "cardNumber": "6331108070510590026",
-        "cardType": "switch",
-        "currency": "Zloty",
-        "iban": "MT70 MKRC 8244 59Z4 9UG1 1HY7 TKM6 1YX"
-      },
-      "company": {
-        "address": {
-          "address": "816 West 19th Avenue",
-          "city": "Anchorage",
-          "coordinates": {
-            "lat": 61.203221,
-            "lng": -149.898655
-          },
-          "postalCode": "99503",
-          "state": "AK"
-        },
-        "department": "Support",
-        "name": "Balistreri-Kshlerin",
-        "title": "Quality Engineer"
-      },
-      "ein": "51-7727524",
-      "ssn": "534-76-0952",
-      "userAgent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-      "crypto": {
-        "coin": "Bitcoin",
-        "wallet": "0xb9fc1004bfe7702de522516cf34a5da41c4ef2b5",
-        "network": "Ethereum (ERC20)"
       }
     },
-    "id": "1",
-    "title": "Workout 1",
-    "date": "2024-03-08",
-    "time": "10:00",
-    "duration": 60,
-    "distance": 0,
-    "calories": 0,
-    "location": {
-      "latitude": "37.7749",
-      "longitude": "-122.4194"
+      "id": "1",
+      "title": "Workout 1",
+      "date": "2024-03-08",
+      "time": "10:00:00",
+      "duration": 60,
+      "distance": 0,
+      "calories": 0,
+      "location": {
+        "latitude": "37.7749",
+        "longitude": "-122.4194"
+      },
+      "type": "Strength"
     },
-    "picture": "./public/images/1.png",
-    "type": "Strength"
-  }
+    {
+      "user": {
+        "id": 31,
+        "admin": true,
+        "firstName": "Ari",
+        "lastName": "Yeger",
+        "age": 24,
+        "gender": "male",
+        "email": "yegera1@newpaltz.edu",
+        "phone": "845-608-4114",
+        "username": "L10nhunter",
+        "password": "Testing123!",
+        "birthDate": "1999-04-11",
+        "image": "",
+        "height": 170,
+        "weight": 107.2,
+        "address": {
+          "address": "249 Shady Brook Lane",
+          "city": "Pomona",
+          "coordinates": {
+            "lat": 38.9149499,
+            "lng": -77.01170259999999
+          },
+          "postalCode": "10970",
+          "state": "NY"
+        }
+      },
+      "id": "2",
+      "title": "Workout 2",
+      "date": "2024-03-09",
+      "time": "18:40:00",
+      "duration": 95,
+      "distance": 10200,
+      "calories": 8500,
+      "location": "Gunk",
+      "picture": "https://baltimorediary.typepad.com/.a/6a00d8341d75c753ef0120a611ca3c970c-pi",
+      "type": "Swimming"
+    },
+    {
+      "user": {
+        "id": 1,
+        "admin": false,
+        "firstName": "Terry",
+        "lastName": "Medhurst",
+        "maidenName": "Smitham",
+        "age": 50,
+        "gender": "male",
+        "email": "atuny0@sohu.com",
+        "phone": "+63 791 675 8914",
+        "username": "atuny0",
+        "password": "9uQFF1Lh",
+        "birthDate": "2000-12-25",
+        "image": "https://robohash.org/Terry.png?set=set4",
+        "bloodGroup": "A-",
+        "height": 189,
+        "weight": 75.4,
+        "address": {
+          "address": "1745 T Street Southeast",
+          "city": "Washington",
+          "coordinates": {
+            "lat": 38.867033,
+            "lng": -76.979235
+          },
+          "postalCode": "20020",
+          "state": "DC"
+        }
+      },
+      "id": "3",
+      "title": "my workout",
+      "date": "2024-03-07",
+      "time": "15:43:00",
+      "duration": 95,
+      "distance": 12300,
+      "calories": 6500,
+      "location": "Gunk",
+      "picture": "https://baltimorediary.typepad.com/.a/6a00d8341d75c753ef0120a611ca3c970c-pi",
+      "type": "Swimming"
+    }
+  ]
 }

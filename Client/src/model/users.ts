@@ -5,7 +5,7 @@ export interface User {
     admin: boolean
     firstName: string
     lastName: string
-    maidenName: string
+    maidenName?: string
     age: number
     gender: string
     email: string

@@ -25,9 +25,10 @@ const isModalActive = ref(false);
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #041536;
+    color: var(--color-text);
 }
 .container {
+    padding-top: 4px;
     display: flex;
     flex-direction: column;
 }

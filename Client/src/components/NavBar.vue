@@ -32,77 +32,70 @@ onMounted(() => {
 </script>
 
 <template>
-    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-fixed-top nav-color-scheme" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <router-link @click="isBurgerActive = false" class="navbar-item" to="/">
-                <img src="/l10nfitnessIcon.png" width="28" alt="logo">
+            <router-link @click="isBurgerActive = false" class="navbar-item is-hovered-nav" to="/">
+                <img class="is-32x32" src="/l10nFitnessIcon.png" alt="logo">
             </router-link>
 
             <a role="button" :class="isBurgerActive && 'is-active'" @click="toggleBurgerActive()" class="navbar-burger"
                aria-label="menu" aria-expanded="false"
-               data-target="navbarBasicExample">
+               data-target="navbar-drop-menu">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
         </div>
 
-        <div class="navbar-menu" :class="isBurgerActive && 'is-active', !isMobile && 'is-hidden'">
+        <div class="navbar-menu nav-color-scheme is-hovered-nav" :class="[isBurgerActive && 'is-active', !isMobile && 'is-hidden']">
             <div class="navbar-start">
-                <router-link class="navbar-item" to="/" @click="isBurgerActive = false">
-                    Home
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/myactivity" @click="isBurgerActive = false">
+                    My Activity
                 </router-link>
-                <router-link class="navbar-item" to="/documentation" @click="isBurgerActive = false">
-                    Documentation
-                </router-link>
-                <router-link class="navbar-item" to="/products" @click="isBurgerActive = false">
-                    Products
-                </router-link>
-                <router-link class="navbar-item" to="/users" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/users" @click="isBurgerActive = false">
                     Users
                 </router-link>
-                <router-link class="navbar-item" to="/about" @click="isBurgerActive = false">
+                <hr class="navbar-divider">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/documentation" @click="isBurgerActive = false">
+                    Documentation
+                </router-link>
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/about" @click="isBurgerActive = false">
                     About
                 </router-link>
-                <router-link class="navbar-item" to="/contact" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/contact" @click="isBurgerActive = false">
                     Contact Us
                 </router-link>
-                <router-link class="navbar-item" to="/report" @click="isBurgerActive = false">
+                <hr class="navbar-divider">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/report" @click="isBurgerActive = false">
                     Report an issue
                 </router-link>
             </div>
         </div>
 
-        <div id="navbarBasicExample" class="navbar-menu">
+        <div id="navbar-drop-menu" class="navbar-menu">
             <div class="navbar-start">
-                <router-link class="navbar-item" to="/">
-                    Home
-                </router-link>
-                <router-link class="navbar-item" to="/myactivity">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/myactivity">
                     My Activity
                 </router-link>
-                <router-link class="navbar-item" to="/users">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/users">
                     Users
                 </router-link>
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
+                    <a class="navbar-link nav-color-scheme is-hovered-nav">
                         More
                     </a>
-                    <div class="navbar-dropdown">
-                        <router-link class="navbar-item" to="/documentation">
+                    <div class="navbar-dropdown nav-color-scheme">
+                        <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/documentation">
                             Documentation
                         </router-link>
-                        <router-link class="navbar-item" to="/products">
-                            Products
-                        </router-link>
-                        <router-link class="navbar-item" to="/about">
+                        <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/about">
                             About
                         </router-link>
-                        <router-link class="navbar-item" to="/contact">
+                        <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/contact">
                             Contact Us
                         </router-link>
                         <hr class="navbar-divider">
-                        <router-link class="navbar-item" to="/report">
+                        <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/report">
                             Report an issue
                         </router-link>
                     </div>
@@ -126,54 +119,20 @@ onMounted(() => {
 </template>
 
 <style scoped>
-@media (prefers-color-scheme: dark) {
-    .navbar {
-        background: #181818;
-        border-bottom: 1px solid #232323;
-    }
-    .navbar-menu {
-        background: #181818;
-        color: white;
-    }
-    .navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active .navbar-link{
-        background: #232323;
-        color: white;
-    }
-    .navbar-item, .navbar-item.has-dropdown .navbar-item{
-        background: #181818;
-        color: white;
-    }
-    .navbar .navbar-item:has(.buttons):hover {
-        background: #181818;
-    }
-    .navbar .navbar-item:hover {
-        background: #232323;
-        color: white;
-    }
-    .navbar .navbar-dropdown .navbar-item:hover {
-        background: #232323;
-        color: white;
-    }
-    .navbar-dropdown {
-        background: #181818;
-    }
-    a.navbar-link{
-        color: white;
-    }
-    a:hover {
-        background: #232323;
-        color: white;
-    }
-    a.navbar-item:focus {
-        background: #181818;
-        color: white;
-    }
+.navbar {
+    border-bottom: 1px solid var(--color-background-mute);
 }
-@media (prefers-color-scheme: light) {
-    .navbar {
-        background: #ffffff;
-        border-bottom: 1px solid #dbdbdb;
-    }
-
+.nav-color-scheme{
+    background: var(--color-background-soft) !important;
+    color: var(--color-text) !important;
+}
+.is-hovered-nav:hover{
+    background: var(--color-background-mute) !important;
+}
+.navbar-divider{
+    background: var(--color-border-hover) !important;
+}
+.navbar-dropdown {
+    border-color: var(--color-border-hover) !important;
 }
 </style>

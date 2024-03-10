@@ -31,11 +31,10 @@ function leftIcon(): string {
 </script>
 
 <template>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <div class="field">
-        <label class="default-color-scheme">{{ text.label }}</label>
+        <label class="dcs" :for="text.label">{{ text.label }}</label>
         <div class="control has-icons-left">
-            <input class="input has-main-color" v-model="textField" :type="((text.label === 'Password') || (text.label === 'Password Verification')) ? 'password' : ''" :placeholder="text.placeholder">
+            <input class="input main-color" v-model="textField" :type="((text.label === 'Password') || (text.label === 'Password Verification')) ? 'password' : ''" :placeholder="text.placeholder" :id="text.label">
             <span class="icon is-small is-left">
                 <i :class="leftIcon()"></i>
             </span>
@@ -44,5 +43,7 @@ function leftIcon(): string {
 </template>
 
 <style scoped>
-
+div.field{
+    padding-right: 8px;
+}
 </style>

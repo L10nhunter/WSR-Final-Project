@@ -18,9 +18,9 @@ const isModalActive = ref(props.isModalActive);
 <template>
     <div class="modal" :class="isModalActive && 'is-active'">
         <div class="modal-background"></div>
-        <div class="modal-card default-color-scheme">
-            <header class="modal-card-head default-color-scheme">
-                <p class="modal-card-title default-color-scheme">Log In</p>
+        <div class="modal-card dcs bordered">
+            <header class="modal-card-head dcs">
+                <p class="modal-card-title dcs">Log In</p>
                 <button class="delete" aria-label="close" @click="$emit('hideModal', false)"></button>
             </header>
             <section class="modal-content">
@@ -37,5 +37,7 @@ const isModalActive = ref(props.isModalActive);
 </template>
 
 <style scoped>
-
+form {
+    padding-left: .25rem;
+}
 </style>
