@@ -4,7 +4,7 @@ import {getUsers} from "@/model/users";
 import {getWorkouts} from "@/model/workouts";
 
 export const users = ref(getUsers());
-const userID = ref(1);
+const userID = ref(31);
 
 export const workouts = ref(getWorkouts())
 export const LoggedInUser = ref(users.value.find(user => user.id === userID.value));

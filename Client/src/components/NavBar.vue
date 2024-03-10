@@ -4,10 +4,15 @@ import {onMounted, ref} from 'vue';
 import "bulma/css/bulma.css";
 import "../assets/base.css";
 import LoginModal from "@/components/LoginModal.vue";
+import {LoggedInUser} from "@/model/Globals";
 
 const isMobile = ref(false)
 const isBurgerActive = ref(false);
 const isModalActive = ref(false);
+
+function isAllowedToAccessUserPage() {
+    return LoggedInUser.value?.admin ? "/users" : "#" ?? "#";
+}
 
 
 function toggleBurgerActive() {
@@ -55,7 +60,7 @@ onMounted(() => {
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/friendsactivity" @click="isBurgerActive = false">
                     Friends' Activity
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/users" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" :to="isAllowedToAccessUserPage()" @click="isBurgerActive = false">
                     Users
                 </router-link>
                 <hr class="navbar-divider">
@@ -83,7 +88,7 @@ onMounted(() => {
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/friendsactivity" @click="isBurgerActive = false">
                     Friends' Activity
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/users">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" :to="isAllowedToAccessUserPage()">
                     Users
                 </router-link>
                 <div class="navbar-item has-dropdown is-hoverable">
