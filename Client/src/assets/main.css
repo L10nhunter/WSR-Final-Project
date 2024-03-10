@@ -38,6 +38,16 @@
     background: var(--color-background) !important;
     color: var(--color-text) !important;
 }
+.dcs::-webkit-scrollbar {
+    width: 10px;
+}
+.dcs::-webkit-scrollbar-thumb {
+    background: var(--color-background-mute) !important;
+    border-radius: 10px !important;
+}
+.dcs::-webkit-scrollbar-track {
+    background: var(--color-background-soft) !important;
+}
 .ics{
     background: var(--color-background-soft) !important;
     color: var(--color-text) !important;
@@ -70,4 +80,8 @@ div.form{
 }
 label{
     margin-bottom: .125rem !important;
+}
+button.is-primary, a.is-primary{
+    color: black !important;
+    font-weight: bold !important;
 }

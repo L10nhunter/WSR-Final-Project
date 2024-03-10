@@ -115,7 +115,7 @@ onMounted(() => {
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <router-link class="button is-primary has-text-black has-text-weight-bold" to="/signup">
+                        <router-link class="button is-primary" to="/signup">
                             Sign up
                         </router-link>
                         <button class="button is-light has-text-weight-bold" @click="isModalActive = true">

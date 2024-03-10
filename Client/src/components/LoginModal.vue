@@ -36,7 +36,7 @@ function login() {
                     <SignupTextField v-bind="textFields[0]" v-model=input.email.value />
                     <SignupTextField v-bind="textFields[1]" v-model=input.password.value />
                     <div class="control">
-                        <button class="button is-primary has-text-black has-text-weight-bold" @click="[isModalActive = false, login()]">Log In</button>
+                        <button class="button is-primary" @click="[isModalActive = false, login()]">Log In</button>
                     </div>
                 </form>
             </section>
