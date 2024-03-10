@@ -3,7 +3,7 @@ import "@/assets/main.css";
 import {ref} from "vue";
 import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
 import {type Workout, getWorkouts} from "@/model/workouts";
-import WorkoutCard from "@/components/WorkoutBox.vue";
+import WorkoutBox from "@/components/WorkoutBox.vue";
 import {LoggedInUser} from "@/model/Globals";
 
 const showAddWorkoutModal = ref(false);
@@ -24,7 +24,7 @@ workouts.value = getWorkoutsByUserId(getWorkouts(), LoggedInUser.value?.id ?? 0)
             <div class="button is-primary is-fullwidth" @click="showAddWorkoutModal = true">Add Workout</div>
             <div class="container" v-for="workout in workouts">
                 <div class="workout-card">
-                    <WorkoutCard v-bind="workout"/>
+                    <WorkoutBox v-bind="workout"/>
                 </div>
             </div>
         </div>
