@@ -1,0 +1,122 @@
+{
+  "items": [
+    {
+      "user": {
+      "id": 31,
+      "admin": true,
+      "firstName": "Ari",
+      "lastName": "Yeger",
+      "age": 24,
+      "gender": "male",
+      "email": "yegera1@newpaltz.edu",
+      "phone": "845-608-4114",
+      "username": "L10nhunter",
+      "password": "Testing123!",
+      "birthDate": "1999-04-11",
+      "image": "",
+      "height": 170,
+      "weight": 107.2,
+      "address": {
+        "address": "249 Shady Brook Lane",
+        "city": "Pomona",
+        "coordinates": {
+          "lat": 38.9149499,
+          "lng": -77.01170259999999
+        },
+        "postalCode": "10970",
+        "state": "NY"
+      }
+    },
+      "id": "1",
+      "title": "Workout 1",
+      "date": "2024-03-08",
+      "time": "10:00:00",
+      "duration": 60,
+      "distance": 0,
+      "calories": 0,
+      "location": {
+        "latitude": "37.7749",
+        "longitude": "-122.4194"
+      },
+      "type": "Strength"
+    },
+    {
+      "user": {
+        "id": 31,
+        "admin": true,
+        "firstName": "Ari",
+        "lastName": "Yeger",
+        "age": 24,
+        "gender": "male",
+        "email": "yegera1@newpaltz.edu",
+        "phone": "845-608-4114",
+        "username": "L10nhunter",
+        "password": "Testing123!",
+        "birthDate": "1999-04-11",
+        "image": "",
+        "height": 170,
+        "weight": 107.2,
+        "address": {
+          "address": "249 Shady Brook Lane",
+          "city": "Pomona",
+          "coordinates": {
+            "lat": 38.9149499,
+            "lng": -77.01170259999999
+          },
+          "postalCode": "10970",
+          "state": "NY"
+        }
+      },
+      "id": "2",
+      "title": "Workout 2",
+      "date": "2024-03-09",
+      "time": "18:40:00",
+      "duration": 95,
+      "distance": 10200,
+      "calories": 8500,
+      "location": "Gunk",
+      "picture": "https://baltimorediary.typepad.com/.a/6a00d8341d75c753ef0120a611ca3c970c-pi",
+      "type": "Swimming"
+    },
+    {
+      "user": {
+        "id": 1,
+        "admin": false,
+        "firstName": "Terry",
+        "lastName": "Medhurst",
+        "maidenName": "Smitham",
+        "age": 50,
+        "gender": "male",
+        "email": "atuny0@sohu.com",
+        "phone": "+63 791 675 8914",
+        "username": "atuny0",
+        "password": "9uQFF1Lh",
+        "birthDate": "2000-12-25",
+        "image": "https://robohash.org/Terry.png?set=set4",
+        "bloodGroup": "A-",
+        "height": 189,
+        "weight": 75.4,
+        "address": {
+          "address": "1745 T Street Southeast",
+          "city": "Washington",
+          "coordinates": {
+            "lat": 38.867033,
+            "lng": -76.979235
+          },
+          "postalCode": "20020",
+          "state": "DC"
+        }
+      },
+      "id": "3",
+      "title": "my workout",
+      "date": "2024-03-07",
+      "time": "15:43:00",
+      "duration": 95,
+      "distance": 12300,
+      "calories": 6500,
+      "location": "Gunk",
+      "picture": "https://baltimorediary.typepad.com/.a/6a00d8341d75c753ef0120a611ca3c970c-pi",
+      "type": "Swimming"
+    }
+  ]
+}

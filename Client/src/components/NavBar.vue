@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import {RouterLink} from 'vue-router';
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import "bulma/css/bulma.css";
+import "../assets/base.css";
+import LoginModal from "@/components/LoginModal.vue";
 
 const isMobile = ref(false)
 const isBurgerActive = ref(false);
+const isModalActive = ref(false);
 
 
 function toggleBurgerActive() {
@@ -22,86 +25,114 @@ window.addEventListener('resize', () => {
     checkMobile();
 });
 
+onMounted(() => {
+    checkMobile();
+});
+
 </script>
 
 <template>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-fixed-top nav-color-scheme" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <router-link @click="isBurgerActive = false" class="navbar-item" to="/">
-                <img src="../assets/logo.svg" width="28" height="28" alt="bulma logo">
+            <router-link @click="isBurgerActive = false" class="navbar-item is-hovered-nav" to="/">
+                <img class="is-32x32" src="/l10nFitnessIcon.png" alt="logo">
             </router-link>
 
             <a role="button" :class="isBurgerActive && 'is-active'" @click="toggleBurgerActive()" class="navbar-burger"
                aria-label="menu" aria-expanded="false"
-               data-target="navbarBasicExample">
+               data-target="navbar-drop-menu">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
         </div>
 
-        <div class="navbar-menu" :class="isBurgerActive && 'is-active', !isMobile && 'is-hidden'">
+        <div class="navbar-menu nav-color-scheme is-hovered-nav" :class="[isBurgerActive && 'is-active', !isMobile && 'is-hidden']">
             <div class="navbar-start">
-                <router-link class="navbar-item" to="/">
-                    Home
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/myactivity" @click="isBurgerActive = false">
+                    My Activity
                 </router-link>
-                <router-link class="navbar-item" to="/documentation">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/users" @click="isBurgerActive = false">
+                    Users
+                </router-link>
+                <hr class="navbar-divider">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/documentation" @click="isBurgerActive = false">
                     Documentation
                 </router-link>
-                <router-link class="navbar-item" to="/about">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/about" @click="isBurgerActive = false">
                     About
                 </router-link>
-                <router-link class="navbar-item" to="/contact">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/contact" @click="isBurgerActive = false">
                     Contact Us
                 </router-link>
-                <router-link class="navbar-item" to="/report">
+                <hr class="navbar-divider">
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/report" @click="isBurgerActive = false">
                     Report an issue
                 </router-link>
             </div>
         </div>
 
-        <div id="navbarBasicExample" class="navbar-menu">
+        <div id="navbar-drop-menu" class="navbar-menu">
             <div class="navbar-start">
-                <router-link class="navbar-item" to="/">
-                    Home
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/myactivity">
+                    My Activity
                 </router-link>
-
-                <router-link class="navbar-item" to="/documentation">
-                    Documentation
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/users">
+                    Users
                 </router-link>
-
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
+                    <a class="navbar-link nav-color-scheme is-hovered-nav">
                         More
                     </a>
-
-                    <div class="navbar-dropdown">
-                        <router-link class="navbar-item" to="/about">
+                    <div class="navbar-dropdown nav-color-scheme">
+                        <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/documentation">
+                            Documentation
+                        </router-link>
+                        <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/about">
                             About
                         </router-link>
-                        <router-link class="navbar-item" to="/contact">
+                        <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/contact">
                             Contact Us
                         </router-link>
                         <hr class="navbar-divider">
-                        <router-link class="navbar-item" to="/report">
+                        <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/report">
                             Report an issue
                         </router-link>
                     </div>
                 </div>
             </div>
-
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <router-link class="button is-primary" to="/signup">
-                            <strong>Sign up</strong>
+                        <router-link class="button is-primary has-text-black has-text-weight-bold" to="/signup">
+                            Sign up
                         </router-link>
-                        <router-link class="button is-light" to="/login">
+                        <button class="button is-light has-text-weight-bold" @click="isModalActive = true">
                             Log in
-                        </router-link>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
+    <login-modal :class="isModalActive && 'is-active'" @hideModal="(mod: boolean) => isModalActive = mod"/>
 </template>
+
+<style scoped>
+.navbar {
+    border-bottom: 1px solid var(--color-background-mute);
+}
+.nav-color-scheme{
+    background: var(--color-background-soft) !important;
+    color: var(--color-text) !important;
+}
+.is-hovered-nav:hover{
+    background: var(--color-background-mute) !important;
+}
+.navbar-divider{
+    background: var(--color-border-hover) !important;
+}
+.navbar-dropdown {
+    border-color: var(--color-border-hover) !important;
+}
+</style>

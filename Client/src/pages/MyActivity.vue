@@ -1,0 +1,42 @@
+<script setup lang="ts">
+import "@/assets/main.css";
+import {ref} from "vue";
+import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
+import {type Workout, getWorkouts} from "@/model/workouts";
+import WorkoutCard from "@/components/WorkoutBox.vue";
+import {getUsers} from "@/model/users";
+
+const showAddWorkoutModal = ref(false);
+const workouts = ref([] as Workout[]);
+
+const loggedInUser = ref(getUsers().find((user) => user.id === 31));
+
+function getWorkoutsByUserId(workouts: Workout[], userId: number): Workout[] {
+    return workouts.filter(workout => workout.user.id === userId);
+}
+
+workouts.value = getWorkoutsByUserId(getWorkouts(), loggedInUser.value!.id);
+
+</script>
+
+<template>
+    <div class="columns">
+        <div class="column is-half is-offset-one-quarter">
+            <div class="button is-primary is-fullwidth" @click="showAddWorkoutModal = true">Add Workout</div>
+            <div class="container" v-for="workout in workouts">
+                <div class="workout-card">
+                    <WorkoutCard v-bind="workout"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <AddWorkoutModal :class="showAddWorkoutModal && 'is-active'" @hideModal="showAddWorkoutModal = false"/>
+</template>
+
+<style scoped>
+.columns {
+    padding-top: 1rem;
+}
+
+</style>

@@ -1,1 +1,60 @@
 @import './base.css';
+@import '@fortawesome/fontawesome-free/css/all.css';
+
+@media (prefers-color-scheme: dark) {
+    :root{
+        --color-background: var(--vt-c-black);
+        --color-background-soft: var(--vt-c-black-soft);
+        --color-background-mute: var(--vt-c-black-mute);
+        --color-border: var(--vt-c-divider-dark-2);
+        --color-border-hover: var(--vt-c-divider-dark-1);
+        --color-heading: var(--vt-c-white);
+        --color-text: var(--vt-c-white);
+        --color-text-soft: var(--vt-c-text-dark-2);
+        --color-text-mute: var(--vt-c-black-mute);
+
+        input.input, select#type.form-control {
+            background-color: var(--vt-c-black-soft);
+        }
+        input.input::placeholder {
+            color: #707070;
+        }
+    }
+
+}
+@media (prefers-color-scheme: light) {
+    :root {
+        --color-background: var(--vt-c-white);
+        --color-background-soft: var(--vt-c-white-soft);
+        --color-background-mute: var(--vt-c-white-mute);
+        --color-border: var(--vt-c-divider-light-2);
+        --color-border-hover: var(--vt-c-divider-light-1);
+        --color-heading: var(--vt-c-text-light-1);
+        --color-text: var(--vt-c-text-light-1);
+        --color-text-soft: var(--vt-c-text-light-2);
+    }
+}
+.dcs
+{
+    background: var(--color-background) !important;
+    color: var(--color-text) !important;
+}
+.main-color{
+    color: var(--color-text) !important;
+}
+.soft-color{
+    color: var(--color-text-soft) !important;
+}
+.mute-color{
+    color: var(--color-background-mute) !important;
+}
+.is-hovered-text:hover{
+    color: var(--color-text-soft) !important;
+}
+.background-soft{
+    background-color: var(--color-background-soft) !important;
+}
+.bordered{
+    border: 2px var(--color-border) solid;
+    border-radius: .25rem;
+}
