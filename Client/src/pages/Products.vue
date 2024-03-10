@@ -1,26 +1,25 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref, computed} from "vue";
 import {type Product, getProducts} from "@/model/products";
 
 const products = ref([] as Product[]);
+products.value = getProducts();
 
 type CartItem = {
-    product: Product;
-    quantity: number;
+    product: Product,
+    quantity: number,
 }
 
 const cart = ref([] as CartItem[]);
 
 function addToCart(product: Product) {
-    const index = cart.value.findIndex((item) => item.product.id === product.id);
-    if (Products === -1) {
-        cart.value.push({product, quantity: 1});
-    } else {
-        cart.value[Products].quantity++;
-    }
+    const item = cart.value.find((item) => item.product.id === product.id);
+    if (item) item.quantity++;
+    else cart.value.push({product, quantity: 1});
 }
 
-products.value = getProducts();
+const cartTotal = computed(() => cart.value.reduce((total, item) => total + item.product.price * item.quantity, 0));
+const cartItems = computed (() => cart.value.reduce((total, item) => total + item.quantity, 0));
 
 </script>
 
@@ -52,11 +51,12 @@ products.value = getProducts();
     </div>
     <div class="flyout">
         <h1 class="title">Cart</h1>
-        <ul>
-            <li v-for="item in cart">
+        <ul class="cart">
+            <li v-for="item in cart" :key="item.product.id">
                 {{item.product.title}} x {{item.quantity}} = ${{item.product.price * item.quantity}}
             </li>
         </ul>
+        {{ cartItems }} items totalling ${{ cartTotal }}
     </div>
 </template>
 
@@ -80,12 +80,12 @@ products.value = getProducts();
     top: 0;
     right: 0;
     bottom: 0;
-    width: 300px;
+    width: 600px;
     background-color: white;
     box-shadow: -1px 0 5px 0 rgba(0, 0, 0, 0.1);
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-    z-index: 1000;
+    transform: translateX(80%);
+    transition: transform 1s ease-in-out;
+    z-index: 500;
 }
 
 

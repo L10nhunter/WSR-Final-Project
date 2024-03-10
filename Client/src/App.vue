@@ -27,7 +27,6 @@ const isModalActive = ref(false);
     -moz-osx-font-smoothing: grayscale;
     color: #041536;
 }
-
 .container {
     display: flex;
     flex-direction: column;

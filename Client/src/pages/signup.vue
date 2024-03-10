@@ -44,7 +44,7 @@ function isValidPasswordCheck(): boolean {
 
 <template>
     <div>
-        <h1 class="title">Register</h1>
+        <h1 class="is-size-1 has-text-weight-bold default-color-scheme">Register</h1>
         <form autocomplete="on">
             <SignupTextField v-model=user.firstName.value @input="isValid()" label="First Name" placeholder="John"/>
             <SignupTextField v-model=user.lastName.value @input="isValid()" label="Last Name" placeholder="Smith"/>
@@ -54,7 +54,7 @@ function isValidPasswordCheck(): boolean {
             <SignupTextField v-model=user.passwordCheck.value @input="isValid()" label="Password Verification" placeholder="Password"/>
             <div class="field">
                 <div class="control">
-                    <label class="checkbox">
+                    <label class="checkbox default-color-scheme is-hovered-text">
                         <input type="checkbox" v-model="user.tosAccept.value" @input="isValid()" name="tosAccept">
                         I agree to the <a href="#">Terms and Conditions</a>
                     </label>

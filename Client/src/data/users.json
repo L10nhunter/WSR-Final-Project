@@ -1,7 +1,8 @@
 {
-  "users": [
+  "items": [
     {
       "id": 1,
+      "admin": false,
       "firstName": "Terry",
       "lastName": "Medhurst",
       "maidenName": "Smitham",
@@ -68,6 +69,7 @@
     },
     {
       "id": 2,
+      "admin": false,
       "firstName": "Sheldon",
       "lastName": "Quigley",
       "maidenName": "Cole",
@@ -134,6 +136,7 @@
     },
     {
       "id": 3,
+      "admin": false,
       "firstName": "Terrill",
       "lastName": "Hills",
       "maidenName": "Hoeger",
@@ -200,6 +203,7 @@
     },
     {
       "id": 4,
+      "admin": false,
       "firstName": "Miles",
       "lastName": "Cummerata",
       "maidenName": "Maggio",
@@ -266,6 +270,7 @@
     },
     {
       "id": 5,
+      "admin": false,
       "firstName": "Mavis",
       "lastName": "Schultz",
       "maidenName": "Yundt",
@@ -332,6 +337,7 @@
     },
     {
       "id": 6,
+      "admin": false,
       "firstName": "Alison",
       "lastName": "Reichert",
       "maidenName": "Franecki",
@@ -398,6 +404,7 @@
     },
     {
       "id": 7,
+      "admin": false,
       "firstName": "Oleta",
       "lastName": "Abbott",
       "maidenName": "Wyman",
@@ -464,6 +471,7 @@
     },
     {
       "id": 8,
+      "admin": false,
       "firstName": "Ewell",
       "lastName": "Mueller",
       "maidenName": "Durgan",
@@ -530,6 +538,7 @@
     },
     {
       "id": 9,
+      "admin": false,
       "firstName": "Demetrius",
       "lastName": "Corkery",
       "maidenName": "Gleason",
@@ -596,6 +605,7 @@
     },
     {
       "id": 10,
+      "admin": false,
       "firstName": "Eleanora",
       "lastName": "Price",
       "maidenName": "Cummings",
@@ -662,6 +672,7 @@
     },
     {
       "id": 11,
+      "admin": false,
       "firstName": "Marcel",
       "lastName": "Jones",
       "maidenName": "Smith",
@@ -728,6 +739,7 @@
     },
     {
       "id": 12,
+      "admin": false,
       "firstName": "Assunta",
       "lastName": "Rath",
       "maidenName": "Heller",
@@ -793,6 +805,7 @@
     },
     {
       "id": 13,
+      "admin": false,
       "firstName": "Trace",
       "lastName": "Douglas",
       "maidenName": "Lemke",
@@ -859,6 +872,7 @@
     },
     {
       "id": 14,
+      "admin": false,
       "firstName": "Enoch",
       "lastName": "Lynch",
       "maidenName": "Heidenreich",
@@ -925,6 +939,7 @@
     },
     {
       "id": 15,
+      "admin": false,
       "firstName": "Jeanne",
       "lastName": "Halvorson",
       "maidenName": "Cummerata",
@@ -991,6 +1006,7 @@
     },
     {
       "id": 16,
+      "admin": false,
       "firstName": "Trycia",
       "lastName": "Fadel",
       "maidenName": "Rosenbaum",
@@ -1057,6 +1073,7 @@
     },
     {
       "id": 17,
+      "admin": false,
       "firstName": "Bradford",
       "lastName": "Prohaska",
       "maidenName": "Bins",
@@ -1123,6 +1140,7 @@
     },
     {
       "id": 18,
+      "admin": false,
       "firstName": "Arely",
       "lastName": "Skiles",
       "maidenName": "Monahan",
@@ -1189,6 +1207,7 @@
     },
     {
       "id": 19,
+      "admin": false,
       "firstName": "Gust",
       "lastName": "Purdy",
       "maidenName": "Abshire",
@@ -1255,6 +1274,7 @@
     },
     {
       "id": 20,
+      "admin": false,
       "firstName": "Lenna",
       "lastName": "Renner",
       "maidenName": "Schumm",
@@ -1321,6 +1341,7 @@
     },
     {
       "id": 21,
+      "admin": false,
       "firstName": "Doyle",
       "lastName": "Ernser",
       "maidenName": "Feeney",
@@ -1387,6 +1408,7 @@
     },
     {
       "id": 22,
+      "admin": false,
       "firstName": "Tressa",
       "lastName": "Weber",
       "maidenName": "Williamson",
@@ -1453,6 +1475,7 @@
     },
     {
       "id": 23,
+      "admin": false,
       "firstName": "Felicity",
       "lastName": "O'Reilly",
       "maidenName": "Rosenbaum",
@@ -1519,6 +1542,7 @@
     },
     {
       "id": 24,
+      "admin": false,
       "firstName": "Jocelyn",
       "lastName": "Schuster",
       "maidenName": "Dooley",
@@ -1585,6 +1609,7 @@
     },
     {
       "id": 25,
+      "admin": false,
       "firstName": "Edwina",
       "lastName": "Ernser",
       "maidenName": "Kiehn",
@@ -1651,6 +1676,7 @@
     },
     {
       "id": 26,
+      "admin": false,
       "firstName": "Griffin",
       "lastName": "Braun",
       "maidenName": "Deckow",
@@ -1717,6 +1743,7 @@
     },
     {
       "id": 27,
+      "admin": false,
       "firstName": "Piper",
       "lastName": "Schowalter",
       "maidenName": "Wuckert",
@@ -1783,6 +1810,7 @@
     },
     {
       "id": 28,
+      "admin": false,
       "firstName": "Kody",
       "lastName": "Terry",
       "maidenName": "Larkin",
@@ -1849,6 +1877,7 @@
     },
     {
       "id": 29,
+      "admin": false,
       "firstName": "Macy",
       "lastName": "Greenfelder",
       "maidenName": "Koepp",
@@ -1915,6 +1944,7 @@
     },
     {
       "id": 30,
+      "admin": false,
       "firstName": "Maurine",
       "lastName": "Stracke",
       "maidenName": "Abshire",
@@ -1978,9 +2008,36 @@
         "wallet": "0xb9fc1004bfe7702de522516cf34a5da41c4ef2b5",
         "network": "Ethereum (ERC20)"
       }
+    },
+    {
+      "id": 31,
+      "admin": true,
+      "firstName": "Ari",
+      "lastName": "Yeger",
+      "maidenName": "",
+      "age": 24,
+      "gender": "male",
+      "email": "yegera1@newpaltz.edu",
+      "phone": "845-608-4114",
+      "username": "L10nhunter",
+      "password": "Testing123!",
+      "birthDate": "1999-04-11",
+      "image": "",
+      "height": 170,
+      "weight": 107.2,
+      "address": {
+        "address": "249 Shady Brook Lane",
+        "city": "Pomona",
+        "coordinates": {
+          "lat": 38.9149499,
+          "lng": -77.01170259999999
+        },
+        "postalCode": "10970",
+        "state": "NY"
+      }
     }
   ],
   "total": 100,
   "skip": 0,
-  "limit": 30
+  "limit": 31
 }

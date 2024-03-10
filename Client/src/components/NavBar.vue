@@ -78,11 +78,8 @@ onMounted(() => {
                 <router-link class="navbar-item" to="/">
                     Home
                 </router-link>
-                <router-link class="navbar-item" to="/documentation">
-                    Documentation
-                </router-link>
-                <router-link class="navbar-item" to="/products">
-                    Products
+                <router-link class="navbar-item" to="/myactivity">
+                    My Activity
                 </router-link>
                 <router-link class="navbar-item" to="/users">
                     Users
@@ -92,6 +89,12 @@ onMounted(() => {
                         More
                     </a>
                     <div class="navbar-dropdown">
+                        <router-link class="navbar-item" to="/documentation">
+                            Documentation
+                        </router-link>
+                        <router-link class="navbar-item" to="/products">
+                            Products
+                        </router-link>
                         <router-link class="navbar-item" to="/about">
                             About
                         </router-link>
@@ -159,6 +162,10 @@ onMounted(() => {
     }
     a:hover {
         background: #232323;
+        color: white;
+    }
+    a.navbar-item:focus {
+        background: #181818;
         color: white;
     }
 }

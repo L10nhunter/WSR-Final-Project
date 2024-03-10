@@ -19,6 +19,7 @@ users.value = getUsers();
                 <th>Email</th>
                 <th>Username</th>
                 <th>Phone Number</th>
+                <th>Admin</th>
             </tr>
         </thead>
         <tbody v-for="user in users">
@@ -28,6 +29,7 @@ users.value = getUsers();
                 <td>{{user.email}}</td>
                 <td>{{user.username}}</td>
                 <td>{{user.phone}}</td>
+                <td>{{user.admin}}</td>
             </tr>
         </tbody>
     </table>
