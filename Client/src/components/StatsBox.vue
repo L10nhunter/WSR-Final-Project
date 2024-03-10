@@ -11,7 +11,7 @@ const props = defineProps({
 
 <template>
     <div class="box dcs bordered">
-        <div class="is-size-4 dcs">{{ props.label }}</div>
+        <div class="is-size-3 dcs has-text-centered">{{ props.label }}</div>
         <div class="columns is-multiline has-text-centered">
             <div class="column is-half">
                 <div class="is-size-2">{{ distanceFormat(props.stats?.distance ?? 0) }}</div>
