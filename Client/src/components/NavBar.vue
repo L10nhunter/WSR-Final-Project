@@ -52,6 +52,9 @@ onMounted(() => {
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/myactivity" @click="isBurgerActive = false">
                     My Activity
                 </router-link>
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/friendsactivity" @click="isBurgerActive = false">
+                    Friends' Activity
+                </router-link>
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/users" @click="isBurgerActive = false">
                     Users
                 </router-link>
@@ -76,6 +79,9 @@ onMounted(() => {
             <div class="navbar-start">
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/myactivity">
                     My Activity
+                </router-link>
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/friendsactivity" @click="isBurgerActive = false">
+                    Friends' Activity
                 </router-link>
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/users">
                     Users
