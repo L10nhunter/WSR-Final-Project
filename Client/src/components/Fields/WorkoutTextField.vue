@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import {defineProps, defineModel} from "vue";
 import {type TextField, forAndId} from "@/model/textField";
 const textField = defineProps<TextField>();

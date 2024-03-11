@@ -25,38 +25,18 @@ const mobileNav = [
     {name: "Report an issue", path: "/report"},
     {name: "Sign up", path: "/signup"}
 ];
-const desktopNav = [
-    {name: "My Activity", path: "/myactivity"},
-    {name: "Statistics", path: "/statistics"},
-    {name: "Friends' Activity", path: "/friendsactivity"},
-    {name: "Users", path: isAllowedToAccessUserPage()},
-];
-const desktopNavDropdown = [
-    {name: "Documentation", path: "/documentation"},
-    {name: "About", path: "/about"},
-    {name: "Contact Us", path: "/contact"},
-    {name: "Report an issue", path: "/report"}
-];
+const desktopNav = [ mobileNav[0], mobileNav[1], mobileNav[2], mobileNav[3] ];
+const desktopNavDropdown = [ mobileNav[4], mobileNav[5], mobileNav[6], mobileNav[7] ];
 
-
-function toggleBurgerActive() {
-    isBurgerActive.value = !isBurgerActive.value;
-}
-
-function checkMobile() {
-    isMobile.value = window.innerWidth < 1024;
-}
 
 window.addEventListener('resize', () => {
     if (window.innerWidth > 1024) {
         isBurgerActive.value = false;
     }
-    checkMobile();
+    isMobile.value = window.innerWidth < 1024;
 });
 
-onMounted(() => {
-    checkMobile();
-});
+onMounted(() => {isMobile.value = window.innerWidth < 1024;});
 
 </script>
 
@@ -67,7 +47,7 @@ onMounted(() => {
                 <img class="is-32x32" src="/l10nFitnessIcon.png" alt="logo">
             </router-link>
 
-            <a role="button" :class="{'is-active': isBurgerActive}" @click="toggleBurgerActive()" class="navbar-burger"
+            <a role="button" :class="{'is-active': isBurgerActive}" @click="isBurgerActive = !isBurgerActive" class="navbar-burger"
                aria-label="menu" aria-expanded="false"
                data-target="navbar-drop-menu">
                 <span aria-hidden="true"></span>
@@ -120,7 +100,7 @@ onMounted(() => {
             </div>
         </div>
     </nav>
-    <login-modal :class="{'is-active': isModalActive}" @hideModal="(mod: boolean) => isModalActive = mod"/>
+    <login-modal :class="{'is-active': isModalActive}" @hideModal="() => isModalActive = false"/>
 </template>
 
 <style scoped>

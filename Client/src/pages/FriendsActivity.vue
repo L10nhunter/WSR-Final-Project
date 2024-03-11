@@ -20,7 +20,7 @@ const showAddWorkoutModal = ref(false);
         </div>
     </div>
 
-    <AddWorkoutModal :class="{'is-active': showAddWorkoutModal}" @hideModal="showAddWorkoutModal = false"/>
+    <AddWorkoutModal :class="{'is-active': showAddWorkoutModal}" @hideModal="() => showAddWorkoutModal = false"/>
 </template>
 
 <style scoped>

@@ -6,13 +6,13 @@ const isHidden = ref(false);
 const workout = defineProps<Workout>();
 
 function distanceFormat(distance?: number): string {
-    if(!distance) return "0ft";
-    if(distance >= 5280) return (distance / 5280).toFixed(2) + "mi";
+    if (!distance) return "0ft";
+    if (distance >= 5280) return (distance / 5280).toFixed(2) + "mi";
     return distance + "ft";
 }
 
 function durationFormat(duration?: number): string {
-    if(!duration) return "0m";
+    if (!duration) return "0m";
     const hours = Math.floor(duration / 60);
     const hoursString = hours < 10 ? "0" + hours : hours;
     const minutes = duration % 60;
@@ -20,7 +20,7 @@ function durationFormat(duration?: number): string {
     return hoursString + ":" + minutesString;
 }
 
-function howLongAgo( time: number): string {
+function howLongAgo(time: number): string {
     const now = new Date();
 
     const then = new Date(time);
@@ -56,19 +56,19 @@ function imageProcess(image: string): string {
         <article class="media dcs">
             <div class="media-left">
                 <figure class="image is-64x64">
-                    <img :src="imageProcess(workout.user.image)"  alt="Image">
+                    <img :src="imageProcess(workout.user.image)" alt="Image">
                 </figure>
             </div>
             <div class="media-content dcs">
                 <div class="content dcs">
                     <p>
-                        <span class="dcs has-text-weight-bold">{{ workout.user.firstName }} {{ workout.user.lastName }}</span>
+                        <span class="dcs has-text-weight-bold">{{ workout.user.firstName }} {{workout.user.lastName }}</span>
                         &nbsp;
                         <small class="soft-color">@{{ workout.user.username }}</small>
                         &nbsp;
-                        <small class="soft-color">{{ howLongAgo( workout.time) }}</small>
+                        <small class="soft-color">{{ howLongAgo(workout.time) }}</small>
                         <br>
-                        {{ workout.title }} - {{ workout.location}}
+                        {{ workout.title }} - {{ workout.type }} - {{ workout.location }}
                         <span class="columns dcs">
                             <span class="column has-text-centered dcs">
                                 <span class="is-size-2 scs has-text-weight-bold">{{ distanceFormat(workout.distance) }} </span>
@@ -81,7 +81,7 @@ function imageProcess(image: string): string {
                                 <span class="is-size-7 soft-color">Duration</span>
                             </span>
                             <span v-if="picture" class="column has-text-centered">
-                                <img :src="workout.picture" alt="" />
+                                <img :src="workout.picture" alt=""/>
                             </span>
                         </span>
                     </p>
@@ -90,17 +90,17 @@ function imageProcess(image: string): string {
                     <div class="level-left">
                         <a class="level-item" aria-label="reply">
                             <span class="icon is-small">
-                              <i class="fas fa-reply" aria-hidden="true"></i>
+                                <i class="fa-solid fa-reply" aria-hidden="true"></i>
                             </span>
                         </a>
                         <a class="level-item" aria-label="retweet">
                             <span class="icon is-small">
-                              <i class="fas fa-retweet" aria-hidden="true"></i>
+                              <i class="fa-solid fa-retweet" aria-hidden="true"></i>
                             </span>
                         </a>
                         <a class="level-item" aria-label="like">
                         <span class="icon is-small">
-                          <i class="fas fa-heart" aria-hidden="true"></i>
+                          <i class="fa-solid fa-heart" aria-hidden="true"></i>
                         </span>
                         </a>
                     </div>
@@ -124,6 +124,7 @@ button.delete {
 .columns {
     margin: 0;
 }
+
 div.box {
     margin-top: 1rem;
     margin-bottom: 1rem;

@@ -7,9 +7,9 @@ const textField = defineProps<TextField>();
 
 function leftIcon(): string {
     if (textField.label === 'First Name') {
-        return 'fa-solid fa-F';
+        return 'fa-solid fa-f';
     } else if (textField.label === 'Last Name') {
-        return 'fa-solid fa-L';
+        return 'fa-solid fa-l';
     } else if (textField.label === 'Email Address') {
         return 'fa-solid fa-envelope';
     } else if (textField.label === 'Username') {
