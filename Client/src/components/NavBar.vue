@@ -39,7 +39,7 @@ onMounted(() => {
 <template>
     <nav class="navbar is-fixed-top nav-color-scheme" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <router-link @click="isBurgerActive = false" class="navbar-item is-hovered-nav" to="/">
+            <router-link @click="isBurgerActive = false" class="navbar-item is-hovered-mute" to="/">
                 <img class="is-32x32" src="/l10nFitnessIcon.png" alt="logo">
             </router-link>
 
@@ -54,34 +54,34 @@ onMounted(() => {
 
         <div class="navbar-menu navbar-dropdown nav-color-scheme" :class="[isBurgerActive && 'is-active', !isMobile && 'is-hidden']">
             <div class="navbar-start">
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/myactivity" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/myactivity" @click="isBurgerActive = false">
                     My Activity
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/statistics" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/statistics" @click="isBurgerActive = false">
                     Statistics
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/friendsactivity" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/friendsactivity" @click="isBurgerActive = false">
                     Friends' Activity
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" :to="isAllowedToAccessUserPage()" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" :to="isAllowedToAccessUserPage()" @click="isBurgerActive = false">
                     Users
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/documentation" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/documentation" @click="isBurgerActive = false">
                     Documentation
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/about" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/about" @click="isBurgerActive = false">
                     About
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/contact" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/contact" @click="isBurgerActive = false">
                     Contact Us
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/report" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/report" @click="isBurgerActive = false">
                     Report an issue
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/signup" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/signup" @click="isBurgerActive = false">
                     Sign up
                 </router-link>
-                <a class="navbar-item nav-color-scheme is-hovered-nav" @click="[isModalActive = true, isBurgerActive = false]">
+                <a class="navbar-item nav-color-scheme is-hovered-mute" @click="[isModalActive = true, isBurgerActive = false]">
                     Log in
                 </a>
             </div>
@@ -89,34 +89,34 @@ onMounted(() => {
 
         <div id="navbar-drop-menu" class="navbar-menu">
             <div class="navbar-start">
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/myactivity">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/myactivity">
                     My Activity
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/statistics">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/statistics">
                     Statistics
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/friendsactivity" @click="isBurgerActive = false">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/friendsactivity" @click="isBurgerActive = false">
                     Friends' Activity
                 </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-nav" :to="isAllowedToAccessUserPage()">
+                <router-link class="navbar-item nav-color-scheme is-hovered-mute" :to="isAllowedToAccessUserPage()">
                     Users
                 </router-link>
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link nav-color-scheme is-hovered-nav">
+                    <a class="navbar-link nav-color-scheme is-hovered-mute">
                         More
                     </a>
                     <div class="navbar-dropdown nav-color-scheme">
-                        <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/documentation">
+                        <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/documentation">
                             Documentation
                         </router-link>
-                        <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/about">
+                        <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/about">
                             About
                         </router-link>
-                        <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/contact">
+                        <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/contact">
                             Contact Us
                         </router-link>
                         <hr class="navbar-divider">
-                        <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/report">
+                        <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/report">
                             Report an issue
                         </router-link>
                     </div>
@@ -147,9 +147,7 @@ onMounted(() => {
     background: var(--color-background-soft) !important;
     color: var(--color-text) !important;
 }
-.is-hovered-nav:hover{
-    background: var(--color-background-mute) !important;
-}
+
 .navbar-divider{
     background: var(--color-border-hover) !important;
 }
