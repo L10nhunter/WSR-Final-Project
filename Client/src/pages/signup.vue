@@ -3,7 +3,7 @@ import {ref} from "vue";
 import "bulma/css/bulma.css";
 import "../assets/main.css";
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
-import {getTextFieldsFromLabels} from "@/model/TextField";
+import {getTextField} from "@/model/textField";
 
 
 const user = {
@@ -15,9 +15,14 @@ const user = {
     passwordCheck: ref(''),
     tosAccept: ref(false),
 };
-const indices = [0, 1, 2, 3, 4, 5];
-const textFields = getTextFieldsFromLabels(["First Name", "Last Name", "EmailReg", "Username", "PasswordReg", "PasswordVerification"]);
-const models = [user.firstName, user.lastName, user.email, user.username, user.password, user.passwordCheck];
+const textFields = [
+    {field: getTextField("First Name"), model: user.firstName},
+    {field: getTextField("Last Name"), model: user.lastName},
+    {field: getTextField("EmailReg"), model: user.email},
+    {field: getTextField("Username"), model: user.username},
+    {field: getTextField("PasswordReg"), model: user.password},
+    {field: getTextField("PasswordVerification"), model: user.passwordCheck}
+]
 
 
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -39,7 +44,7 @@ function isValidPasswordCheck(): boolean {return user.passwordCheck.value === us
     <div>
         <h1 class="is-size-1 has-text-weight-bold dcs">Register</h1>
         <form autocomplete="on">
-            <SignupTextField v-for="index in indices" v-bind="textFields[index]" v-model=models[index].value @input="isValid()"/>
+            <SignupTextField v-for="text in textFields" v-bind="text.field" v-model=text.model.value @input="isValid()"/>
             <div class="field">
                 <div class="control">
                     <label class="checkbox dcs is-hovered-soft">

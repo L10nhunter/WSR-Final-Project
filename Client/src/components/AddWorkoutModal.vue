@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import {getTextFieldsFromLabels} from "@/model/TextField";
+import {getTextField} from "@/model/textField";
 import WorkoutTextField from "@/components/Fields/WorkoutTextField.vue";
 import {workoutTypes} from "@/model/workouts";
 
@@ -12,9 +12,15 @@ const workout = {
     Location: ref(""),
     Picture: ref(""),
 };
-const indices = [0, 1, 2, 3, 4, 5];
-const textFields = getTextFieldsFromLabels(["Title", "Workout Date", "Duration", "Distance", "Location", "Picture"]);
-const models = [workout.Title, workout.WorkoutDate, workout.Duration, workout.Distance, workout.Location, workout.Picture]
+
+const textFields = [
+    {field: getTextField("Title"), model: workout.Title},
+    {field: getTextField("Workout Date"), model: workout.WorkoutDate},
+    {field: getTextField("Duration"), model: workout.Duration},
+    {field: getTextField("Distance"), model: workout.Distance},
+    {field: getTextField("Location"), model: workout.Location},
+    {field: getTextField("Picture"), model: workout.Picture},
+]
 
 
 </script>
@@ -29,7 +35,7 @@ const models = [workout.Title, workout.WorkoutDate, workout.Duration, workout.Di
             </header>
             <section class="modal-content dcs">
                 <div class="form">
-                    <WorkoutTextField v-for="index in indices" v-bind="textFields[index]" v-model="models[index].value"/>
+                    <WorkoutTextField v-for="text in textFields" v-bind="text.field" v-model="text.model.value"/>
                     <div class="field">
                         <label class="label dcs" for="type">Type</label>
                         <div class="select is-fullwidth ">
@@ -42,7 +48,7 @@ const models = [workout.Title, workout.WorkoutDate, workout.Duration, workout.Di
                 </div>
             </section>
             <footer class="modal-card-foot dcs">
-                <button class="button is-success has-text-black has-text-weight-bold">Add Workout</button>
+                <button class="button is-primary">Add Workout</button>
                 <button class="button has-text-weight-bold" @click="$emit('hideModal', false)">Cancel</button>
             </footer>
         </div>

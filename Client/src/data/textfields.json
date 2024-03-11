@@ -23,21 +23,24 @@
       "uid": 4,
       "label": "Username",
       "type": "text",
-      "placeholder": "johnsmith"
+      "placeholder": "johnsmith",
+      "autocomplete": "username"
     },
     {
       "uid": 5,
       "label": "Password",
       "type": "password",
       "for": "PasswordReg",
-      "placeholder": "Enter your password"
+      "placeholder": "Enter your password",
+      "autocomplete": "new-password"
     },
     {
       "uid": 6,
       "label": "Password Verification",
       "type": "password",
       "placeholder": "Re-enter your password",
-      "for": "PasswordVerification"
+      "for": "PasswordVerification",
+      "autocomplete": "new-password"
     },
     {
       "uid": 7,

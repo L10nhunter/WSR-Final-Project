@@ -3,7 +3,7 @@
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {nextTick, ref} from "vue";
 import {users} from "@/model/Globals";
-import {getTextFieldsFromLabels} from "@/model/TextField";
+import {getTextField} from "@/model/textField";
 import router from "@/router";
 
 const input = {
@@ -11,9 +11,10 @@ const input = {
     password: ref(''),
 };
 
-const textFields = getTextFieldsFromLabels(["EmailLogin", "PasswordLogin"]);
-const inputFields = [input.email, input.password];
-const indices = [0, 1];
+const textFields = [
+    {field: getTextField("EmailLogin"), model: input.email},
+    {field: getTextField("PasswordLogin"), model: input.password},
+]
 
 const props = defineProps({
     isModalActive: Boolean
@@ -49,7 +50,7 @@ function login() {
             </header>
             <section class="modal-content">
                 <form @submit.prevent="login()" autocomplete="on">
-                    <SignupTextField v-for="index in indices" :key="index" v-bind="textFields[index]" v-model="inputFields[index].value"/>
+                    <SignupTextField v-for="text in textFields" v-bind="text.field" v-model="text.model.value"/>
                     <div class="control">
                         <button class="button is-primary" @click="$emit('hideModal', false)">Log In</button>
                     </div>
