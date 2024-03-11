@@ -43,10 +43,15 @@ const modelsLinks = [
 ]
 const dataLinks = [
     {name: "Workouts", activeId: 22},
-    {name: "Stats", activeId: 23},
-    {name: "Users", activeId: 24},
-    {name: "Globals", activeId: 25},
-    {name: "TextFields", activeId: 26}
+    {name: "Users", activeId: 23},
+    {name: "TextFields", activeId: 24}
+]
+const panelLinks  = [
+    {name: basicsLinks, tabId: 0},
+    {name: pagesLinks, tabId: 1},
+    {name: componentsLinks, tabId: 2},
+    {name: modelsLinks, tabId: 3},
+    {name: dataLinks, tabId: 4}
 ]
 const docs = [
     {
@@ -83,31 +88,31 @@ const docs = [
     },
     {
         title: "Statistics",
-        content: "This is the statistics page. This was sup"
+        content: "This is the statistics page. This was supposed to be a late minute extra credit thing that I wasn't going to spent to much time on. Instead, I spent 4 hours on the night before I was going to turn in the midterm, then I did something stupid and rebased my Dev branch onto the branch where I was working and lost everything. Thankfully, it took a lot less time getting it all back. Most of that 4 hour time was spent figuring out what it was I needed to do, so it wasn't so bad getting it all back. Either way, I'm happy with how it turned out. I think I need more dummy workouts to really let it show what it can do, but that's a problem for a later date."
     },
     {
         title: "Documentation",
-        content: "This is the documentation page."
+        content: "This is the documentation page. This whole page is just some JS hiding behind a bunch of v-if's, all wrapped inside a Bulma Panel element. It looks good so far. very markdown-esque."
     },
     {
         title: "NavBar",
-        content: "This is the nav bar component."
+        content: "This is the nav bar component. An overwhelming amount of the time that I spent on this entire project was getting this right. Granted, that's mostly because I was trying to teach myself how to do it without knowing that we would talk about it in class, so I wasted a lot of time on stuff that would never have worked, or that I would end up replacing anyway. I must have redone the way the nav links works 6 times since this started, and it's about as neat as it's going to get, I think."
     },
     {
         title: "WorkoutBox",
-        content: "This is the workout box component."
+        content: "This is the workout box component. This is how the workouts are displayed on the 'my activity' and 'friend's activity' pages. It's a Bulma Box element with a few of my custom color scheme classes for the colors and the border. These are looped over with v-for, and the data is passed in as props. The data is gotten through functions defined in Workout model, check that for more information on that."
     },
     {
         title: "StatsBox",
-        content: "This is the stats box component."
+        content: "This is the stats box component. This is how the stats are displayed on the 'stats' and 'home' pages. This box was the testing ground for the secondary color scheme, and I'm quite happy with how it looks. The data is passed in as props, and the data is gotten through functions defined in Globals model, check that for more information on that."
     },
     {
         title: "AddWorkoutModal",
-        content: "This is the add workout modal component."
+        content: "This is the add workout modal component. This is a Bulma Modal that sits inside the 'my activity' and 'friend's activity' pages. the input fields, with the exception of the select box, are all componentized out, so I could use a v-for to loop over it. The select box is not componentized because it is only used here, and only used once throughout the project, so it would have been a waste of time. However, each option in the select is gotten from the Workouts model, because that is reused, specifically for the stats page. More info on that in the Workouts model documentation."
     },
     {
         title: "LoginModal",
-        content: "This is the login modal component."
+        content: "This is the login modal component. This is a Bulma Modal that sits in the NavBar component. The input fields are componentized out, so I could use a v-for to loop over it. This really shouldn't be componentized, since its only used once, but I thought that it was important enough to look at on its own. The login function is defined elsewhere, but at the moment it doesn't actually do anything,"
     },
     {
         title: "SignupTextField",
@@ -135,31 +140,21 @@ const docs = [
     },
     {
         title: "TextField",
-        content: "This is the text field model."
+        content: "This is the text field model. It exports 4 things: the TextField interface, which is used in the SignupTextField and LoginModal components, the getTextFields() function, which returns a TextField[] of all the TextFields in the json file, the getTextField(string: label|for) function, which returns either the TextField with the for that matches the string, or, if the 'for' property doesnt exist on that TextField, the label that matches, and the forOrID(string: label|for) function, which returns either the for that matches the string, or, if the 'for' property doesnt exist on that TextField, the label that matches."
     },
     {
         title: "Workouts",
-        content: "This is the workouts data."
-    },
-    {
-        title: "Stats",
-        content: "This is the stats data."
+        content: "This is the workouts data. I made these one at a time, manually, which is why there are so few of them. At some point, when I have a better understanding of how to write json files, I'll write a method to generate dummy workouts. However, that is most definitely a problem for another day."
     },
     {
         title: "Users",
-        content: "This is the users data."
-    },
-    {
-        title: "Globals",
-        content: "This is the globals data."
+        content: "This is the users data. This came from Dummy json, and it made my life so much easier. There's quite a lot in there, and I never would have been able to generate anywhere close to what they have."
     },
     {
         title: "TextFields",
-        content: "This is the text fields data."
+        content: "This is the text fields data. I made this because I was getting tired of all the clutter in the SignupTextField and WorkoutTextField components. I had to keep what each one was doing inside the components themselves, and I think that keeping data like that in the components is a bad practice. I moved it into a json file just because I had just gotten a bunch of json stuff figured out about the workouts json, so I just used the same format. I'm not even sure I'm ever going to change it, because it works, but if I find a better way, I'll change it."
     }
 ]
-
-
 </script>
 
 <template>
@@ -167,28 +162,14 @@ const docs = [
         <div class="column is-half">
             <nav class="panel dcs bordered">
                 <p class="panel-tabs dcs">
-                    <a v-for="tab in panelTabs" :class="activeTab === tab.activeId && 'is-active'"
+                    <a v-for="tab in panelTabs" :class="{'is-active': activeTab === tab.activeId}"
                        class="dcs is-hovered-mute" @click="activeTab = tab.activeId">{{ tab.name }}</a>
                 </p>
-                <div v-if="activeTab === 0">
-                    <a v-for="link in basicsLinks" :class="activeSubTab === link.activeId && 'is-active'"
-                       class="dcs is-hovered-mute panel-block" @click="activeSubTab = link.activeId">{{ link.name }}</a>
-                </div>
-                <div v-if="activeTab === 1">
-                    <a v-for="link in pagesLinks" :class="activeSubTab === link.activeId && 'is-active'"
-                       class="dcs is-hovered-mute panel-block" @click="activeSubTab = link.activeId">{{ link.name }}</a>
-                </div>
-                <div v-if="activeTab === 2">
-                    <a v-for="link in componentsLinks" :class="activeSubTab === link.activeId && 'is-active'"
-                       class="dcs is-hovered-mute panel-block" @click="activeSubTab = link.activeId">{{ link.name }}</a>
-                </div>
-                <div v-if="activeTab === 3">
-                    <a v-for="link in modelsLinks" :class="activeSubTab === link.activeId && 'is-active'"
-                       class="dcs is-hovered-mute panel-block" @click="activeSubTab = link.activeId">{{ link.name }}</a>
-                </div>
-                <div v-if="activeTab === 4">
-                    <a v-for="link in dataLinks" :class="activeSubTab === link.activeId && 'is-active'"
-                       class="dcs is-hovered-mute panel-block" @click="activeSubTab = link.activeId">{{ link.name }}</a>
+                <div v-for="link in panelLinks">
+                    <div v-if="activeTab === link.tabId">
+                    <a v-for="subLink in link.name" :class="{'is-active': activeSubTab === subLink.activeId}"
+                       class="dcs is-hovered-mute panel-block" @click="activeSubTab = subLink.activeId">{{ subLink.name }}</a>
+                    </div>
                 </div>
             </nav>
             <div class="box dcs bordered">
@@ -197,9 +178,9 @@ const docs = [
                     This is the documentation page. Here you can find all the information you need to use the
                     application.
                 </p>
-                <hr class="navbar-divider">
+                <hr>
                 <div class="dcs">
-                    <h2 class="is-size-2 has-text-weight-bold dcs">{{ docs[activeSubTab].title }}</h2>
+                    <h2 class="is-size-2 dcs">{{ docs[activeSubTab].title }}</h2>
                     <div class="dcs">
                         {{ docs[activeSubTab].content }}
                     </div>

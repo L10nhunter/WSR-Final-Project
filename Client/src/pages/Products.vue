@@ -87,6 +87,9 @@ const cartItems = computed (() => cart.value.reduce((total, item) => total + ite
     transition: transform 1s ease-in-out;
     z-index: 500;
 }
+.flyout:hover {
+    transform: translateX(0);
+}
 
 
 div.content {
