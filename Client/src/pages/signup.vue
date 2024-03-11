@@ -5,7 +5,6 @@ import "../assets/main.css";
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {getTextFieldsFromLabels} from "@/model/TextField";
 
-const textFields = getTextFieldsFromLabels(["First Name", "Last Name", "EmailReg", "Username", "PasswordReg", "PasswordVerification"]);
 
 const user = {
     firstName: ref(''),
@@ -16,6 +15,11 @@ const user = {
     passwordCheck: ref(''),
     tosAccept: ref(false),
 };
+const indices = [0, 1, 2, 3, 4, 5];
+const textFields = getTextFieldsFromLabels(["First Name", "Last Name", "EmailReg", "Username", "PasswordReg", "PasswordVerification"]);
+const models = [user.firstName, user.lastName, user.email, user.username, user.password, user.passwordCheck];
+
+
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
 const enableSubmit = ref(false);
@@ -35,12 +39,7 @@ function isValidPasswordCheck(): boolean {return user.passwordCheck.value === us
     <div>
         <h1 class="is-size-1 has-text-weight-bold dcs">Register</h1>
         <form autocomplete="on">
-            <SignupTextField v-bind="textFields[0]" v-model=user.firstName.value @input="isValid()"/>
-            <SignupTextField v-bind="textFields[1]" v-model=user.lastName.value @input="isValid()"/>
-            <SignupTextField v-bind="textFields[2]" v-model=user.email.value @input=" isValid()"/>
-            <SignupTextField v-bind="textFields[3]" v-model=user.username.value @input="isValid()"/>
-            <SignupTextField v-bind="textFields[4]" v-model=user.password.value @input="isValid()"/>
-            <SignupTextField v-bind="textFields[5]" v-model=user.passwordCheck.value @input="isValid()"/>
+            <SignupTextField v-for="index in indices" v-bind="textFields[index]" v-model=models[index].value @input="isValid()"/>
             <div class="field">
                 <div class="control">
                     <label class="checkbox dcs is-hovered-text">
@@ -51,7 +50,7 @@ function isValidPasswordCheck(): boolean {return user.passwordCheck.value === us
             </div>
             <div class="field">
                 <div class="control">
-                    <button class="button is-primary has-text-black has-text-weight-bold" :disabled="!enableSubmit">Submit</button>
+                    <button class="button is-primary" :disabled="!enableSubmit">Submit</button>
                 </div>
             </div>
         </form>
@@ -60,5 +59,3 @@ function isValidPasswordCheck(): boolean {return user.passwordCheck.value === us
 <style scoped>
 
 </style>
-```
-
