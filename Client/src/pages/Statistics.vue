@@ -25,8 +25,8 @@ function updateShownStats() {
         <div class="column is-half">
             <div class="select is-fullwidth mb-4">
                 <select class="ics bordered" v-model="selected" @change="updateShownStats()">
-                    <option selected>All</option>
-                    <option v-for="type in workoutTypes" :key="type" :value="type">{{ type }}</option>
+                    <option selected class="is-hovered-mute">All</option>
+                    <option class="is-hovered-mute" v-for="type in workoutTypes" :key="type" :value="type">{{ type }}</option>
                 </select>
             </div>
             <StatsBox v-for="index in indices" :key="index" :stats="shownStats[index]" :label="labels[index]"/>
