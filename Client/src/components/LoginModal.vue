@@ -1,10 +1,8 @@
 <script setup lang="ts">
 
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
-import {nextTick, ref} from "vue";
-import {users} from "@/model/Globals";
+import {ref} from "vue";
 import {getTextField} from "@/model/textField";
-import router from "@/router";
 
 const input = {
     email: ref(''),
@@ -24,23 +22,6 @@ const props = defineProps({
 });
 const isModalActive = ref(props.isModalActive);
 
-function login() {
-    // this doesn't work because the page gets instantly reloaded. I need to pass the result of this function to the reloaded page
-    const userId = users.value.find(user => (user.email === input.email.value) && (user.password === input.password.value))?.id ?? 0;
-
-    nextTick(() => {
-        if (router.currentRoute.value.name) {
-            console.log("route name in login modal:");
-            console.log(router.currentRoute.value.name);
-            console.log("userId in login modal: " + userId);
-            router.push({name: router.currentRoute.value.name, state: {userId}});
-            //router.go(0);
-        } else {
-            console.error('Route name is null or undefined');
-        }
-    });
-}
-
 </script>
 
 <template>
@@ -52,7 +33,7 @@ function login() {
                 <button class="delete" aria-label="close" @click="emits('hideModal', false)"></button>
             </header>
             <section class="modal-content">
-                <form @submit.prevent="login()" autocomplete="on">
+                <form autocomplete="on">
                     <SignupTextField v-for="text in textFields" v-bind="text.field" v-model="text.model.value"/>
                     <div class="control">
                         <button class="button is-primary" @click="emits('hideModal', false)">Log In</button>

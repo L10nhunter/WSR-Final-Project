@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {type Workout} from "@/model/workouts";
-import "@fortawesome/fontawesome-free/css/all.css";
 
 const isHidden = ref(false);
 const workout = defineProps<Workout>();

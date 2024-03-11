@@ -3,15 +3,18 @@ import "@/assets/main.css";
 import {getAllTimeStats, getTodayStats, getWeekStats} from "@/model/stats";
 import StatsBox from "@/components/StatsBox.vue";
 
-const indices = [0, 1, 2];
-const statsArray = [getTodayStats(), getWeekStats(), getAllTimeStats()]
-const labels = ["Today", "This Week", "All Time"];
+const Stats = [
+    {label: "Today", stats: getTodayStats()},
+    {label: "This Week", stats: getWeekStats()},
+    {label: "All Time", stats: getAllTimeStats()}
+];
+
 </script>
 
 <template>
     <div class="columns is-centered">
         <div class="column is-half">
-            <StatsBox v-for="index in indices" :key="index" :stats="statsArray[index]" :label="labels[index]"/>
+            <StatsBox v-for="stat in Stats" :stats="stat.stats" :label="stat.label"/>
         </div>
     </div>
 </template>

@@ -67,7 +67,7 @@ onMounted(() => {
                 <img class="is-32x32" src="/l10nFitnessIcon.png" alt="logo">
             </router-link>
 
-            <a role="button" :class="isBurgerActive && 'is-active'" @click="toggleBurgerActive()" class="navbar-burger"
+            <a role="button" :class="{'is-active': isBurgerActive}" @click="toggleBurgerActive()" class="navbar-burger"
                aria-label="menu" aria-expanded="false"
                data-target="navbar-drop-menu">
                 <span aria-hidden="true"></span>
@@ -76,7 +76,7 @@ onMounted(() => {
             </a>
         </div>
 
-        <div class="navbar-menu navbar-dropdown nav-color-scheme" :class="[isBurgerActive && 'is-active', !isMobile && 'is-hidden']">
+        <div class="navbar-menu navbar-dropdown nav-color-scheme" :class="{'is-active': isBurgerActive, 'is-hidden': !isMobile}">
             <div class="navbar-start">
                 <router-link v-for="route in mobileNav" class="navbar-item nav-color-scheme is-hovered-mute" :to="route.path" @click="isBurgerActive = false">
                     {{route.name}}
@@ -120,7 +120,7 @@ onMounted(() => {
             </div>
         </div>
     </nav>
-    <login-modal :class="isModalActive && 'is-active'" @hideModal="(mod: boolean) => isModalActive = mod"/>
+    <login-modal :class="{'is-active': isModalActive}" @hideModal="(mod: boolean) => isModalActive = mod"/>
 </template>
 
 <style scoped>
