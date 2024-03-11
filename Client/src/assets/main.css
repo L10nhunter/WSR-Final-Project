@@ -33,8 +33,7 @@
         }
     }
 }
-.dcs
-{
+.dcs {
     background: var(--color-background) !important;
     color: var(--color-text) !important;
 }
@@ -82,6 +81,11 @@ label{
     margin-bottom: .125rem !important;
 }
 button.is-primary, a.is-primary{
-    color: black !important;
     font-weight: bold !important;
+}
+*.is-primary {
+    background-color: var(--vt-c-turquois-1) !important;
+}
+*.is-primary:hover {
+    background-color: var(--vt-c-turquois-2) !important;
 }
