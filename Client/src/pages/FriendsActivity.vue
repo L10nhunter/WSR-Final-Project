@@ -11,7 +11,7 @@ const showAddWorkoutModal = ref(false);
 <template>
     <div class="columns">
         <div class="column is-half is-offset-one-quarter">
-            <div class="button is-primary is-fullwidth" @click="showAddWorkoutModal = true">Add Workout</div>
+            <button class="button is-primary is-fullwidth" @click="showAddWorkoutModal = true">Add Workout</button>
             <div class="container" v-for="workout in workouts">
                 <div class="workout-card">
                     <WorkoutBox v-bind="workout"/>
