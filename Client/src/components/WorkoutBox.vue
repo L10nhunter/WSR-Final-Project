@@ -72,12 +72,12 @@ function imageProcess(image: string): string {
                         {{ workout.title }} - {{ workout.location}}
                         <span class="columns dcs">
                             <span class="column has-text-centered dcs">
-                                <span class="is-size-2 dcs">{{ distanceFormat(workout.distance) }} </span>
+                                <span class="is-size-2 scs has-text-weight-bold">{{ distanceFormat(workout.distance) }} </span>
                                 <br>
                                 <span class="is-size-7 soft-color">Distance</span>
                             </span>
                             <span class="column has-text-centered">
-                                <span class="is-size-2 dcs">{{ durationFormat(workout.duration) }} </span>
+                                <span class="is-size-2 scs has-text-weight-bold">{{ durationFormat(workout.duration) }} </span>
                                 <br>
                                 <span class="is-size-7 soft-color">Duration</span>
                             </span>
