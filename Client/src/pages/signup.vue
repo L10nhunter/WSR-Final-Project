@@ -42,7 +42,7 @@ function isValidPasswordCheck(): boolean {return user.passwordCheck.value === us
             <SignupTextField v-for="index in indices" v-bind="textFields[index]" v-model=models[index].value @input="isValid()"/>
             <div class="field">
                 <div class="control">
-                    <label class="checkbox dcs is-hovered-text">
+                    <label class="checkbox dcs is-hovered-soft">
                         <input type="checkbox" v-model="user.tosAccept.value" @input="isValid()" name="tosAccept">
                         I agree to the <a href="#">Terms and Conditions</a>
                     </label>
