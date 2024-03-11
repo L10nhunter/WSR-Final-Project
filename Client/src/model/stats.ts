@@ -1,4 +1,4 @@
-import {getWorkoutsByUser} from "@/model/workouts";
+import {getWorkoutByType, getWorkoutsByUser} from "@/model/workouts";
 import {LoggedInUser} from "@/model/Globals";
 export interface Stats{
     distance: number;
@@ -7,20 +7,20 @@ export interface Stats{
     calories: number;
 }
 
-export function getAllTimeStats(){
-    return getStats(0);
+export function getAllTimeStats(type?: string){
+    return getStats(0, type);
 }
-export function getWeekStats(){
+export function getWeekStats(type?: string){
     const date = new Date();
-    return getStats(date.setHours(date.getHours() - 168));
+    return getStats(date.setHours(date.getHours() - 168), type);
 }
-export function getTodayStats(){
+export function getTodayStats(type?: string){
     const date = new Date();
-    return getStats(date.setHours(date.getHours() - 24))
+    return getStats(date.setHours(date.getHours() - 24), type)
 }
 
-function getStats(time: number) : Stats{
-    const workouts = getWorkoutsByUser(LoggedInUser.value);
+function getStats(time: number, type?: string) : Stats{
+    const workouts = !type ? getWorkoutsByUser(LoggedInUser.value) : getWorkoutByType(type, LoggedInUser.value);
     const stats: Stats = {
         distance: 0,
         duration: 0,
