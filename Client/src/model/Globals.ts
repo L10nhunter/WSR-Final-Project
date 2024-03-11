@@ -27,7 +27,8 @@ export function durationFormat(duration: number) {
     return (hours<10 ? "0"+ hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes);
 }
 
-export function paceFormat(pace: number) {
+export function paceFormat(pace?: number) {
+    if (!pace) return "0 mi/h";
     if (pace < 1) return (pace * 88).toFixed(2) + " ft/min";
     return pace.toFixed(2) + " mi/h";
 
