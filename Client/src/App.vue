@@ -1,9 +1,26 @@
 <script setup lang="ts">
 import "bulma/css/bulma.css";
 import NavBar from "@/components/NavBar.vue";
-import {RouterView} from 'vue-router'
+import {RouterView, useRoute} from 'vue-router'
+import {onBeforeMount} from "vue";
+import {updateLoggedInUser} from "@/model/Globals";
 
+function getUserIdFromRoute(): number {
+    console.log('getUserIdFromRoute');
+    const route = useRoute();
+    console.log(route.fullPath);
+    console.log(route.params.userId);
+    return parseInt(<string>route.params.userId);
+}
 
+onBeforeMount(() => {
+    console.log('onBeforeMount');
+    const userId = getUserIdFromRoute();
+    if (userId) {
+        console.log("userId is not null or undefined:" + userId);
+        updateLoggedInUser(userId);
+    }
+});
 
 </script>
 

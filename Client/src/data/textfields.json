@@ -78,7 +78,7 @@
       "type": "email",
       "placeholder": "Email Address",
       "for": "EmailLogin",
-      "autocomplete": "email-address"
+      "autocomplete": "email"
     },
     {
       "uid": 14,
@@ -86,7 +86,7 @@
       "type": "password",
       "for": "PasswordLogin",
       "placeholder": "Enter your password",
-      "autocomplete": "password"
+      "autocomplete": "current-password"
     }
   ]
 }

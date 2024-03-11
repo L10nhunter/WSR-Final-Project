@@ -14,6 +14,30 @@ function isAllowedToAccessUserPage() {
     return LoggedInUser.value?.admin ? "/users" : "#" ?? "#";
 }
 
+const mobileNav = [
+    {name: "My Activity", path: "/myactivity"},
+    {name: "Statistics", path: "/statistics"},
+    {name: "Friends' Activity", path: "/friendsactivity"},
+    {name: "Users", path: isAllowedToAccessUserPage()},
+    {name: "Documentation", path: "/documentation"},
+    {name: "About", path: "/about"},
+    {name: "Contact Us", path: "/contact"},
+    {name: "Report an issue", path: "/report"},
+    {name: "Sign up", path: "/signup"}
+];
+const desktopNav = [
+    {name: "My Activity", path: "/myactivity"},
+    {name: "Statistics", path: "/statistics"},
+    {name: "Friends' Activity", path: "/friendsactivity"},
+    {name: "Users", path: isAllowedToAccessUserPage()},
+];
+const desktopNavDropdown = [
+    {name: "Documentation", path: "/documentation"},
+    {name: "About", path: "/about"},
+    {name: "Contact Us", path: "/contact"},
+    {name: "Report an issue", path: "/report"}
+];
+
 
 function toggleBurgerActive() {
     isBurgerActive.value = !isBurgerActive.value;
@@ -54,32 +78,8 @@ onMounted(() => {
 
         <div class="navbar-menu navbar-dropdown nav-color-scheme" :class="[isBurgerActive && 'is-active', !isMobile && 'is-hidden']">
             <div class="navbar-start">
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/myactivity" @click="isBurgerActive = false">
-                    My Activity
-                </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/statistics" @click="isBurgerActive = false">
-                    Statistics
-                </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/friendsactivity" @click="isBurgerActive = false">
-                    Friends' Activity
-                </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" :to="isAllowedToAccessUserPage()" @click="isBurgerActive = false">
-                    Users
-                </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/documentation" @click="isBurgerActive = false">
-                    Documentation
-                </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/about" @click="isBurgerActive = false">
-                    About
-                </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/contact" @click="isBurgerActive = false">
-                    Contact Us
-                </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/report" @click="isBurgerActive = false">
-                    Report an issue
-                </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/signup" @click="isBurgerActive = false">
-                    Sign up
+                <router-link v-for="route in mobileNav" class="navbar-item nav-color-scheme is-hovered-mute" :to="route.path" @click="isBurgerActive = false">
+                    {{route.name}}
                 </router-link>
                 <a class="navbar-item nav-color-scheme is-hovered-mute" @click="[isModalActive = true, isBurgerActive = false]">
                     Log in
@@ -89,36 +89,20 @@ onMounted(() => {
 
         <div id="navbar-drop-menu" class="navbar-menu">
             <div class="navbar-start">
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/myactivity">
-                    My Activity
-                </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/statistics">
-                    Statistics
-                </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/friendsactivity" @click="isBurgerActive = false">
-                    Friends' Activity
-                </router-link>
-                <router-link class="navbar-item nav-color-scheme is-hovered-mute" :to="isAllowedToAccessUserPage()">
-                    Users
+                <router-link v-for="route in desktopNav" class="navbar-item nav-color-scheme is-hovered-mute" :to="route.path" >
+                    {{ route.name }}
                 </router-link>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link nav-color-scheme is-hovered-mute">
                         More
                     </a>
                     <div class="navbar-dropdown nav-color-scheme">
-                        <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/documentation">
-                            Documentation
+                        <div v-for="route in desktopNavDropdown">
+                        <hr v-if="route.name === 'Report an issue'" class="navbar-divider">
+                        <router-link class="navbar-item nav-color-scheme is-hovered-mute" :to="route.path">
+                            {{ route.name }}
                         </router-link>
-                        <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/about">
-                            About
-                        </router-link>
-                        <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/contact">
-                            Contact Us
-                        </router-link>
-                        <hr class="navbar-divider">
-                        <router-link class="navbar-item nav-color-scheme is-hovered-mute" to="/report">
-                            Report an issue
-                        </router-link>
+                        </div>
                     </div>
                 </div>
             </div>
