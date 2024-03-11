@@ -52,10 +52,13 @@ onMounted(() => {
             </a>
         </div>
 
-        <div class="navbar-menu nav-color-scheme" :class="[isBurgerActive && 'is-active', !isMobile && 'is-hidden']">
+        <div class="navbar-menu navbar-dropdown nav-color-scheme" :class="[isBurgerActive && 'is-active', !isMobile && 'is-hidden']">
             <div class="navbar-start">
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/myactivity" @click="isBurgerActive = false">
                     My Activity
+                </router-link>
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/statistics" @click="isBurgerActive = false">
+                    Statistics
                 </router-link>
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/friendsactivity" @click="isBurgerActive = false">
                     Friends' Activity
@@ -63,7 +66,6 @@ onMounted(() => {
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" :to="isAllowedToAccessUserPage()" @click="isBurgerActive = false">
                     Users
                 </router-link>
-                <hr class="navbar-divider">
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/documentation" @click="isBurgerActive = false">
                     Documentation
                 </router-link>
@@ -73,10 +75,15 @@ onMounted(() => {
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/contact" @click="isBurgerActive = false">
                     Contact Us
                 </router-link>
-                <hr class="navbar-divider">
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/report" @click="isBurgerActive = false">
                     Report an issue
                 </router-link>
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/signup" @click="isBurgerActive = false">
+                    Sign up
+                </router-link>
+                <a class="navbar-item nav-color-scheme is-hovered-nav" @click="[isModalActive = true, isBurgerActive = false]">
+                    Log in
+                </a>
             </div>
         </div>
 
@@ -84,6 +91,9 @@ onMounted(() => {
             <div class="navbar-start">
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/myactivity">
                     My Activity
+                </router-link>
+                <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/statistics">
+                    Statistics
                 </router-link>
                 <router-link class="navbar-item nav-color-scheme is-hovered-nav" to="/friendsactivity" @click="isBurgerActive = false">
                     Friends' Activity
