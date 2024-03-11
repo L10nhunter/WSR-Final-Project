@@ -147,7 +147,9 @@ onMounted(() => {
     background: var(--color-background-soft) !important;
     color: var(--color-text) !important;
 }
-
+.is-hovered-mute:hover {
+    background: var(--color-background-mute) !important;
+}
 .navbar-divider{
     background: var(--color-border-hover) !important;
 }
