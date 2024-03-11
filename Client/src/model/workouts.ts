@@ -17,10 +17,16 @@ export interface Workout {
     type: string
 }
 
+export const workoutTypes = ["Run", "Walk", "Bike", "Swim", "Cardio", "Strength", "Other"]
+
 export function getWorkouts(): Workout[] {
     return data.items;
 }
 
 export function getWorkoutsByUser(user?: User): Workout[] {
     return data.items.filter(workout => workout.user.id === user?.id);
+}
+
+export function getWorkoutByType(type: string, user?: User): Workout[] {
+    return user ? getWorkoutsByUser(user).filter(workout => workout.type === type) : data.items.filter(workout => workout.type === type);
 }
