@@ -2,6 +2,7 @@
 import {ref} from "vue";
 import {getTextFieldsFromLabels} from "@/model/TextField";
 import WorkoutTextField from "@/components/Fields/WorkoutTextField.vue";
+import {workoutTypes} from "@/model/workouts";
 
 const workout = {
     Title: ref(""),
@@ -34,12 +35,7 @@ const models = [workout.Title, workout.WorkoutDate, workout.Duration, workout.Di
                         <div class="select is-fullwidth ">
                             <select class="form-control bordered ics" id="type">
                                 <option disabled hidden selected>Choose a type</option>
-                                <option>Run</option>
-                                <option>Bike</option>
-                                <option>Swim</option>
-                                <option>Cardio</option>
-                                <option>Strength</option>
-                                <option>Other</option>
+                                <option v-for="type in workoutTypes">{{type}}</option>
                             </select>
                         </div>
                     </div>
