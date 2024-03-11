@@ -22,16 +22,20 @@ const textFields = [
     {field: getTextField("Picture"), model: workout.Picture},
 ]
 
+const emits = defineEmits<{
+    (event: 'hideModal', value: boolean): void;
+}>();
+
 
 </script>
 
 <template>
     <div class="modal">
-        <div class="modal-background" @click="$emit('hideModal', false)"></div>
+        <div class="modal-background" @click="emits('hideModal', false)"></div>
         <div class="modal-card dcs bordered">
             <header class="modal-card-head dcs">
                 <p class="modal-card-title dcs">Add a Workout</p>
-                <button class="delete" @click="$emit('hideModal', false)" aria-label="close"></button>
+                <button class="delete" @click="emits('hideModal', false)" aria-label="close"></button>
             </header>
             <section class="modal-content dcs">
                 <div class="form">
@@ -49,7 +53,7 @@ const textFields = [
             </section>
             <footer class="modal-card-foot dcs">
                 <button class="button is-primary">Add Workout</button>
-                <button class="button has-text-weight-bold" @click="$emit('hideModal', false)">Cancel</button>
+                <button class="button has-text-weight-bold" @click="emits('hideModal', false)">Cancel</button>
             </footer>
         </div>
     </div>

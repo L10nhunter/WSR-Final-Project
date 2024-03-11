@@ -10,6 +10,9 @@ const input = {
     email: ref(''),
     password: ref(''),
 };
+const emits = defineEmits<{
+    (event: 'hideModal', value: boolean): void;
+}>();
 
 const textFields = [
     {field: getTextField("EmailLogin"), model: input.email},
@@ -42,17 +45,17 @@ function login() {
 
 <template>
     <div class="modal" :class="isModalActive && 'is-active'">
-        <div class="modal-background" @click="$emit('hideModal', false)"></div>
+        <div class="modal-background" @click="emits('hideModal', false)"></div>
         <div class="modal-card dcs bordered">
             <header class="modal-card-head dcs">
                 <p class="modal-card-title dcs">Log In</p>
-                <button class="delete" aria-label="close" @click="$emit('hideModal', false)"></button>
+                <button class="delete" aria-label="close" @click="emits('hideModal', false)"></button>
             </header>
             <section class="modal-content">
                 <form @submit.prevent="login()" autocomplete="on">
                     <SignupTextField v-for="text in textFields" v-bind="text.field" v-model="text.model.value"/>
                     <div class="control">
-                        <button class="button is-primary" @click="$emit('hideModal', false)">Log In</button>
+                        <button class="button is-primary" @click="emits('hideModal', false)">Log In</button>
                     </div>
                 </form>
             </section>
