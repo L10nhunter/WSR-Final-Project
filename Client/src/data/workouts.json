@@ -32,7 +32,7 @@
       "time" : 1709353914000,
       "duration": 60,
       "distance": 0,
-      "calories": 0,
+      "calories": 2300,
       "location": {
         "latitude": "37.7749",
         "longitude": "-122.4194"
@@ -74,7 +74,7 @@
       "calories": 8500,
       "location": "Gunk",
       "picture": "https://baltimorediary.typepad.com/.a/6a00d8341d75c753ef0120a611ca3c970c-pi",
-      "type": "Swimming"
+      "type": "Swim"
     },
     {
       "user": {
@@ -113,7 +113,7 @@
       "calories": 6500,
       "location": "Gunk",
       "picture": "https://baltimorediary.typepad.com/.a/6a00d8341d75c753ef0120a611ca3c970c-pi",
-      "type": "Swimming"
+      "type": "Swim"
     },
     {
       "user": {
@@ -150,7 +150,7 @@
       "calories": 8500,
       "location": "Gunk",
       "picture": "https://baltimorediary.typepad.com/.a/6a00d8341d75c753ef0120a611ca3c970c-pi",
-      "type": "Swimming"
+      "type": "Swim"
     }
   ]
 }
