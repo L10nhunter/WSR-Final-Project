@@ -3,9 +3,11 @@
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {ref} from "vue";
 import {getTextField} from "@/model/textField";
+import {updateLoggedInUser} from "@/model/Globals";
+import {getUserByLoginCredentials} from "@/model/users";
 
 const input = {
-    email: ref(''),
+    emailOrUsername: ref(''),
     password: ref(''),
 };
 const emits = defineEmits<{
@@ -13,7 +15,7 @@ const emits = defineEmits<{
 }>();
 
 const textFields = [
-    {field: getTextField("EmailLogin"), model: input.email},
+    {field: getTextField("EmailLogin"), model: input.emailOrUsername},
     {field: getTextField("PasswordLogin"), model: input.password},
 ]
 
@@ -33,10 +35,10 @@ const isModalActive = ref(props.isModalActive);
                 <button class="delete" aria-label="close" @click="emits('hideModal')"></button>
             </header>
             <section class="modal-content">
-                <form autocomplete="on">
+                <form autocomplete="on" @submit.prevent>
                     <SignupTextField v-for="text in textFields" v-bind="text.field" v-model="text.model.value"/>
                     <div class="control">
-                        <button class="button is-primary" @click="emits('hideModal')">Log In</button>
+                        <button class="button is-primary" @click="[emits('hideModal'), updateLoggedInUser(getUserByLoginCredentials(input.emailOrUsername.value, input.password.value)?.id)]">Log In</button>
                     </div>
                 </form>
             </section>

@@ -1,11 +1,13 @@
 import {getWorkoutByType, getWorkoutsByUser} from "@/model/workouts";
 import {LoggedInUser} from "@/model/Globals";
+import {ref} from "vue";
 export interface Stats{
     distance: number;
     duration: number;
     pace: number;
     calories: number;
 }
+export const type = ref("All");
 
 export function getAllTimeStats(type?: string){
     return getStats(0, type);

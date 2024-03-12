@@ -1,5 +1,7 @@
 import data from '@/data/workouts.json';
 import {type User} from "@/model/users";
+import {LoggedInUser} from "@/model/Globals";
+import {computed} from "vue";
 
 export interface Workout {
     user: User
@@ -18,6 +20,7 @@ export interface Workout {
 }
 
 export const workoutTypes = ["Run", "Walk", "Bike", "Swim", "Cardio", "Strength", "Other"]
+export const workoutsByID = computed<Workout[]>( () => data.items.filter(workout => workout.user.id === LoggedInUser.value?.id)) ;
 
 export function getWorkouts(): Workout[] {
     return data.items;
@@ -28,5 +31,6 @@ export function getWorkoutsByUser(user?: User): Workout[] {
 }
 
 export function getWorkoutByType(type: string, user?: User): Workout[] {
+    if(type === "All") return user ? getWorkoutsByUser(user) : [];
     return user ? getWorkoutsByUser(user).filter(workout => workout.type === type) : data.items.filter(workout => workout.type === type);
 }
