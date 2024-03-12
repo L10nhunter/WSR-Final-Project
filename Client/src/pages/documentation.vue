@@ -116,27 +116,27 @@ const docs = [
     },
     {
         title: "SignupTextField",
-        content: "This is the signup text field component."
+        content: "This is the signup text field component. It's a Bulma Field element with a label, an input. I componentized it just so it was easier for me to loop it."
     },
     {
         title: "WorkoutTextField",
-        content: "This is the workout text field component."
+        content: "This is the workout text field component. It really shouldn't be componentized, but I decided to do it anyway, because it just keeps it consistent with the signup text field component."
     },
     {
         title: "Workout",
-        content: "This is the workout model."
+        content: "This is the workout model. It exports the Workout interface, which is used in the WorkoutBox component, the getWorkouts() function, which returns a Workout[] of all the workouts in the json file, the getWorkoutsByUser(user?: User) function, which returns a Workout[] of all workouts filtered by user, and the the getWorkoutsBytypr(type: string, user?: User) function, which returns a Workout[] of all workouts filtered by user, then by type for use in the Statistics page. The last one should be in the Stats model, but it isnt just because it's going to have more global uses later."
     },
     {
         title: "Stats",
-        content: "This is the stats model."
+        content: "This is the stats model. It exports the Stats interface, which is used in the StatsBox component, and the getStats() functions, which returns the Stats object that is used in the StatsBox component for each timeframe."
     },
     {
         title: "User",
-        content: "This is the user model."
+        content: "This is the user model. This exports the User interface, which is used in the WorkoutBox component, and the getUser(string: username) function, which returns the User with the username that matches the string."
     },
     {
         title: "Globals",
-        content: "This is the globals model."
+        content: "This is the globals model. This is going to hold more global stuff in the future, but for now, the only thing it holds is the Logged In User. This is used to determine whether or not the user can access the users page."
     },
     {
         title: "TextField",
