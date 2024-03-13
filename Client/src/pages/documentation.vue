@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {isMobile} from "@/model/isMobile";
 
 const activeTab = ref(0);
@@ -157,6 +157,10 @@ const docs = [
         content: ["This is the text fields data. I made this because I was getting tired of all the clutter in the SignupTextField and WorkoutTextField components. I had to keep what each one was doing inside the components themselves, and I think that keeping data like that in the components is a bad practice. I moved it into a json file just because I had just gotten a bunch of json stuff figured out about the workouts json, so I just used the same format. I'm not even sure I'm ever going to change it, because it works, but if I find a better way, I'll change it."]
     }
 ]
+
+onMounted(() => {
+    isMobile.value = window.innerWidth < 1024;
+})
 </script>
 
 <template>
