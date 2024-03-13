@@ -5,7 +5,7 @@ import {isMobile} from "@/model/isMobile";
 const activeTab = ref(0);
 const activeSubTab = ref(0);
 const showSections = ref(false);
-const isMyMobile = computed(() => isMobile.value < 768 ?? false);
+const isMyMobile = computed(() => isMobile.value < 768);
 
 const panelTabs = [
     {name: "Basics", activeId: 0},

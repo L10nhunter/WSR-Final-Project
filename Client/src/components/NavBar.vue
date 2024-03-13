@@ -7,7 +7,7 @@ import LoginModal from "@/components/LoginModal.vue";
 import {getUserByFullName, LoggedInUser, updateLoggedInUser} from "@/model/users";
 import {isMobile} from "@/model/isMobile";
 
-const isMyMobile =computed<boolean>(() => isMobile.value < 1024 ?? false);
+const isMyMobile =computed<boolean>(() => isMobile.value < 1024);
 
 const isBurgerActive = ref(false);
 const isModalActive = ref(false);
