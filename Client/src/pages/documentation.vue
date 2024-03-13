@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import {ref} from "vue";
+import {isMobile} from "@/model/isMobile";
 
 const activeTab = ref(0);
 const activeSubTab = ref(0);
+const showSections = ref(false);
 
 const panelTabs = [
     {name: "Basics", activeId: 0},
@@ -46,7 +48,7 @@ const dataLinks = [
     {name: "Users", activeId: 23},
     {name: "TextFields", activeId: 24}
 ]
-const panelLinks  = [
+const panelLinks = [
     {name: basicsLinks, tabId: 0},
     {name: pagesLinks, tabId: 1},
     {name: componentsLinks, tabId: 2},
@@ -128,15 +130,15 @@ const docs = [
     },
     {
         title: "Workout",
-        content: ["This is the workout model. It exports:", "WorkoutsByID, which is a computed const and is there as a way to get the workouts for the logged in userl", "Workout interface, which is used in the WorkoutBox component;", "getWorkouts() function, which returns a Workout[] of all the workouts in the json file;", "getWorkoutsByUser(user?: User) function, which returns a Workout[] of all workouts filtered by user;"," the the getWorkoutsByType(type: string, user?: User) function, which returns a Workout[] of all workouts filtered by user, then by type for use in the Statistics page.", "The last one should be in the Stats model, but it isn't just because it's going to have more global uses later."]
+        content: ["This is the workout model. It exports:", "WorkoutsByID, which is a computed const and is there as a way to get the workouts for the logged in user", "Workout interface, which is used in the WorkoutBox component;", "getWorkouts() function, which returns a Workout[] of all the workouts in the json file;", "getWorkoutsByUser(user?: User) function, which returns a Workout[] of all workouts filtered by user;", " the the getWorkoutsByType(type: string, user?: User) function, which returns a Workout[] of all workouts filtered by user, then by type for use in the Statistics page.", "The last one should be in the Stats model, but it isn't just because it's going to have more global uses later."]
     },
     {
         title: "Stats",
-        content: ["This is the stats model. It exports:", "Stats interface, which is used in the StatsBox component;", "getAllTimeStats(type?: string) function, which gets the all time stats, filtered by workout type if its supplied;", "getWeekStats(type?: string) function, which does the same, but for weeks","getTodayStats(type?: string) function, which also does what it says on the tin.","All these functions are used in the StatsBox component for each respective timeframe."]
+        content: ["This is the stats model. It exports:", "Stats interface, which is used in the StatsBox component;", "getAllTimeStats(type?: string) function, which gets the all time stats, filtered by workout type if its supplied;", "getWeekStats(type?: string) function, which does the same, but for weeks", "getTodayStats(type?: string) function, which also does what it says on the tin.", "All these functions are used in the StatsBox component for each respective timeframe."]
     },
     {
         title: "User",
-        content: ["This is the user model. it exports:", "User interface, which is used in the WorkoutBox component;","LoggedInUser const, keeps track of the logged in user on the client side until the server side is built, just for testing purposes;","getUsers() function, which returns an array of all users;", "getUserByLoginCredentials(emailOrUsername: string, password: string) function, which is used for checking login credentials (shocking, I know);", "getUsersByName(firstName: string, lastName: string) function, which is only here until a more robust login system is in place, but for now it's there to make the dropdown on the Navbar work;", "updateLoggedInUser(userId?: number) function, which does exactly what you think it does: its a client side way to update the Logged In User. It's only here until the server side is in place."]
+        content: ["This is the user model. it exports:", "User interface, which is used in the WorkoutBox component;", "LoggedInUser const, keeps track of the logged in user on the client side until the server side is built, just for testing purposes;", "getUsers() function, which returns an array of all users;", "getUserByLoginCredentials(emailOrUsername: string, password: string) function, which is used for checking login credentials (shocking, I know);", "getUsersByName(firstName: string, lastName: string) function, which is only here until a more robust login system is in place, but for now it's there to make the dropdown on the Navbar work;", "updateLoggedInUser(userId?: number) function, which does exactly what you think it does: its a client side way to update the Logged In User. It's only here until the server side is in place."]
     },
     {
         title: "TextField",
@@ -158,20 +160,55 @@ const docs = [
 </script>
 
 <template>
-    <div class="columns is-centered">
-        <div class="column is-half">
-            <nav class="panel dcs bordered">
-                <p class="panel-tabs dcs">
-                    <a v-for="tab in panelTabs" :class="{'is-active': activeTab === tab.activeId}"
-                       class="dcs is-hovered-mute" @click="activeTab = tab.activeId">{{ tab.name }}</a>
-                </p>
-                <div v-for="link in panelLinks">
-                    <div v-if="activeTab === link.tabId">
-                    <a v-for="subLink in link.name" :class="{'is-active': activeSubTab === subLink.activeId}"
-                       class="dcs is-hovered-mute panel-block" @click="activeSubTab = subLink.activeId">{{ subLink.name }}</a>
+
+    <div class="columns">
+        <div class="column is-narrow">
+            <aside class="menu" :class="{'is-hidden': isMobile}">
+                <div v-for="tab in panelTabs">
+                    <p class="menu-label dcs is-size-5" :class="{'is-active': activeTab === tab.activeId}">
+                        {{ tab.name }}
+                    </p>
+                    <ul class="menu-list">
+                        <li v-for="link in panelLinks">
+                            <a v-if="tab.activeId === link.tabId" v-for="subLink in link.name"
+                               :class="{'is-active': activeSubTab === subLink.activeId}"
+                               class="dcs is-hovered-mute is-size-6"
+                               @click="activeSubTab = subLink.activeId">{{ subLink.name }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+        <div class="column is-narrow" :class="{ 'is-hidden': !isMobile }">
+            <div class="dropdown dcs" :class="{'is-active': showSections}" @click="showSections=!showSections">
+                <div class="dropdown-trigger dcs">
+                    <button class="button is-fullwidth dcs" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>Sections</span>
+                        <span class="icon is-small">
+                            <i class="fa-solid fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content dcs">
+                        <div class="dropdown-item dcs" v-for="tab in panelTabs">
+                            <p class="menu-label dcs is-size-5" :class="{'is-active': activeTab === tab.activeId}">
+                                {{ tab.name }}
+                            </p>
+                            <ul class="menu-list">
+                                <li v-for="link in panelLinks">
+                                    <a v-if="tab.activeId === link.tabId" v-for="subLink in link.name"
+                                       :class="{'is-active': activeSubTab === subLink.activeId}"
+                                       class="dcs is-hovered-mute is-size-6"
+                                       @click="activeSubTab = subLink.activeId">{{ subLink.name }}</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </nav>
+            </div>
+        </div>
+        <div class="column">
             <div class="box dcs bordered">
                 <h1 class="is-size-1 has-text-weight-bold dcs">Documentation</h1>
                 <p class="dcs">
@@ -193,5 +230,9 @@ const docs = [
 <style scoped>
 a.is-active {
     color: var(--color-primary-hover) !important;
+}
+
+.menu-label {
+    margin-bottom: 0 !important;
 }
 </style>
