@@ -1,6 +1,5 @@
 import data from '@/data/workouts.json';
-import {type User} from "@/model/users";
-import {LoggedInUser} from "@/model/Globals";
+import {type User, LoggedInUser} from "@/model/users";
 import {computed} from "vue";
 
 export interface Workout {

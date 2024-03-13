@@ -1,5 +1,5 @@
 import {getWorkoutByType, getWorkoutsByUser} from "@/model/workouts";
-import {LoggedInUser} from "@/model/Globals";
+import {LoggedInUser} from "@/model/users";
 import {ref} from "vue";
 export interface Stats{
     distance: number;

@@ -4,8 +4,7 @@ import {computed, onMounted, ref} from 'vue';
 import "bulma/css/bulma.css";
 import "../assets/base.css";
 import LoginModal from "@/components/LoginModal.vue";
-import {LoggedInUser, updateLoggedInUser} from "@/model/Globals";
-import {getUserByFullName} from "@/model/users";
+import {getUserByFullName, LoggedInUser, updateLoggedInUser} from "@/model/users";
 
 const isMobile = ref(false)
 const isBurgerActive = ref(false);

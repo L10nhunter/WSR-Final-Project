@@ -3,8 +3,7 @@
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {ref} from "vue";
 import {getTextField} from "@/model/textField";
-import {updateLoggedInUser} from "@/model/Globals";
-import {getUserByLoginCredentials} from "@/model/users";
+import {getUserByLoginCredentials, updateLoggedInUser} from "@/model/users";
 
 const input = {
     emailOrUsername: ref(''),

@@ -1,4 +1,5 @@
 import data from '@/data/users.json';
+import {ref} from "vue";
 
 export interface User {
     id: number
@@ -67,6 +68,7 @@ export interface User {
         network?: string
     }
 }
+export const LoggedInUser = ref(data.items.find(user => user.id === 0));
 export function getUsers(): User[] {
     return data.items;
 }
@@ -82,4 +84,8 @@ export function getUserByFullName(fullName: string): User | undefined {
 }
 function getUserByName(firstName: string, lastName: string): User | undefined {
     return data.items.find(user => user.firstName === firstName && user.lastName === lastName);
+}
+// this will at some point be a call to the server to get the user
+export function updateLoggedInUser(userId?: number): void {
+    LoggedInUser.value = data.items.find(user => user.id === userId);
 }

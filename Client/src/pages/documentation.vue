@@ -23,22 +23,22 @@ const pagesLinks = [
     {name: "Friend's Activity", activeId: 6},
     {name: "My Activity + Users", activeId: 7},
     {name: "Statistics", activeId: 8},
-    {name: "Documentation", activeId: 9}
+    {name: "Sign Up", activeId: 9},
+    {name: "Documentation", activeId: 10}
 ]
 const componentsLinks = [
-    {name: "NavBar", activeId: 10},
-    {name: "WorkoutBox", activeId: 11},
-    {name: "StatsBox", activeId: 12},
-    {name: "AddWorkoutModal", activeId: 13},
-    {name: "LoginModal", activeId: 14},
-    {name: "SignupTextField", activeId: 15},
-    {name: "WorkoutTextField", activeId: 16}
+    {name: "NavBar", activeId: 11},
+    {name: "WorkoutBox", activeId: 12},
+    {name: "StatsBox", activeId: 13},
+    {name: "AddWorkoutModal", activeId: 14},
+    {name: "LoginModal", activeId: 15},
+    {name: "SignupTextField", activeId: 16},
+    {name: "WorkoutTextField", activeId: 17}
 ]
 const modelsLinks = [
-    {name: "Workout", activeId: 17},
-    {name: "Stats", activeId: 18},
-    {name: "User", activeId: 19},
-    {name: "Globals", activeId: 20},
+    {name: "Workout", activeId: 18},
+    {name: "Stats", activeId: 19},
+    {name: "User", activeId: 20},
     {name: "TextField", activeId: 21}
 ]
 const dataLinks = [
@@ -56,103 +56,103 @@ const panelLinks  = [
 const docs = [
     {
         title: "Introduction",
-        content: "This is the final project for Web Server Programming 2024. This has been a gigantic pain at times, but I feel like I'm learning a lot. I'm excited to see how it turns out, once I have a server to pair with it, and I kill all the stupid bugs."
+        content: ["This is the final project for Web Server Programming 2024. This has been a gigantic pain at times, but I feel like I'm learning a lot. I'm excited to see how it turns out, once I have a server to pair with it, and I kill all the stupid bugs."]
     },
     {
         title: "Vue 3 + Vite + NPM",
-        content: "This project uses Vue 3 as its framework. The ability to componentize everything is really nice. I'm not sure if I'm using it to its full potential, in fact, I'm certain I'm not, but I'm happy with how it's turned out so far. Vite is the build tool I'm using. It makes testing so much better because of hot module reloading. NPM is the package manager I'm using. It's been nothing but a pleasure to work with, especially since I figured out how to make a WebStorm run configuration that would start my dev server without needing the CLI. Yes, I'm exactly that lazy."
+        content: ["This project uses Vue 3 as its framework. The ability to componentize everything is really nice. I'm not sure if I'm using it to its full potential, in fact, I'm certain I'm not, but I'm happy with how it's turned out so far. Vite is the build tool I'm using. It makes testing so much better because of hot module reloading. NPM is the package manager I'm using. It's been nothing but a pleasure to work with, especially since I figured out how to make a WebStorm run configuration that would start my dev server without needing the CLI. Yes, I'm exactly that lazy."]
     },
     {
         title: "Bulma",
-        content: "I'm using Bulma for my CSS framework. Bulma makes it so that I dont have to do that much CSS, although I'm using quite a bit more than I had planned. I'm using a custom CSS file to override some of the default Bulma styles, because I don't like that Bulma doesn't have any sort of built in dark mode. As a person who can't bear having his eyes burned out every time he looks at a screen, I need dark mode. The only real area's where I overruled Bulma was in colors. Vite scaffolded the project with a lot of boilerplate CSS, and I modified that to fit my needs. I also added a few custom classes to make my life easier. I didn't really want to overwrite the Bulma File, so I made 'dcs', 'ics', and 'scs', for Default Color Scheme, Input Color Scheme, and Secondary Color Scheme, respectively. I also added 'bordered' to make it so that I could have a consistent border on any element I wanted."
+        content: ["I'm using Bulma for my CSS framework. Bulma makes it so that I dont have to do that much CSS, although I'm using quite a bit more than I had planned. I'm using a custom CSS file to override some of the default Bulma styles, because I don't like that Bulma doesn't have any sort of built in dark mode. As a person who can't bear having his eyes burned out every time he looks at a screen, I need dark mode. The only real area's where I overruled Bulma was in colors. Vite scaffolded the project with a lot of boilerplate CSS, and I modified that to fit my needs. I also added a few custom classes to make my life easier. I didn't really want to overwrite the Bulma File, so I made 'dcs', 'ics', and 'scs', for Default Color Scheme, Input Color Scheme, and Secondary Color Scheme, respectively. I also added 'bordered' to make it so that I could have a consistent border on any element I wanted."]
     },
     {
         title: "Dummy json",
-        content: "All the fake json data in users was generated by Dummy json, with slight modifications so I could put myself in, and create an admin field. The only purpose of the admin field for now is to determine whether or not the user can access the users page. I'm certain that I'll find more uses for it later."
+        content: ["All the fake json data in users was generated by Dummy json, with slight modifications so I could put myself in, and create an admin field. The only purpose of the admin field for now is to determine whether or not the user can access the users page. I'm certain that I'll find more uses for it later."]
     },
     {
         title: "FortAwesome",
-        content: "All the little icons you see are from FortAwesome. All the ones you don't see, or don't make any sense, are because FortAwesome has been giving me pain for nearly a month now. I'm sure I'll get it eventually, but for now, it is what it is."
+        content: ["All the little icons you see are from FortAwesome. All the ones you don't see, or don't make any sense, are because FortAwesome has been giving me pain for nearly a month now. I'm sure I'll get it eventually, but for now, it is what it is."]
     },
     {
         title: "Home Page",
-        content: "This is the page that you see immediately on connecting. I'm extremely happy with how it has turned out. I was a little apprehensive about the secondary color, since my original plan was to stick to a very stark black and white color scheme, but I think it looks great. I'm also happy with the way the stats box turned out, but there is more on them in the StatsBox component documentation."
+        content: ["This is the page that you see immediately on connecting. I'm extremely happy with how it has turned out. I was a little apprehensive about the secondary color, since my original plan was to stick to a very stark black and white color scheme, but I think it looks great. I'm also happy with the way the stats box turned out, but there is more on them in the StatsBox component documentation."]
     },
     {
         title: "Friend's Activity",
-        content: "This is the friend's activity page. For now, since there isn't any way to find people, or to 'friend them', it just shows all the users. That will change once I have a method for finding users, and a method for friending them."
+        content: ["This is the friend's activity page. For now, since there isn't any way to find people, or to 'friend them', it just shows all the users. That will change once I have a method for finding users, and a method for friending them."]
     },
     {
         title: "My Activity + Users",
-        content: "This is the my activity page. It shows all activities for the Logged In User. Unfortunately, I don't have a method for logging in yet, so it defaults to me, so you can see the users page. The users page is just a list of all the users, but the link only works if the Logged In User is an admin. Since i don't have a method for logging in, the default user is me, who is an admin. if you go into the Globals.ts file, you can change the Logged In User to be a non-admin, and then the link won't work."
+        content: ["This is the my activity page. It shows all activities for the Logged In User. Unfortunately, I don't have a method for logging in yet, so it defaults to me, so you can see the users page. The users page is just a list of all the users, but the link only works if the Logged In User is an admin. Since i don't have a method for logging in, the default user is me, who is an admin. if you go into the Globals.ts file, you can change the Logged In User to be a non-admin, and then the link won't work."]
     },
     {
         title: "Statistics",
-        content: "This is the statistics page. This was supposed to be a late minute extra credit thing that I wasn't going to spent to much time on. Instead, I spent 4 hours on the night before I was going to turn in the midterm, then I did something stupid and rebased my Dev branch onto the branch where I was working and lost everything. Thankfully, it took a lot less time getting it all back. Most of that 4 hour time was spent figuring out what it was I needed to do, so it wasn't so bad getting it all back. Either way, I'm happy with how it turned out. I think I need more dummy workouts to really let it show what it can do, but that's a problem for a later date."
+        content: ["This is the statistics page. This was supposed to be a late minute extra credit thing that I wasn't going to spent to much time on. Instead, I spent 4 hours on the night before I was going to turn in the midterm, then I did something stupid and rebased my Dev branch onto the branch where I was working and lost everything. Thankfully, it took a lot less time getting it all back. Most of that 4 hour time was spent figuring out what it was I needed to do, so it wasn't so bad getting it all back. Either way, I'm happy with how it turned out. I think I need more dummy workouts to really let it show what it can do, but that's a problem for a later date."]
+    },
+    {
+        title: "Sign Up",
+        content: ["This is the sign up page. It's just a bunch of text fields, and a button. For now, it doesn't work, but once the server side exists, this will do things."]
     },
     {
         title: "Documentation",
-        content: "This is the documentation page. This whole page is just some JS hiding behind a bunch of v-if's, all wrapped inside a Bulma Panel element. It looks good so far. very markdown-esque."
+        content: ["This is the documentation page. This whole page is just some JS hiding behind a bunch of v-if's, all wrapped inside a Bulma Panel element. It looks good so far. very markdown-esque."]
     },
     {
         title: "NavBar",
-        content: "This is the nav bar component. An overwhelming amount of the time that I spent on this entire project was getting this right. Granted, that's mostly because I was trying to teach myself how to do it without knowing that we would talk about it in class, so I wasted a lot of time on stuff that would never have worked, or that I would end up replacing anyway. I must have redone the way the nav links works 6 times since this started, and it's about as neat as it's going to get, I think."
+        content: ["This is the nav bar component. An overwhelming amount of the time that I spent on this entire project was getting this right. Granted, that's mostly because I was trying to teach myself how to do it without knowing that we would talk about it in class, so I wasted a lot of time on stuff that would never have worked, or that I would end up replacing anyway. I must have redone the way the nav links works 6 times since this started, and it's about as neat as it's going to get, I think."]
     },
     {
         title: "WorkoutBox",
-        content: "This is the workout box component. This is how the workouts are displayed on the 'my activity' and 'friend's activity' pages. It's a Bulma Box element with a few of my custom color scheme classes for the colors and the border. These are looped over with v-for, and the data is passed in as props. The data is gotten through functions defined in Workout model, check that for more information on that."
+        content: ["This is the workout box component. This is how the workouts are displayed on the 'my activity' and 'friend's activity' pages. It's a Bulma Box element with a few of my custom color scheme classes for the colors and the border. These are looped over with v-for, and the data is passed in as props. The data is gotten through functions defined in Workout model, check that for more information on that."]
     },
     {
         title: "StatsBox",
-        content: "This is the stats box component. This is how the stats are displayed on the 'stats' and 'home' pages. This box was the testing ground for the secondary color scheme, and I'm quite happy with how it looks. The data is passed in as props, and the data is gotten through functions defined in Globals model, check that for more information on that."
+        content: ["This is the stats box component. This is how the stats are displayed on the 'stats' and 'home' pages. This box was the testing ground for the secondary color scheme, and I'm quite happy with how it looks. The data is passed in as props, and the data is gotten through functions defined in Globals model, check that for more information on that."]
     },
     {
         title: "AddWorkoutModal",
-        content: "This is the add workout modal component. This is a Bulma Modal that sits inside the 'my activity' and 'friend's activity' pages. the input fields, with the exception of the select box, are all componentized out, so I could use a v-for to loop over it. The select box is not componentized because it is only used here, and only used once throughout the project, so it would have been a waste of time. However, each option in the select is gotten from the Workouts model, because that is reused, specifically for the stats page. More info on that in the Workouts model documentation."
+        content: ["This is the add workout modal component. This is a Bulma Modal that sits inside the 'my activity' and 'friend's activity' pages. the input fields, with the exception of the select box, are all componentized out, so I could use a v-for to loop over it. The select box is not componentized because it is only used here, and only used once throughout the project, so it would have been a waste of time. However, each option in the select is gotten from the Workouts model, because that is reused, specifically for the stats page. More info on that in the Workouts model documentation."]
     },
     {
         title: "LoginModal",
-        content: "This is the login modal component. This is a Bulma Modal that sits in the NavBar component. The input fields are componentized out, so I could use a v-for to loop over it. This really shouldn't be componentized, since its only used once, but I thought that it was important enough to look at on its own. The login function is defined elsewhere, but at the moment it doesn't actually do anything,"
+        content: ["This is the login modal component. This is a Bulma Modal that sits in the NavBar component. The input fields are componentized out, so I could use a v-for to loop over it. This really shouldn't be componentized, since its only used once, but I thought that it was important enough to look at on its own. The login functions are defined in Globals.ts, but at the moment it doesn't actually do anything."]
     },
     {
         title: "SignupTextField",
-        content: "This is the signup text field component. It's a Bulma Field element with a label, an input. I componentized it just so it was easier for me to loop it."
+        content: ["This is the signup text field component. It's a Bulma Field element with a label, an input. I componentized it just so it was easier for me to loop it."]
     },
     {
         title: "WorkoutTextField",
-        content: "This is the workout text field component. It really shouldn't be componentized, but I decided to do it anyway, because it just keeps it consistent with the signup text field component."
+        content: ["This is the workout text field component. It really shouldn't be componentized, but I decided to do it anyway, because it just keeps it consistent with the signup text field component."]
     },
     {
         title: "Workout",
-        content: "This is the workout model. It exports the Workout interface, which is used in the WorkoutBox component, the getWorkouts() function, which returns a Workout[] of all the workouts in the json file, the getWorkoutsByUser(user?: User) function, which returns a Workout[] of all workouts filtered by user, and the the getWorkoutsBytypr(type: string, user?: User) function, which returns a Workout[] of all workouts filtered by user, then by type for use in the Statistics page. The last one should be in the Stats model, but it isnt just because it's going to have more global uses later."
+        content: ["This is the workout model. It exports:", "WorkoutsByID, which is a computed const and is there as a way to get the workouts for the logged in userl", "Workout interface, which is used in the WorkoutBox component;", "getWorkouts() function, which returns a Workout[] of all the workouts in the json file;", "getWorkoutsByUser(user?: User) function, which returns a Workout[] of all workouts filtered by user;"," the the getWorkoutsByType(type: string, user?: User) function, which returns a Workout[] of all workouts filtered by user, then by type for use in the Statistics page.", "The last one should be in the Stats model, but it isn't just because it's going to have more global uses later."]
     },
     {
         title: "Stats",
-        content: "This is the stats model. It exports the Stats interface, which is used in the StatsBox component, and the getStats() functions, which returns the Stats object that is used in the StatsBox component for each timeframe."
+        content: ["This is the stats model. It exports:", "Stats interface, which is used in the StatsBox component;", "getAllTimeStats(type?: string) function, which gets the all time stats, filtered by workout type if its supplied;", "getWeekStats(type?: string) function, which does the same, but for weeks","getTodayStats(type?: string) function, which also does what it says on the tin.","All these functions are used in the StatsBox component for each respective timeframe."]
     },
     {
         title: "User",
-        content: "This is the user model. This exports the User interface, which is used in the WorkoutBox component, and the getUser(string: username) function, which returns the User with the username that matches the string."
-    },
-    {
-        title: "Globals",
-        content: "This is the globals model. This is going to hold more global stuff in the future, but for now, the only thing it holds is the Logged In User. This is used to determine whether or not the user can access the users page."
+        content: ["This is the user model. it exports:", "User interface, which is used in the WorkoutBox component;","LoggedInUser const, keeps track of the logged in user on the client side until the server side is built, just for testing purposes;","getUsers() function, which returns an array of all users;", "getUserByLoginCredentials(emailOrUsername: string, password: string) function, which is used for checking login credentials (shocking, I know);", "getUsersByName(firstName: string, lastName: string) function, which is only here until a more robust login system is in place, but for now it's there to make the dropdown on the Navbar work;", "updateLoggedInUser(userId?: number) function, which does exactly what you think it does: its a client side way to update the Logged In User. It's only here until the server side is in place."]
     },
     {
         title: "TextField",
-        content: "This is the text field model. It exports 4 things: the TextField interface, which is used in the SignupTextField and LoginModal components, the getTextFields() function, which returns a TextField[] of all the TextFields in the json file, the getTextField(string: label|for) function, which returns either the TextField with the for that matches the string, or, if the 'for' property doesnt exist on that TextField, the label that matches, and the forOrID(string: label|for) function, which returns either the for that matches the string, or, if the 'for' property doesnt exist on that TextField, the label that matches."
+        content: ["This is the text field model. It exports:", "TextField interface, which is used in the SignupTextField and LoginModal components;", "getTextFields() function, which returns a TextField[] of all the TextFields in the json file;", "getTextField(string: label|for) function, which returns either the TextField with the for that matches the string, or, if the 'for' property doesnt exist on that TextField, the label that matches;", "forOrID(string: label|for) function, which returns either the for that matches the string, or, if the 'for' property doesnt exist on that TextField, the label that matches."]
     },
     {
         title: "Workouts",
-        content: "This is the workouts data. I made these one at a time, manually, which is why there are so few of them. At some point, when I have a better understanding of how to write json files, I'll write a method to generate dummy workouts. However, that is most definitely a problem for another day."
+        content: ["This is the workouts data. I made these one at a time, manually, which is why there are so few of them. At some point, when I have a better understanding of how to write code to generate json files, I'll write something to generate dummy workouts. However, that is most definitely a problem for another day."]
     },
     {
         title: "Users",
-        content: "This is the users data. This came from Dummy json, and it made my life so much easier. There's quite a lot in there, and I never would have been able to generate anywhere close to what they have."
+        content: ["This is the users data. This came from Dummy json, and it made my life so much easier. There's quite a lot in there, and I never would have been able to generate anywhere close to what they have."]
     },
     {
         title: "TextFields",
-        content: "This is the text fields data. I made this because I was getting tired of all the clutter in the SignupTextField and WorkoutTextField components. I had to keep what each one was doing inside the components themselves, and I think that keeping data like that in the components is a bad practice. I moved it into a json file just because I had just gotten a bunch of json stuff figured out about the workouts json, so I just used the same format. I'm not even sure I'm ever going to change it, because it works, but if I find a better way, I'll change it."
+        content: ["This is the text fields data. I made this because I was getting tired of all the clutter in the SignupTextField and WorkoutTextField components. I had to keep what each one was doing inside the components themselves, and I think that keeping data like that in the components is a bad practice. I moved it into a json file just because I had just gotten a bunch of json stuff figured out about the workouts json, so I just used the same format. I'm not even sure I'm ever going to change it, because it works, but if I find a better way, I'll change it."]
     }
 ]
 </script>
@@ -181,8 +181,8 @@ const docs = [
                 <hr>
                 <div class="dcs">
                     <h2 class="is-size-2 dcs">{{ docs[activeSubTab].title }}</h2>
-                    <div class="dcs">
-                        {{ docs[activeSubTab].content }}
+                    <div class="dcs" v-for="index in docs[activeSubTab].content">
+                        {{ index }}
                     </div>
                 </div>
             </div>
