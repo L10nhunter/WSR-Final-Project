@@ -7,13 +7,17 @@ const users = ref([] as User[]);
 
 users.value = getUsers();
 
+function striper(user: number): string {
+    return user % 2 === 0 ? 'dcs' : 'ics';
+}
+
 </script>
 
 <template>
     <div class="columns is-centered">
         <div class="column is-narrow">
             <div class="dcs">
-                <table class="table is-striped dcs">
+                <table class="table">
                     <thead>
                     <tr>
                         <th class="dcs">First Name</th>
@@ -24,7 +28,7 @@ users.value = getUsers();
                         <th class="dcs">Admin</th>
                     </tr>
                     </thead>
-                    <tbody v-for="user in users">
+                    <tbody v-for="user in users" :class="striper(user.id)">
                     <tr>
                         <td>{{ user.firstName }}</td>
                         <td>{{ user.lastName }}</td>
