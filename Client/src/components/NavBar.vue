@@ -7,6 +7,8 @@ import LoginModal from "@/components/LoginModal.vue";
 import {getUserByFullName, LoggedInUser, updateLoggedInUser} from "@/model/users";
 import {isMobile} from "@/model/isMobile";
 
+const isMyMobile =computed<boolean>(() => isMobile.value < 1024 ?? false);
+
 const isBurgerActive = ref(false);
 const isModalActive = ref(false);
 
@@ -47,7 +49,7 @@ const user = ref("Not logged in");
             </a>
         </div>
 
-        <div class="navbar-menu navbar-dropdown ncs" :class="{'is-active': isBurgerActive, 'is-hidden': !isMobile}">
+        <div class="navbar-menu navbar-dropdown ncs" :class="{'is-active': isBurgerActive, 'is-hidden': !isMyMobile}">
             <div class="navbar-start">
                 <router-link v-for="route in mobileNav" class="navbar-item ncs is-hovered-mute" :to="route.path"
                              @click="isBurgerActive = false">

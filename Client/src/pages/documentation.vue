@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {computed, ref} from "vue";
 import {isMobile} from "@/model/isMobile";
 
 const activeTab = ref(0);
 const activeSubTab = ref(0);
 const showSections = ref(false);
+const isMyMobile = computed(() => isMobile.value < 768 ?? false);
 
 const panelTabs = [
     {name: "Basics", activeId: 0},
@@ -158,16 +159,13 @@ const docs = [
     }
 ]
 
-onMounted(() => {
-    isMobile.value = window.innerWidth < 1024;
-})
 </script>
 
 <template>
 
     <div class="columns">
         <div class="column is-narrow">
-            <aside class="menu" :class="{'is-hidden': isMobile}">
+            <aside class="menu" :class="{'is-hidden': isMyMobile}">
                 <div v-for="tab in panelTabs">
                     <p class="menu-label dcs is-size-5" :class="{'is-active': activeTab === tab.activeId}">
                         {{ tab.name }}
@@ -183,7 +181,7 @@ onMounted(() => {
                 </div>
             </aside>
         </div>
-        <div class="column is-narrow" :class="{ 'is-hidden': !isMobile }">
+        <div class="column is-narrow" :class="{ 'is-hidden': !isMyMobile }">
             <div class="dropdown dcs" :class="{'is-active': showSections}" @click="showSections=!showSections">
                 <div class="dropdown-trigger dcs">
                     <button class="button is-fullwidth dcs" aria-haspopup="true" aria-controls="dropdown-menu">
