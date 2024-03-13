@@ -181,10 +181,10 @@ const docs = [
                 </div>
             </aside>
         </div>
-        <div class="column is-narrow" :class="{ 'is-hidden': !isMyMobile }">
+        <div class="column is-full" :class="{ 'is-hidden': !isMyMobile }">
             <div class="dropdown dcs" :class="{'is-active': showSections}" @click="showSections=!showSections">
                 <div class="dropdown-trigger dcs">
-                    <button class="button is-fullwidth dcs" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <button class="button dcs is-fullwidth" aria-haspopup="true" aria-controls="dropdown-menu">
                         <span>Sections</span>
                         <span class="icon is-small">
                             <i class="fa-solid fa-angle-down" aria-hidden="true"></i>
@@ -233,8 +233,10 @@ const docs = [
 a.is-active {
     color: var(--color-primary-hover) !important;
 }
-
 .menu-label {
     margin-bottom: 0 !important;
+}
+div.dropdown, div.dropdown-trigger, div.dropdown-menu, div.dropdown-content, div.dropdown-item {
+    width: 100%;
 }
 </style>
