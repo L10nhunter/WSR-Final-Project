@@ -17,7 +17,7 @@ function striper(user: number): string {
     <div class="columns is-centered">
         <div class="column is-narrow">
             <div class="dcs">
-                <table class="table">
+                <table class="table bordered">
                     <thead>
                     <tr>
                         <th class="dcs">First Name</th>
