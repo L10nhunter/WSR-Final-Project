@@ -4,6 +4,7 @@ import "bulma/css/bulma.css";
 import "../assets/main.css";
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {getTextField} from "@/model/textField";
+import {addUser, Users} from "@/model/users";
 
 
 const user = {
@@ -11,6 +12,7 @@ const user = {
     lastName: ref(''),
     username: ref(''),
     email: ref(''),
+    phone: ref(''),
     password: ref(''),
     passwordCheck: ref(''),
     tosAccept: ref(false),
@@ -19,6 +21,7 @@ const textFields = [
     {field: getTextField("First Name"), model: user.firstName},
     {field: getTextField("Last Name"), model: user.lastName},
     {field: getTextField("EmailReg"), model: user.email},
+    {field: getTextField("Phone"), model: user.phone},
     {field: getTextField("Username"), model: user.username},
     {field: getTextField("PasswordReg"), model: user.password},
     {field: getTextField("PasswordVerification"), model: user.passwordCheck}
@@ -28,6 +31,19 @@ const textFields = [
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
 const enableSubmit = ref(false);
+
+function addNewUser(user: any) {
+    addUser({
+        id: Users.value.length + 1,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+        password: user.password,
+        admin: false,
+    })
+}
 
 function isValid(): void {
     enableSubmit.value = isValidFirstName() && isValidLastName() && isValidUsername() && isValidEmail() && isValidPassword() && isValidPasswordCheck() && user.tosAccept.value;
@@ -55,7 +71,7 @@ function isValidPasswordCheck(): boolean {return user.passwordCheck.value === us
             </div>
             <div class="field">
                 <div class="control">
-                    <button class="button is-primary" :disabled="!enableSubmit">Submit</button>
+                    <button class="button is-primary" :disabled="!enableSubmit" @submit.prevent @click="addNewUser(user)">Submit</button>
                 </div>
             </div>
         </form>

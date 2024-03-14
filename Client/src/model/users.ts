@@ -7,14 +7,14 @@ export interface User {
     firstName: string
     lastName: string
     maidenName?: string
-    age: number
-    gender: string
+    age?: number
+    gender?: string
     email: string
     phone: string
     username: string
     password: string
-    birthDate: string
-    image: string
+    birthDate?: string
+    image?: string
     bloodGroup?: string
     height?: number
     weight?: number
@@ -25,7 +25,7 @@ export interface User {
     }
     domain?: string
     ip?: string
-    address: {
+    address?: {
         address?: string
         city?: string
         coordinates?: {
@@ -45,7 +45,7 @@ export interface User {
         iban?: string
     }
     company?: {
-        address: {
+        address?: {
             address?: string
             city?: string
             coordinates?: {
@@ -69,9 +69,7 @@ export interface User {
     }
 }
 export const LoggedInUser = ref(data.items.find(user => user.id === 0));
-export function getUsers(): User[] {
-    return data.items;
-}
+export const Users = ref<User[]>(data.items);
 
 export function getUserByLoginCredentials(emailOrUsername: string, password: string): User | undefined {
     if(emailOrUsername.includes('@'))  return data.items.find(user => user.email === emailOrUsername && user.password === password)
@@ -88,4 +86,7 @@ function getUserByName(firstName: string, lastName: string): User | undefined {
 // this will at some point be a call to the server to get the user
 export function updateLoggedInUser(userId?: number): void {
     LoggedInUser.value = data.items.find(user => user.id === userId);
+}
+export function addUser(user: User): void {
+    Users.value.push(user);
 }

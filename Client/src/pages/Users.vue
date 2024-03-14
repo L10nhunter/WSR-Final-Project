@@ -1,14 +1,22 @@
 <script setup lang="ts">
 
+import {type User, Users} from "@/model/users";
+import editUserModal from "@/components/editUserModal.vue";
 import {ref} from "vue";
-import {type User, getUsers} from "@/model/users";
 
-const users = ref([] as User[]);
+const showEditUserModal = ref(false);
+const editedUser = ref<User>(Users.value[0]);
+function striper(user: User): string {
+    return Users.value.indexOf(user) % 2 === 0 ? 'ics' : 'dcs';
+}
+function editUser(user: User): void {
+    if (user) Users.value[Users.value.indexOf(user)] = editedUser.value;
+    editedUser.value = Users.value[0];
+    showEditUserModal.value = false;
 
-users.value = getUsers();
-
-function striper(user: number): string {
-    return user % 2 === 0 ? 'dcs' : 'ics';
+}
+function deleteUser(user: User): void {
+    Users.value.splice(Users.value.indexOf(user), 1);
 }
 
 </script>
@@ -26,9 +34,10 @@ function striper(user: number): string {
                         <th class="dcs">Username</th>
                         <th class="dcs">Phone Number</th>
                         <th class="dcs">Admin</th>
+                        <th class="dcs has-text-centered">Actions</th>
                     </tr>
                     </thead>
-                    <tbody v-for="user in users" :class="striper(user.id)">
+                    <tbody v-for="user in Users" :class="striper(user)">
                     <tr>
                         <td>{{ user.firstName }}</td>
                         <td>{{ user.lastName }}</td>
@@ -36,12 +45,17 @@ function striper(user: number): string {
                         <td>{{ user.username }}</td>
                         <td>{{ user.phone }}</td>
                         <td>{{ user.admin }}</td>
+                        <td>
+                            <button class="button is-small is-primary" @click="[editedUser=user, showEditUserModal=true]"><i class="fa-solid fa-pen"></i></button>
+                            <button class="button is-small is-danger" @click="deleteUser(user)"><i class="fa-solid fa-trash"></i></button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+    <editUserModal v-bind="editedUser" @hideModal="showEditUserModal=false" @editUser="editUser(editedUser)" :class="{'is-active': showEditUserModal}"/>
 
 </template>
 
