@@ -78,7 +78,7 @@ function imageProcess(image: string): string {
                                 <span class="is-size-7 soft-color">Distance</span>
                             </span>
                             <span class="column has-text-centered">
-                                <span class="is-size-2 scs has-text-weight-bold">{{ workout.calories }} </span>
+                                <span class="is-size-2 scs has-text-weight-bold">{{ !workout.calories ? 0 : workout.calories }} </span>
                                 <br>
                                 <span class="is-size-7 soft-color">Calories</span>
                             </span>
