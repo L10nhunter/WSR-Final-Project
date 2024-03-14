@@ -6,7 +6,7 @@ export interface Workout {
     user: User
     id: string
     title: string
-    time?: number
+    time: number
     duration?: number
     distance?: number
     calories?: number
@@ -27,6 +27,7 @@ export function toReversed(workouts: Workout[]): Workout[] {
 }
 export function addWorkout(workout: Workout): void {
     Workouts.value.push(workout);
+    workoutsByID.value.push(workout);
 }
 
 export function getWorkoutsByUser(user?: User): Workout[] {
