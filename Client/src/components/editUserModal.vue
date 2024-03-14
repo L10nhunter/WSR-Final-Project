@@ -2,8 +2,8 @@
 import {workoutTypes} from "@/model/workouts";
 import {Users, type User} from "@/model/users";
 import {getTextField} from "@/model/textField";
-import WorkoutTextField from "@/components/Fields/WorkoutTextField.vue";
 import {ref} from "vue";
+import SignupTextField from "@/components/Fields/SignupTextField.vue";
 
 const user = defineProps<User>();
 
@@ -32,12 +32,12 @@ const textFields = [
         <div class="modal-background" @click="emits('hideModal')"></div>
         <div class="modal-card dcs bordered">
             <header class="modal-card-head dcs">
-                <p class="modal-card-title dcs">Add a Workout</p>
+                <p class="modal-card-title dcs">Edit User</p>
                 <button class="delete" @click="emits('hideModal')" aria-label="close"></button>
             </header>
             <section class="modal-content dcs">
                 <div class="form">
-                    <WorkoutTextField v-for="text in textFields" v-bind="text.field" v-model="text.model"/>
+                    <SignupTextField v-for="text in textFields" v-bind="text.field" v-model="text.model"/>
                     <div class="field">
 
                     </div>
