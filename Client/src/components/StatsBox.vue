@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Stats,  } from "@/model/stats";
+import { type Stats } from "@/model/stats";
 
 const props = defineProps({
     stats: Object as () => Stats,
@@ -18,12 +18,12 @@ function durationFormat(duration: number) {
 }
 function paceFormat(pace?: number) {
     if (!pace) return "0 mi/h";
-    if (pace < 1) return (pace * 88).toFixed(2) + " ft/min";
+    if (pace < 1) return (pace * 88).toFixed(2) + " ft/m";
     return pace.toFixed(2) + " mi/h";
 }
 function caloriesFormat(calories: number) {
-    if(calories > 1000) return (calories/1000).toFixed(2) + " kcal";
-    return calories + " cal";
+    if(calories > 1000) return (calories/1000).toFixed(2) + "k";
+    return calories + "";
 }
 
 </script>
