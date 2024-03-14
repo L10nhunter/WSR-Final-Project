@@ -6,11 +6,11 @@ export interface Workout {
     user: User
     id: string
     title: string
-    time: number
-    duration: number
+    time?: number
+    duration?: number
     distance?: number
     calories?: number
-    location: {
+    location?: {
         latitude: string
         longitude: string
     } | string
@@ -19,17 +19,21 @@ export interface Workout {
 }
 
 export const workoutTypes = ["Run", "Walk", "Bike", "Swim", "Cardio", "Strength", "Other"]
-export const workoutsByID = computed<Workout[]>( () => data.items.filter(workout => workout.user.id === LoggedInUser.value?.id)) ;
+export const Workouts = computed<Workout[]>( () => data.items);
+export const workoutsByID = computed<Workout[]>( () => Workouts.value.filter(workout => workout.user.id === LoggedInUser.value?.id));
 
-export function getWorkouts(): Workout[] {
-    return data.items;
+export function toReversed(workouts: Workout[]): Workout[] {
+    return workouts.slice().reverse();
+}
+export function addWorkout(workout: Workout): void {
+    Workouts.value.push(workout);
 }
 
 export function getWorkoutsByUser(user?: User): Workout[] {
-    return data.items.filter(workout => workout.user.id === user?.id);
+    return Workouts.value.filter(workout => workout.user.id === user?.id);
 }
 
 export function getWorkoutByType(type: string, user?: User): Workout[] {
     if(type === "All") return user ? getWorkoutsByUser(user) : [];
-    return user ? getWorkoutsByUser(user).filter(workout => workout.type === type) : data.items.filter(workout => workout.type === type);
+    return user ? getWorkoutsByUser(user).filter(workout => workout.type === type) : Workouts.value.filter(workout => workout.type === type);
 }

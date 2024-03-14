@@ -30,9 +30,9 @@ function getStats(time: number, type?: string) : Stats{
         calories: 0
     }
     for(const workout of workouts){
-        if(workout.time > time){
+        if(workout.time && workout.time > time){
             stats.distance += workout.distance ?? 0;
-            stats.duration += workout.duration;
+            stats.duration += workout.duration ?? 0;
             stats.calories += workout.calories ?? 0;
         }
     }
