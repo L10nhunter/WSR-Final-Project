@@ -3,38 +3,51 @@
     {
       "label": "First Name",
       "type": "text",
-      "placeholder": "John"
+      "placeholder": "John",
+      "icon": "fa-solid fa-f"
     },
     {
       "label": "Last Name",
       "type": "text",
-      "placeholder": "Smith"
+      "placeholder": "Smith",
+      "icon": "fa-solid fa-l"
     },
     {
       "label": "Email Address",
       "type": "email",
       "placeholder": "johnsmith@gmail.com",
-      "for": "EmailReg"
+      "for": "EmailReg",
+      "icon": "fa-solid fa-envelope"
+    },
+    {
+      "label": "Phone Number",
+      "type": "tel",
+      "placeholder": "123-456-7890",
+      "for": "Phone",
+      "icon": "fa-solid fa-phone"
     },
     {
       "label": "Username",
       "type": "text",
       "placeholder": "johnsmith",
-      "autocomplete": "username"
+      "autocomplete": "username",
+      "icon": "fa-solid fa-user"
     },
     {
       "label": "Password",
       "type": "password",
       "for": "PasswordReg",
       "placeholder": "Enter your password",
-      "autocomplete": "new-password"
+      "autocomplete": "new-password",
+      "icon": "fa-solid fa-lock"
     },
     {
       "label": "Password Verification",
       "type": "password",
       "placeholder": "Re-enter your password",
       "for": "PasswordVerification",
-      "autocomplete": "new-password"
+      "autocomplete": "new-password",
+      "icon": "fa-solid fa-lock"
     },
     {
       "label": "Title",
@@ -73,14 +86,16 @@
       "type": "email",
       "placeholder": "Email Address",
       "for": "EmailLogin",
-      "autocomplete": "email"
+      "autocomplete": "email",
+      "icon": "fa-solid fa-envelope"
     },
     {
       "label": "Password",
       "type": "password",
       "for": "PasswordLogin",
       "placeholder": "Enter your password",
-      "autocomplete": "current-password"
+      "autocomplete": "current-password",
+      "icon": "fa-solid fa-lock"
     }
   ]
 }

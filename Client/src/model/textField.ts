@@ -6,6 +6,7 @@ export interface TextField {
     placeholder?: string;
     autocomplete?: string;
     for?: string;
+    icon?: string;
 }
 
 export function getTextFields(): TextField[] {
