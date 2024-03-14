@@ -1,14 +1,23 @@
 <script setup lang="ts">
 
+import {getUsers, type User} from "@/model/users";
 import {ref} from "vue";
-import {type User, getUsers} from "@/model/users";
 
-const users = ref([] as User[]);
+/*const showEditUserModal = ref(false);
+const editedUser = ref<User>(Users.value[0]);
 
-users.value = getUsers();
+function editUser(user: User): void {
+    if (user) Users.value[Users.value.indexOf(user)] = editedUser.value;
+    showEditUserModal.value = false;
 
-function striper(user: number): string {
-    return user % 2 === 0 ? 'dcs' : 'ics';
+}
+function deleteUser(user: User): void {
+    Users.value.splice(Users.value.indexOf(user), 1);
+}*/
+
+const Users = ref<User[]>(getUsers())
+function striper(user: User): string {
+    return Users.value.indexOf(user) % 2 === 0 ? 'ics' : 'dcs';
 }
 
 </script>
@@ -26,16 +35,21 @@ function striper(user: number): string {
                         <th class="dcs">Username</th>
                         <th class="dcs">Phone Number</th>
                         <th class="dcs">Admin</th>
+                        <th class="dcs has-text-centered">Actions</th>
                     </tr>
                     </thead>
-                    <tbody v-for="user in users" :class="striper(user.id)">
+                    <tbody v-for="user in Users" :class="striper(user)">
                     <tr>
-                        <td>{{ user.firstName }}</td>
-                        <td>{{ user.lastName }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.phone }}</td>
-                        <td>{{ user.admin }}</td>
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.phone}}</td>
+                        <td>{{user.admin}}</td>
+                        <td>
+                            <button class="button is-small is-primary"><i class="fa-solid fa-pen"></i></button>
+                            <button class="button is-small is-danger"><i class="fa-solid fa-trash"></i></button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
