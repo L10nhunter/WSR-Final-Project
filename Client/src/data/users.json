@@ -2021,7 +2021,7 @@
       "username": "L10nhunter",
       "password": "Testing123!",
       "birthDate": "1999-04-11",
-      "image": "/public/l10nFitnessIcon.png",
+      "image": "/l10nFitnessIcon.png",
       "height": 170,
       "weight": 107.2,
       "address": {
