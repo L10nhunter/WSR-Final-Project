@@ -20,6 +20,8 @@ function durationFormat(duration?: number): string {
     return hoursString + ":" + minutesString;
 }
 
+
+
 function howLongAgo(time: number): string {
     const now = new Date();
 
@@ -70,10 +72,15 @@ function imageProcess(image: string): string {
                         <br>
                         {{ workout.title }} - {{ workout.type }} - {{ workout.location }}
                         <span class="columns dcs">
-                            <span class="column has-text-centered dcs">
+                            <span v-if="workout.type !== 'Cardio' && workout.type !== 'Strength'" class="column has-text-centered dcs">
                                 <span class="is-size-2 scs has-text-weight-bold">{{ distanceFormat(workout.distance) }} </span>
                                 <br>
                                 <span class="is-size-7 soft-color">Distance</span>
+                            </span>
+                            <span class="column has-text-centered">
+                                <span class="is-size-2 scs has-text-weight-bold">{{ workout.calories }} </span>
+                                <br>
+                                <span class="is-size-7 soft-color">Calories</span>
                             </span>
                             <span class="column has-text-centered">
                                 <span class="is-size-2 scs has-text-weight-bold">{{ durationFormat(workout.duration) }} </span>
