@@ -1,6 +1,5 @@
 import data from "@/data/textfields.json";
 export interface TextField {
-    uid?: number;
     label: string;
     value?: string;
     type : string;
