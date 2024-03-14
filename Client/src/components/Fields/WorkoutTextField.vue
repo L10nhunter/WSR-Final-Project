@@ -2,7 +2,7 @@
 import {defineProps, defineModel} from "vue";
 import {type TextField, forAndId} from "@/model/textField";
 const textField = defineProps<TextField>();
-const contents = defineModel({type: String, default: ''});
+const contents = defineModel();
 
 </script>
 
