@@ -12,13 +12,11 @@ const isMyMobile =computed<boolean>(() => isMobile.value < 1024);
 const isBurgerActive = ref(false);
 const isModalActive = ref(false);
 
-const isAllowedToAccessUserPage = computed(() => LoggedInUser.value ? LoggedInUser.value.admin ? "/users" : "#" : "#");
-
 const mobileNav = [
     {name: "My Activity", path: "/myactivity"},
     {name: "Statistics", path: "/statistics"},
     {name: "Friends' Activity", path: "/friendsactivity"},
-    {name: "Users", path: isAllowedToAccessUserPage},
+    {name: "Users", path: "/users"},
     {name: "Documentation", path: "/documentation"},
     {name: "About", path: "/about"},
     {name: "Contact Us", path: "/contact"},
@@ -51,7 +49,7 @@ const user = ref("Not logged in");
 
         <div class="navbar-menu navbar-dropdown ncs" :class="{'is-active': isBurgerActive, 'is-hidden': !isMyMobile}">
             <div class="navbar-start">
-                <router-link v-for="route in mobileNav" class="navbar-item ncs is-hovered-mute" :to="route.path"
+                <router-link v-for="route in mobileNav" class="navbar-item ncs is-hovered-mute" :class="{'is-hidden': route.name==='Users' && (!LoggedInUser?.admin ?? true)}" :to="route.path"
                              @click="isBurgerActive = false">
                     {{ route.name }}
                 </router-link>
@@ -63,7 +61,7 @@ const user = ref("Not logged in");
 
         <div id="navbar-drop-menu" class="navbar-menu">
             <div class="navbar-start">
-                <router-link v-for="route in desktopNav" class="navbar-item ncs is-hovered-mute" :to="route.path">
+                <router-link v-for="route in desktopNav" class="navbar-item ncs is-hovered-mute" :class="{'is-hidden': route.name==='Users' && (!LoggedInUser?.admin ?? true)}" :to="route.path">
                     {{ route.name }}
                 </router-link>
                 <div class="navbar-item has-dropdown is-hoverable is-hovered-mute">
