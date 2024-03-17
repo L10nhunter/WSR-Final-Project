@@ -1,7 +1,6 @@
 <script setup lang="ts">
 
-import {getUsers, type User} from "@/model/users";
-import {ref} from "vue";
+import {Users, type User} from "@/model/users";
 
 /*const showEditUserModal = ref(false);
 const editedUser = ref<User>(Users.value[0]);
@@ -15,7 +14,6 @@ function deleteUser(user: User): void {
     Users.value.splice(Users.value.indexOf(user), 1);
 }*/
 
-const Users = ref<User[]>(getUsers())
 function striper(user: User): string {
     return Users.value.indexOf(user) % 2 === 0 ? 'ics' : 'dcs';
 }

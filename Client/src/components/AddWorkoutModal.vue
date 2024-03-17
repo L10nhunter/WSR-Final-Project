@@ -3,7 +3,7 @@ import {ref} from "vue";
 import {getTextField} from "@/model/textField";
 import WorkoutTextField from "@/components/Fields/WorkoutTextField.vue";
 import {addWorkout, Workouts, workoutTypes} from "@/model/workouts";
-import {LoggedInUser, type User} from "@/model/users";
+import {LoggedIn, type User} from "@/model/users";
 
 const workout = {
     Title: ref(""),
@@ -32,7 +32,7 @@ const emits = defineEmits<{
 
 function addThisWorkout(workout: any) {
     addWorkout({
-        user: LoggedInUser.value as User,
+        user: LoggedIn.value as User,
         id: (Workouts.value.length + 1).toString(),
         title: workout.Title.value !== "" ? workout.Title.value : "Workout",
         time: new Date().getTime(),

@@ -1,5 +1,5 @@
 import {getWorkoutByType, getWorkoutsByUser} from "@/model/workouts";
-import {LoggedInUser} from "@/model/users";
+import {LoggedIn} from "@/model/users";
 import {ref} from "vue";
 export interface Stats{
     distance: number;
@@ -22,7 +22,8 @@ export function getTodayStats(type?: string){
 }
 
 function getStats(time: number, type?: string) : Stats{
-    const workouts = !type ? getWorkoutsByUser(LoggedInUser.value) : getWorkoutByType(type, LoggedInUser.value);
+    if(!LoggedIn.user) return {distance: 0, duration: 0, pace: 0, calories: 0};
+    const workouts = !type ? getWorkoutsByUser(LoggedIn.user) : getWorkoutByType(type, LoggedIn.user);
     const stats: Stats = {
         distance: 0,
         duration: 0,
