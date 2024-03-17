@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {workoutTypes} from "@/model/workouts";
-import {Users, type User} from "@/model/users";
+    import {Users, type User} from "@/model/users";
 import {getTextField} from "@/model/textField";
 import {ref} from "vue";
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
@@ -39,7 +39,15 @@ const textFields = [
                 <div class="form">
                     <SignupTextField v-for="text in textFields" v-bind="text.field" v-model="text.model"/>
                     <div class="field">
-
+                        <label for="admin">Admin: </label>
+                        <label class="radio" for="admin">
+                            <input type="radio" name="admin" value="Yes">
+                            Yes
+                        </label>
+                        <label class="radio" for="admin">
+                            <input type="radio" name="admin" value="No">
+                            No
+                        </label>
                     </div>
                 </div>
             </section>
