@@ -1,22 +1,21 @@
 <script setup lang="ts">
 
-import {type User, Users} from "@/model/users";
-import editUserModal from "@/components/editUserModal.vue";
-import {ref} from "vue";
+import {Users, type User} from "@/model/users";
 
-const showEditUserModal = ref(false);
+/*const showEditUserModal = ref(false);
 const editedUser = ref<User>(Users.value[0]);
-function striper(user: User): string {
-    return Users.value.indexOf(user) % 2 === 0 ? 'ics' : 'dcs';
-}
+
 function editUser(user: User): void {
     if (user) Users.value[Users.value.indexOf(user)] = editedUser.value;
-    editedUser.value = Users.value[0];
     showEditUserModal.value = false;
 
 }
 function deleteUser(user: User): void {
     Users.value.splice(Users.value.indexOf(user), 1);
+}*/
+
+function striper(user: User): string {
+    return Users.value.indexOf(user) % 2 === 0 ? 'ics' : 'dcs';
 }
 
 </script>
@@ -39,15 +38,15 @@ function deleteUser(user: User): void {
                     </thead>
                     <tbody v-for="user in Users" :class="striper(user)">
                     <tr>
-                        <td>{{ user.firstName }}</td>
-                        <td>{{ user.lastName }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.phone }}</td>
-                        <td>{{ user.admin }}</td>
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.phone}}</td>
+                        <td>{{user.admin}}</td>
                         <td>
-                            <button class="button is-small is-primary" @click="[editedUser=user, showEditUserModal=true]"><i class="fa-solid fa-pen"></i></button>
-                            <button class="button is-small is-danger" @click="deleteUser(user)"><i class="fa-solid fa-trash"></i></button>
+                            <button class="button is-small is-primary"><i class="fa-solid fa-pen"></i></button>
+                            <button class="button is-small is-danger"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                     </tbody>

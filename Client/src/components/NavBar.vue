@@ -4,10 +4,11 @@ import {computed, ref} from 'vue';
 import "bulma/css/bulma.css";
 import "../assets/base.css";
 import LoginModal from "@/components/LoginModal.vue";
-import {getUserByFullName, LoggedInUser, updateLoggedInUser} from "@/model/users";
+import {LoggedIn} from "@/model/users";
 import {isMobile} from "@/model/isMobile";
+import LoginBadge from "@/components/LoginBadge.vue";
 
-const isMyMobile =computed<boolean>(() => isMobile.value < 1024);
+const isMyMobile = computed<boolean>(() => isMobile.value < 1024);
 
 const isBurgerActive = ref(false);
 const isModalActive = ref(false);
@@ -49,7 +50,9 @@ const user = ref("Not logged in");
 
         <div class="navbar-menu navbar-dropdown ncs" :class="{'is-active': isBurgerActive, 'is-hidden': !isMyMobile}">
             <div class="navbar-start">
-                <router-link v-for="route in mobileNav" class="navbar-item ncs is-hovered-mute" :class="{'is-hidden': route.name==='Users' && (!LoggedInUser?.admin ?? true)}" :to="route.path"
+                <router-link v-for="route in mobileNav" class="navbar-item ncs is-hovered-mute"
+                             :class="{'is-hidden': route.name==='Users' && (!LoggedIn.user?.admin ?? true)}"
+                             :to="route.path"
                              @click="isBurgerActive = false">
                     {{ route.name }}
                 </router-link>
@@ -61,7 +64,7 @@ const user = ref("Not logged in");
 
         <div id="navbar-drop-menu" class="navbar-menu">
             <div class="navbar-start">
-                <router-link v-for="route in desktopNav" class="navbar-item ncs is-hovered-mute" :class="{'is-hidden': route.name==='Users' && (!LoggedInUser?.admin ?? true)}" :to="route.path">
+                <router-link v-for="route in desktopNav" class="navbar-item ncs is-hovered-mute" :class="{'is-hidden': route.name==='Users' && (!LoggedIn.user?.admin ?? true)}" :to="route.path">
                     {{ route.name }}
                 </router-link>
                 <div class="navbar-item has-dropdown is-hoverable is-hovered-mute">
@@ -79,28 +82,7 @@ const user = ref("Not logged in");
                 </div>
             </div>
             <div class="navbar-end">
-                <select class="navbar-item ncs" v-model="user"
-                        @change="updateLoggedInUser(getUserByFullName(user)?.id)">
-                    <option selected class="is-hovered-mute">Not logged in</option>
-                    <option class="is-hovered-mute">Terry Medhurst</option>
-                    <option class="is-hovered-mute">Ari Yeger</option>
-                </select>
-                <div class="navbar-item" :class="{'is-hidden': !LoggedInUser}">
-                    <button class="button is-light has-text-weight-bold"
-                            @click="[updateLoggedInUser(0), user='Not logged in']">
-                        Log Out
-                    </button>
-                </div>
-                <div class="navbar-item" :class="{'is-hidden': LoggedInUser}">
-                    <div class="buttons">
-                        <router-link class="button is-primary" to="/signup">
-                            Sign up
-                        </router-link>
-                        <button class="button is-light has-text-weight-bold" @click="isModalActive = true">
-                            Log in
-                        </button>
-                    </div>
-                </div>
+                <LoginBadge @showModal="() => isModalActive = true"/>
             </div>
         </div>
     </nav>
@@ -127,13 +109,5 @@ const user = ref("Not logged in");
 
 .navbar-dropdown {
     border-color: var(--color-border-hover) !important;
-}
-
-select.navbar-item, select.navbar-item:focus-visible {
-    border-color: var(--color-background-soft) !important;
-}
-
-option.is-hovered-mute:hover {
-    background: var(--color-background-mute) !important;
 }
 </style>

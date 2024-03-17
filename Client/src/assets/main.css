@@ -108,9 +108,19 @@ button.is-primary, a.is-primary{
 div.box{
     box-shadow: 0 0.5em 1em 0 var(--shadow-1), 0 0 0 1px var(--shadow-2) !important;
 }
+select.navbar-item, select.navbar-item:focus-visible {
+    border-color: var(--color-background-soft) !important;
+}
+option.is-hovered-mute:hover {
+    background: var(--color-background-mute) !important;
+}
 @media (max-width: 640px) {
     .modal-card, .modal-content{
         margin: 0 auto !important;
+    }
+
+    /*noinspection ALL*/
+    .modal-card, .modal-content{
         width: -webkit-fill-available !important;
     }
 }

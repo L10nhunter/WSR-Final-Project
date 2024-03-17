@@ -1,5 +1,5 @@
 import data from '@/data/workouts.json';
-import {type User, LoggedInUser} from "@/model/users";
+import {type User, LoggedIn} from "@/model/users";
 import {computed} from "vue";
 
 export interface Workout {
@@ -20,7 +20,9 @@ export interface Workout {
 
 export const workoutTypes = ["Run", "Walk", "Bike", "Swim", "Cardio", "Strength", "Other"]
 export const Workouts = computed<Workout[]>( () => data.items);
-export const workoutsByID = computed<Workout[]>( () => Workouts.value.filter(workout => workout.user.id === LoggedInUser.value?.id));
+export const workoutsByID = computed<Workout[]>(() => {
+    return Workouts.value.filter(workout => workout.user.id === LoggedIn.user?.id);
+});
 
 export function toReversed(workouts: Workout[]): Workout[] {
     return workouts.slice().reverse();

@@ -22,6 +22,8 @@ const props = defineProps({
     isModalActive: Boolean
 });
 const isModalActive = ref(props.isModalActive);
+const {login} = updateLoggedInUser();
+
 
 </script>
 
@@ -37,7 +39,7 @@ const isModalActive = ref(props.isModalActive);
                 <form autocomplete="on" @submit.prevent>
                     <SignupTextField v-for="text in textFields" v-bind="text.field" v-model="text.model.value"/>
                     <div class="control">
-                        <button class="button is-primary" @click="[emits('hideModal'), updateLoggedInUser(getUserByLoginCredentials(input.emailOrUsername.value, input.password.value)?.id)]">Log In</button>
+                        <button class="button is-primary" @click="[emits('hideModal'), login(getUserByLoginCredentials(input.emailOrUsername.value, input.password.value))]">Log In</button>
                     </div>
                 </form>
             </section>

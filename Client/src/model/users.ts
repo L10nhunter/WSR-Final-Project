@@ -1,5 +1,6 @@
 import data from '@/data/users.json';
-import {ref} from "vue";
+import {reactive, ref} from "vue";
+import {useRouter} from "vue-router";
 
 export interface User {
     id: number
@@ -68,7 +69,9 @@ export interface User {
         network?: string
     }
 }
-export const LoggedInUser = ref(data.items.find(user => user.id === 0));
+export const LoggedIn = reactive({
+    user: null as User | null,
+});
 export const Users = ref<User[]>(data.items);
 
 export function getUserByLoginCredentials(emailOrUsername: string, password: string): User | undefined {
@@ -84,8 +87,19 @@ function getUserByName(firstName: string, lastName: string): User | undefined {
     return data.items.find(user => user.firstName === firstName && user.lastName === lastName);
 }
 // this will at some point be a call to the server to get the user
-export function updateLoggedInUser(userId?: number): void {
-    LoggedInUser.value = data.items.find(user => user.id === userId);
+export function updateLoggedInUser() {
+    const router = useRouter();
+    return {
+        login(user: User | undefined): void {
+            if (!user) return;
+            LoggedIn.user = user;
+            router.push(router.currentRoute.value);
+        },
+        logout(): void {
+            LoggedIn.user = null;
+            router.push('/');
+        }
+    }
 }
 export function addUser(user: User): void {
     Users.value.push(user);
