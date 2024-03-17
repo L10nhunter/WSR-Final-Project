@@ -117,6 +117,10 @@ option.is-hovered-mute:hover {
 @media (max-width: 640px) {
     .modal-card, .modal-content{
         margin: 0 auto !important;
+    }
+
+    /*noinspection ALL*/
+    .modal-card, .modal-content{
         width: -webkit-fill-available !important;
     }
 }

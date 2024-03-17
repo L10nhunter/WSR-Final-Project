@@ -4,7 +4,7 @@ import {computed, ref} from 'vue';
 import "bulma/css/bulma.css";
 import "../assets/base.css";
 import LoginModal from "@/components/LoginModal.vue";
-import {getUserByFullName, LoggedIn, updateLoggedInUser} from "@/model/users";
+import {LoggedIn} from "@/model/users";
 import {isMobile} from "@/model/isMobile";
 import LoginBadge from "@/components/LoginBadge.vue";
 
