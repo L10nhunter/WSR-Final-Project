@@ -39,7 +39,7 @@ const {login} = updateLoggedInUser();
                 <form autocomplete="on" @submit.prevent>
                     <SignupTextField v-for="text in textFields" v-bind="text.field" v-model="text.model.value"/>
                     <div class="control">
-                        <button class="button is-primary" @click="[emits('hideModal'), login(getUserByLoginCredentials(input.emailOrUsername.value, input.password.value))]">Log In</button>
+                        <button class="button is-primary" type="submit" @click.prevent="[emits('hideModal'), login(getUserByLoginCredentials(input.emailOrUsername.value, input.password.value))]">Log In</button>
                     </div>
                 </form>
             </section>

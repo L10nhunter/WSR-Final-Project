@@ -4,8 +4,9 @@ import "bulma/css/bulma.css";
 import "../assets/main.css";
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {getTextField} from "@/model/textField";
-import {addUser, Users} from "@/model/users";
+import {addUser, getUserByLoginCredentials, updateLoggedInUser, Users} from "@/model/users";
 
+const {login} = updateLoggedInUser();
 
 const user = {
     firstName: ref(''),
@@ -34,7 +35,7 @@ const enableSubmit = ref(false);
 
 function addNewUser(user: any) {
     addUser({
-        id: Users.value.length + 1,
+        id: Users.value[-1].id + 1,
         firstName: user.firstName,
         lastName: user.lastName,
         username: user.username,
@@ -42,18 +43,32 @@ function addNewUser(user: any) {
         phone: user.phone,
         password: user.password,
         admin: false,
-    })
+    });
+    login(getUserByLoginCredentials(user.username, user.password));
 }
 
 function isValid(): void {
-    enableSubmit.value = isValidFirstName() && isValidLastName() && isValidUsername() && isValidEmail() && isValidPassword() && isValidPasswordCheck() && user.tosAccept.value;
+    console.log("");
+    console.log("validating:");
+    console.log("first name: " + isValidFirstName());
+    console.log("last name: " + isValidLastName());
+    console.log("username: " + isValidUsername());
+    console.log("email: " + isValidEmail());
+    console.log("password: " + isValidPassword());
+    console.log("password check: " + isValidPasswordCheck());
+    console.log("tos: " + isValidTos());
+    enableSubmit.value = isValidFirstName() && isValidLastName() && isValidUsername() && isValidEmail() && isValidPassword() && isValidPasswordCheck() && isValidTos();
+    console.log("enable submit: " + enableSubmit.value);
 }
 function isValidFirstName(): boolean {return user.firstName.value !== '';}
 function isValidLastName(): boolean {return user.lastName.value !== '';}
 function isValidUsername(): boolean {return user.username.value !== '';}
-function isValidEmail(): boolean {return (user.email.value !== '') && emailRegex.test(user.email.value);}
-function isValidPassword(): boolean {return (user.password.value !== '') && passwordRegex.test(user.password.value);}
+function isValidEmail(): boolean {return emailRegex.test(user.email.value);}
+function isValidPassword(): boolean {return passwordRegex.test(user.password.value);}
 function isValidPasswordCheck(): boolean {return user.passwordCheck.value === user.password.value;}
+function isValidTos(): boolean {return user.tosAccept.value;}
+
+
 </script>
 
 <template>
@@ -62,21 +77,26 @@ function isValidPasswordCheck(): boolean {return user.passwordCheck.value === us
         <form autocomplete="on">
             <SignupTextField v-for="text in textFields" v-bind="text.field" v-model=text.model.value @input="isValid()"/>
             <div class="field">
+                <label>User TOS accept: {{user.tosAccept.value}}</label>
                 <div class="control">
-                    <label class="checkbox dcs is-hovered-soft">
+                    <label class="dcs is-hovered-soft">
                         <input type="checkbox" v-model="user.tosAccept.value" @input="isValid()" name="tosAccept">
-                        I agree to the <a href="#">Terms and Conditions</a>
+                        I agree to the <a class="link" href="#">Terms and Conditions</a>
                     </label>
                 </div>
             </div>
             <div class="field">
                 <div class="control">
-                    <button class="button is-primary" :disabled="!enableSubmit" @submit.prevent @click="addNewUser(user)">Submit</button>
+                    <button class="button is-primary" :disabled="!user.tosAccept.value" @click.prevent="addNewUser(user)">Submit</button>
                 </div>
             </div>
         </form>
     </div>
 </template>
 <style scoped>
+a.link:hover{
+    text-decoration: underline;
+    color: #485fc7
+}
 
 </style>
