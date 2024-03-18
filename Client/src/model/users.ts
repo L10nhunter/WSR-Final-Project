@@ -79,13 +79,6 @@ export function getUserByLoginCredentials(emailOrUsername: string, password: str
     return data.items.find(user => user.username === emailOrUsername && user.password === password);
 }
 
-export function getUserByFullName(fullName: string): User | undefined {
-    const names = fullName.split(' ');
-    return getUserByName(names[0], names[1]);
-}
-function getUserByName(firstName: string, lastName: string): User | undefined {
-    return data.items.find(user => user.firstName === firstName && user.lastName === lastName);
-}
 // this will at some point be a call to the server to get the user
 export function updateLoggedInUser() {
     const router = useRouter();
