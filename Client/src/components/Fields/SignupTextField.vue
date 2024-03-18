@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {defineProps, defineModel} from "vue";
 import {forAndId, type TextField} from "@/model/textField";
 
 const contents = defineModel({type: String, default: ''});
