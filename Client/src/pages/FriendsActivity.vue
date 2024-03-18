@@ -1,3 +1,4 @@
+
 <script setup lang="ts">
 import "@/assets/main.css";
 import {ref} from "vue";
@@ -6,6 +7,14 @@ import WorkoutBox from "@/components/WorkoutBox.vue";
 import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
 import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
+// noinspection TypeScriptCheckImport
+import {definePage} from "vue-router/auto";
+
+definePage({
+    meta: {
+        requiresAuth: true
+    }
+})
 
 const showAddWorkoutModal = ref(false);
 </script>

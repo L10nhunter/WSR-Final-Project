@@ -6,6 +6,14 @@ import {workoutTypes} from "@/model/workouts";
 import {computed, ref} from "vue";
 import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
+// noinspection TypeScriptCheckImport
+import {definePage} from "vue-router/auto";
+
+definePage({
+    meta: {
+        requiresAuth: true
+    }
+})
 
 const selected = ref("All");
 
