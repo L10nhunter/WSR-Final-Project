@@ -4,14 +4,15 @@ import {computed, ref} from 'vue';
 import "bulma/css/bulma.css";
 import "../assets/base.css";
 import LoginModal from "@/components/LoginModal.vue";
-import {LoggedIn} from "@/model/users";
+import {LoggedIn, updateLoggedInUser, showLoginModal} from "@/model/users";
 import {isMobile} from "@/model/isMobile";
 import LoginBadge from "@/components/LoginBadge.vue";
 
 const isMyMobile = computed<boolean>(() => isMobile.value < 1024);
 
+const {logout} = updateLoggedInUser();
+
 const isBurgerActive = ref(false);
-const isModalActive = ref(false);
 
 const mobileNav = [
     {name: "My Activity", path: "/myactivity"},
@@ -26,8 +27,6 @@ const mobileNav = [
 ];
 const desktopNav = [mobileNav[0], mobileNav[1], mobileNav[2], mobileNav[3]];
 const desktopNavDropdown = [mobileNav[4], mobileNav[5], mobileNav[6], mobileNav[7]];
-
-const user = ref("Not logged in");
 
 </script>
 
@@ -51,20 +50,31 @@ const user = ref("Not logged in");
         <div class="navbar-menu navbar-dropdown ncs" :class="{'is-active': isBurgerActive, 'is-hidden': !isMyMobile}">
             <div class="navbar-start">
                 <router-link v-for="route in mobileNav" class="navbar-item ncs is-hovered-mute"
-                             :class="{'is-hidden': route.name==='Users' && (!LoggedIn.user?.admin ?? true)}"
+                             :class="{'is-hidden': route.name==='Users' && (!LoggedIn.user?.admin)}"
                              :to="route.path"
                              @click="isBurgerActive = false">
                     {{ route.name }}
                 </router-link>
-                <a class="navbar-item ncs is-hovered-mute" @click="[isModalActive = true, isBurgerActive = false]">
-                    Log in
+                <div :class="{'is-hidden': LoggedIn.user}">
+                    <router-link class="navbar-item ncs is-hovered-mute" to="/signup" @click="isBurgerActive = false">
+                        Sign up
+                    </router-link>
+                    <a class="navbar-item ncs is-hovered-mute" @click="[showLoginModal = true, isBurgerActive = false]">
+                        Log in
+                    </a>
+                </div>
+                <a class="navbar-item ncs is-hovered-mute" :class="{'is-hidden': !LoggedIn.user}"
+                   @click="[logout(), isBurgerActive = false]">
+                    Log Out
                 </a>
             </div>
         </div>
 
         <div id="navbar-drop-menu" class="navbar-menu">
             <div class="navbar-start">
-                <router-link v-for="route in desktopNav" class="navbar-item ncs is-hovered-mute" :class="{'is-hidden': route.name==='Users' && (!LoggedIn.user?.admin ?? true)}" :to="route.path">
+                <router-link v-for="route in desktopNav" class="navbar-item ncs is-hovered-mute"
+                             :class="{'is-hidden': route.name==='Users' && (!LoggedIn.user?.admin)}"
+                             :to="route.path">
                     {{ route.name }}
                 </router-link>
                 <div class="navbar-item has-dropdown is-hoverable is-hovered-mute">
@@ -82,11 +92,11 @@ const user = ref("Not logged in");
                 </div>
             </div>
             <div class="navbar-end">
-                <LoginBadge @showModal="() => isModalActive = true"/>
+                <LoginBadge @showModal="() => showLoginModal = true"/>
             </div>
         </div>
     </nav>
-    <login-modal :class="{'is-active': isModalActive}" @hideModal="() => isModalActive = false"/>
+    <login-modal :class="{'is-active': showLoginModal}" @hideModal="() => showLoginModal = false"/>
 </template>
 
 <style scoped>

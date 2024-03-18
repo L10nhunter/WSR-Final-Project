@@ -2,7 +2,7 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import {routes} from 'vue-router/auto-routes';
 import {LoggedIn} from "@/model/users";
-import {showLoginModal} from "@/model/Global";
+import {showLoginModal} from "@/model/users";
 
 
 const router = createRouter({

@@ -72,6 +72,7 @@ export interface User {
 export const LoggedIn = reactive({
     user: null as User | null,
 });
+export const showLoginModal = ref(false);
 export const Users = ref<User[]>(data.items);
 
 export function getUserByLoginCredentials(emailOrUsername: string, password: string): User | undefined {
