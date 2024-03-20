@@ -1,0 +1,19 @@
+{
+  "name": "wsr-final-project",
+  "version": "0.0.0",
+  "description": "Final project for WSR Server",
+  "license": "ISC",
+  "author": "Ari Yeger",
+  "scripts": {
+    "start": "node Server/index.js",
+    "dev": "nodemon Server/index.js  --watch Server/",
+    "test": "echo 'Error: no test specified' && exit 1"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.10",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}
