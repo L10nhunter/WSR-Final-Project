@@ -1,10 +1,10 @@
-import data from '@/data/workouts.json';
+import data from '../../../Server/data/workouts.json';
 import {type User, LoggedIn} from "@/model/users";
-import {computed} from "vue";
+import {computed, ref} from "vue";
 
 export interface Workout {
     user: User
-    id: string
+    id: number
     title: string
     time: number
     duration?: number
@@ -19,7 +19,7 @@ export interface Workout {
 }
 
 export const workoutTypes = ["Run", "Walk", "Bike", "Swim", "Cardio", "Strength", "Other"]
-export const Workouts = computed<Workout[]>( () => data.items);
+export const Workouts = ref<Workout[]>(data.items);
 export const workoutsByID = computed<Workout[]>(() => {
     return Workouts.value.filter(workout => workout.user.id === LoggedIn.user?.id);
 });
