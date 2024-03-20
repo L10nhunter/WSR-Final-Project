@@ -47,6 +47,14 @@ function addNewUser(user: any) {
     login(getUserByLoginCredentials(user.username, user.password));
 }
 
+function isValidFirstName(): boolean {return user.firstName.value !== '';}
+function isValidLastName(): boolean {return user.lastName.value !== '';}
+function isValidUsername(): boolean {return usernameRegex.test(user.username.value);}
+function isValidEmail(): boolean {return emailRegex.test(user.email.value);}
+function isValidPassword(): boolean {return passwordRegex.test(user.password.value);}
+function isValidPasswordCheck(): boolean {return user.passwordCheck.value === user.password.value;}
+function isValidTos(): boolean {return user.tosAccept.value;}
+
 function isValid(): void {
     console.log("");
     console.log("validating:");
@@ -57,17 +65,10 @@ function isValid(): void {
     console.log("password: " + isValidPassword());
     console.log("password check: " + isValidPasswordCheck());
     console.log("tos: " + isValidTos());
-    enableSubmit.value = isValidFirstName() && isValidLastName() && isValidUsername() && isValidEmail() && isValidPassword() && isValidPasswordCheck() && isValidTos();
+    console.log("actual tos: " + user.tosAccept.value);
+    enableSubmit.value = isValidTos() && isValidFirstName() && isValidLastName() && isValidUsername() && isValidEmail() && isValidPassword() && isValidPasswordCheck();
     console.log("enable submit: " + enableSubmit.value);
 }
-function isValidFirstName(): boolean {return user.firstName.value !== '';}
-function isValidLastName(): boolean {return user.lastName.value !== '';}
-function isValidUsername(): boolean {return usernameRegex.test(user.username.value);}
-function isValidEmail(): boolean {return emailRegex.test(user.email.value);}
-function isValidPassword(): boolean {return passwordRegex.test(user.password.value);}
-function isValidPasswordCheck(): boolean {return user.passwordCheck.value === user.password.value;}
-function isValidTos(): boolean {return user.tosAccept.value;}
-
 
 </script>
 
@@ -75,19 +76,18 @@ function isValidTos(): boolean {return user.tosAccept.value;}
     <div>
         <h1 class="is-size-1 has-text-weight-bold dcs">Register</h1>
         <form autocomplete="on">
-            <SignupTextField v-for="text in textFields" v-bind="text.field" v-model=text.model.value @input="isValid()"/>
+            <SignupTextField v-for="text in textFields" v-bind="text.field" v-model=text.model.value @update:modelValue="isValid()"/>
             <div class="field">
-                <label>User TOS accept: {{user.tosAccept.value}}</label>
                 <div class="control">
                     <label class="dcs is-hovered-soft">
-                        <input type="checkbox" v-model="user.tosAccept.value" @input="isValid()" name="tosAccept">
+                        <input type="checkbox" v-model="user.tosAccept.value" @change="isValid()" name="tosAccept">
                         I agree to the <a class="link" href="#">Terms and Conditions</a>
                     </label>
                 </div>
             </div>
             <div class="field">
                 <div class="control">
-                    <button class="button is-primary" :disabled="!user.tosAccept.value" @click.prevent="addNewUser(user)">Submit</button>
+                    <button class="button is-primary" :disabled="!enableSubmit" @click.prevent="addNewUser(user)">Submit</button>
                 </div>
             </div>
         </form>
