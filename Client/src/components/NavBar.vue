@@ -22,11 +22,10 @@ const mobileNav = [
     {name: "Documentation", path: "/documentation"},
     {name: "About", path: "/about"},
     {name: "Contact Us", path: "/contact"},
-    {name: "Report an issue", path: "/report"},
-    {name: "Sign up", path: "/signup"}
+    {name: "Report an issue", path: "/report"}
 ];
-const desktopNav = [mobileNav[0], mobileNav[1], mobileNav[2], mobileNav[3]];
-const desktopNavDropdown = [mobileNav[4], mobileNav[5], mobileNav[6], mobileNav[7]];
+const desktopNav = mobileNav.slice(0, 4);
+const desktopNavDropdown = mobileNav.slice(4);
 
 </script>
 
