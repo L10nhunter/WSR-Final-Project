@@ -28,7 +28,7 @@ const textFields = [
     {field: getTextField("PasswordVerification"), model: user.passwordCheck}
 ]
 
-
+const usernameRegex = /^[a-zA-Z0-9_-]{3,15}$/;
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
 const enableSubmit = ref(false);
@@ -62,7 +62,7 @@ function isValid(): void {
 }
 function isValidFirstName(): boolean {return user.firstName.value !== '';}
 function isValidLastName(): boolean {return user.lastName.value !== '';}
-function isValidUsername(): boolean {return user.username.value !== '';}
+function isValidUsername(): boolean {return usernameRegex.test(user.username.value);}
 function isValidEmail(): boolean {return emailRegex.test(user.email.value);}
 function isValidPassword(): boolean {return passwordRegex.test(user.password.value);}
 function isValidPasswordCheck(): boolean {return user.passwordCheck.value === user.password.value;}
