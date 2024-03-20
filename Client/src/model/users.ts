@@ -1,4 +1,4 @@
-import data from '@/data/users.json';
+import data from '../../../Server/data/users.json';
 import {reactive, ref} from "vue";
 import {useRouter} from "vue-router";
 
@@ -75,6 +75,7 @@ export const LoggedIn = reactive({
 export const showLoginModal = ref(false);
 export const Users = ref<User[]>(data.items);
 
+
 export function getUserByLoginCredentials(emailOrUsername: string, password: string): User | undefined {
     if(emailOrUsername.includes('@'))  return data.items.find(user => user.email === emailOrUsername && user.password === password)
     return data.items.find(user => user.username === emailOrUsername && user.password === password);
@@ -87,11 +88,11 @@ export function updateLoggedInUser() {
         login(user: User | undefined): void {
             if (!user) return;
             LoggedIn.user = user;
-            router.push(router.currentRoute.value);
+            router.push(router.currentRoute.value).then(r => r);
         },
         logout(): void {
             LoggedIn.user = null;
-            router.push('/');
+            router.push('/').then(r => r);
         }
     }
 }
