@@ -29,6 +29,10 @@ function searchDB() {
                 </div>
             </div>
         </form>
+        <div class="box dcs bordered">
+            <p class="title is-4 dcs">Search Results</p>
+            <p class="subtitle is-6 dcs">No results found</p>
+        </div>
     </div>
 
 </div>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import "bulma/css/bulma.css";
 import NavBar from "@/components/NavBar.vue";
-import {RouterView} from 'vue-router'
+import {RouterView} from 'vue-router';
 </script>
 
 <template>
     <body class="has-navbar-fixed-top">
         <div id="app">
             <NavBar/>
-            <div class="container">
+            <div class="container" id="site-container">
                 <RouterView/>
             </div>
         </div>
@@ -22,7 +22,7 @@ import {RouterView} from 'vue-router'
     -moz-osx-font-smoothing: grayscale;
     color: var(--color-text);
 }
-.container {
+#site-container {
     padding-top: 1.25rem;
     display: flex;
     flex-direction: column;

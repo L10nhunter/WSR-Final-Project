@@ -1,4 +1,5 @@
 import './assets/main.css'
+import "vue-toastification/dist/index.css";
 
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -15,9 +16,10 @@ const options = {
     pauseOnHover: true,
     draggable: true,
     draggablePercent: 0.6,
-    showCloseButtonOnHover: false,
+    showCloseButtonOnHover: true,
     hideProgressBar: true,
     closeButton: "button",
+    transition: "Vue-Toastification__fade",
     icon: true,
     rtl: false
 }
