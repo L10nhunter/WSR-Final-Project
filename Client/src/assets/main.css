@@ -114,6 +114,12 @@ select.navbar-item, select.navbar-item:focus-visible {
 option.is-hovered-mute:hover {
     background: var(--color-background-mute) !important;
 }
+.navbar-divider {
+    background: var(--color-border-hover) !important;
+}
+.navbar-dropdown {
+    border-color: var(--color-border-hover) !important;
+}
 @media (max-width: 640px) {
     .modal-card, .modal-content{
         margin: 0 auto !important;
