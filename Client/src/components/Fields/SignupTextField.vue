@@ -10,8 +10,8 @@ function toggleShowPassword(): void {showPassword.value = !showPassword.value;}
 </script>
 
 <template>
-    <label class="dcs" :for="forAndId(textField)">{{ textField.label }}</label>
-    <div class="field pr-3" :class="{'has-addons': textField.label.includes('Password')}">
+    <label class="dcs pl-4 is-size-5" :for="forAndId(textField)">{{ textField.label }}</label>
+    <div class="field px-3 pt-3" :class="{'has-addons': textField.label.includes('Password')}">
         <div class="control is-expanded has-icons-left">
             <input class="input ics bordered" v-model="contents" :type="!showPassword ? textField.type : 'text'" :placeholder="textField.placeholder" :id="forAndId(textField)" :autocomplete="textField.autocomplete">
             <span class="icon is-small is-left">

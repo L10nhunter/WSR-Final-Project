@@ -74,10 +74,10 @@ function isValid(): void {
 
 <template>
     <div>
-        <h1 class="is-size-1 has-text-weight-bold dcs">Register</h1>
+        <h1 class="is-size-1 has-text-weight-bold dcs has-text-centered">Register</h1>
         <form autocomplete="on">
             <SignupTextField v-for="text in textFields" v-bind="text.field" v-model=text.model.value @update:modelValue="isValid()"/>
-            <div class="field">
+            <div class="field pl-3">
                 <div class="control">
                     <label class="dcs is-hovered-soft">
                         <input type="checkbox" v-model="user.tosAccept.value" @change="isValid()" name="tosAccept">
@@ -85,7 +85,7 @@ function isValid(): void {
                     </label>
                 </div>
             </div>
-            <div class="field">
+            <div class="field pl-3">
                 <div class="control">
                     <button class="button is-primary" :disabled="!enableSubmit" @click.prevent="addNewUser(user)">Submit</button>
                 </div>
