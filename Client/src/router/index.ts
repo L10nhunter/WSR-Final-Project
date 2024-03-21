@@ -1,8 +1,8 @@
 // noinspection TypeScriptCheckImport
 import {createRouter, createWebHistory} from 'vue-router';
 import {routes} from 'vue-router/auto-routes';
-import {LoggedIn} from "@/model/users";
 import {showLoginModal} from "@/model/users";
+import {getSession} from "@/model/session";
 
 
 const router = createRouter({
@@ -11,7 +11,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.meta.requiresAuth && !LoggedIn.user){
+    if (to.meta.requiresAuth && !getSession().user){
         showLoginModal.value = true;
     }
     else {

@@ -81,21 +81,6 @@ export function getUserByLoginCredentials(emailOrUsername: string, password: str
     return data.items.find(user => user.username === emailOrUsername && user.password === password);
 }
 
-// this will at some point be a call to the server to get the user
-export function updateLoggedInUser() {
-    const router = useRouter();
-    return {
-        login(user: User | undefined): void {
-            if (!user) return;
-            LoggedIn.user = user;
-            router.push(router.currentRoute.value).then(r => r);
-        },
-        logout(): void {
-            LoggedIn.user = null;
-            router.push('/').then(r => r);
-        }
-    }
-}
 export function addUser(user: User): void {
     Users.value.push(user);
 }
