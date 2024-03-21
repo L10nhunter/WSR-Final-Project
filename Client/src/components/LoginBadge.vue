@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {getSession, useLogin} from "@/model/session";
+import {getUser, getUserFullName, useLogin} from "@/model/session";
 
 const {logout} = useLogin();
 
@@ -10,7 +10,7 @@ const emits = defineEmits<{
 </script>
 
 <template>
-    <div class="navbar-item" v-if="!getSession().user">
+    <div class="navbar-item" v-if="!getUser()">
         <div class="buttons">
             <router-link class="button is-primary" to="/signup">
                 Sign up
@@ -20,15 +20,29 @@ const emits = defineEmits<{
             </button>
         </div>
     </div>
-    <div class="navbar-item" v-else>
-        <div class="buttons">
-            <router-link class="button is-primary" to="/myactivity">
+    <div class="navbar-item has-dropdown is-hoverable is-hovered-mute" v-else>
+        <a class="navbar-link ics is-hovered-mute is-arrowless" aria-haspopup="true" aria-controls="dropdown-menu">
+            <img :src="getUser()?.image" class="is-32x32 pr-3" alt="profile">
+            {{ getUserFullName() }}
+        </a>
+        <div class="navbar-dropdown ics is-right" role="menu">
+            <router-link class="dropdown-item ics is-hovered-mute" to="/myactivity">
                 My Activity
             </router-link>
-            <button class="button is-light has-text-weight-bold" @click="[logout()]">
+            <router-link class="dropdown-item ics is-hovered-mute" to="/statistics">
+                Statistics
+            </router-link>
+            <router-link class="dropdown-item ics is-hovered-mute" to="/friendsactivity">
+                Friends' Activity
+            </router-link>
+            <router-link class="dropdown-item ics is-hovered-mute" to="/profile">
+                My Profile
+            </router-link>
+            <a class="dropdown-item ics is-hovered-mute" @click="[logout()]">
                 Log out
-            </button>
+            </a>
         </div>
+
     </div>
 </template>
 
