@@ -1,18 +1,20 @@
 import data from '../../../Server/data/users.json';
-import {reactive, ref} from "vue";
+import {ref} from "vue";
 
 export interface User {
     id: number
     admin: boolean
     firstName: string
     lastName: string
-    maidenName?: string
-    age?: number
-    gender?: string
     email: string
     phone: string
     username: string
     password: string
+    friends?: number[]
+
+    maidenName?: string
+    age?: number
+    gender?: string
     birthDate?: string
     image?: string
     bloodGroup?: string
@@ -68,9 +70,6 @@ export interface User {
         network?: string
     }
 }
-export const LoggedIn = reactive({
-    user: null as User | null,
-});
 export const showLoginModal = ref(false);
 export const Users = ref<User[]>(data.items);
 
