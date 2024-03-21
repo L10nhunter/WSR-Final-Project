@@ -4,13 +4,14 @@ import {computed, ref} from 'vue';
 import "bulma/css/bulma.css";
 import "../assets/base.css";
 import LoginModal from "@/components/LoginModal.vue";
-import {LoggedIn, updateLoggedInUser, showLoginModal} from "@/model/users";
+import {showLoginModal} from "@/model/users";
 import {isMobile} from "@/model/isMobile";
 import LoginBadge from "@/components/LoginBadge.vue";
+import {getSession, useLogin} from "@/model/session";
 
 const isMyMobile = computed<boolean>(() => isMobile.value < 1024);
 
-const {logout} = updateLoggedInUser();
+const {logout} = useLogin();
 
 const isBurgerActive = ref(false);
 
@@ -49,12 +50,12 @@ const desktopNavDropdown = mobileNav.slice(4);
         <div class="navbar-menu navbar-dropdown ncs" :class="{'is-active': isBurgerActive, 'is-hidden': !isMyMobile}">
             <div class="navbar-start">
                 <router-link v-for="route in mobileNav" class="navbar-item ncs is-hovered-mute"
-                             :class="{'is-hidden': route.name==='Users' && (!LoggedIn.user?.admin)}"
+                             :class="{'is-hidden': route.name==='Users' && (!getSession().user?.admin)}"
                              :to="route.path"
                              @click="isBurgerActive = false">
                     {{ route.name }}
                 </router-link>
-                <div :class="{'is-hidden': LoggedIn.user}">
+                <div :class="{'is-hidden': getSession().user}">
                     <router-link class="navbar-item ncs is-hovered-mute" to="/signup" @click="isBurgerActive = false">
                         Sign up
                     </router-link>
@@ -62,7 +63,7 @@ const desktopNavDropdown = mobileNav.slice(4);
                         Log in
                     </a>
                 </div>
-                <a class="navbar-item ncs is-hovered-mute" :class="{'is-hidden': !LoggedIn.user}"
+                <a class="navbar-item ncs is-hovered-mute" :class="{'is-hidden': !getSession().user}"
                    @click="[logout(), isBurgerActive = false]">
                     Log Out
                 </a>
@@ -72,7 +73,7 @@ const desktopNavDropdown = mobileNav.slice(4);
         <div id="navbar-drop-menu" class="navbar-menu">
             <div class="navbar-start">
                 <router-link v-for="route in desktopNav" class="navbar-item ncs is-hovered-mute"
-                             :class="{'is-hidden': route.name==='Users' && (!LoggedIn.user?.admin)}"
+                             :class="{'is-hidden': route.name==='Users' && (!getSession().user?.admin)}"
                              :to="route.path">
                     {{ route.name }}
                 </router-link>

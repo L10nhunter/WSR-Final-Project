@@ -1,10 +1,11 @@
 <script setup lang="ts">
 
-import {LoggedIn} from "@/model/users";
+import {getSession} from "@/model/session";
+
 </script>
 
 <template>
-<div :class="{'is-hidden': !LoggedIn}">
+<div :class="{'is-hidden': !getSession().user}">
     <slot></slot>
 </div>
 </template>

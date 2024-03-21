@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import {getSession, useLogin} from "@/model/session";
+
+const {logout} = useLogin();
+
 const emits = defineEmits<{
     (event: 'showModal', value: void): void;
 }>();
 
-const {logout} = updateLoggedInUser();
-
-import {LoggedIn, updateLoggedInUser} from "@/model/users";
 </script>
 
 <template>
-    <div class="navbar-item" v-if="!LoggedIn.user">
+    <div class="navbar-item" v-if="!getSession().user">
         <div class="buttons">
             <router-link class="button is-primary" to="/signup">
                 Sign up

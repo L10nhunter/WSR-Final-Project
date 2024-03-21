@@ -3,7 +3,8 @@ import {ref} from "vue";
 import {getTextField} from "@/model/textField";
 import WorkoutTextField from "@/components/Fields/WorkoutTextField.vue";
 import {addWorkout, Workouts, workoutTypes} from "@/model/workouts";
-import {LoggedIn, type User} from "@/model/users";
+import {type User} from "@/model/users";
+import {getSession} from "@/model/session";
 
 const workout = {
     Title: ref(""),
@@ -32,8 +33,8 @@ const emits = defineEmits<{
 
 function addThisWorkout(workout: any) {
     addWorkout({
-        user: LoggedIn.value as User,
-        id: (Workouts.value.length + 1).toString(),
+        user: getSession().user as User,
+        id: Workouts.value.length + 1,
         title: workout.Title.value !== "" ? workout.Title.value : "Workout",
         time: new Date().getTime(),
         duration: workout.Duration.value !== "" ? workout.Duration.value : 0,
@@ -71,7 +72,7 @@ function addThisWorkout(workout: any) {
                 </div>
             </section>
             <footer class="modal-card-foot dcs">
-                <button class="button is-primary" @submit.prevent @click="[addThisWorkout(workout), emits('hideModal')]">Add Workout</button>
+                <button class="button is-primary" @click.prevent="[addThisWorkout(workout), emits('hideModal')]">Add Workout</button>
                 <button class="button has-text-weight-bold" @click="emits('hideModal')">Cancel</button>
             </footer>
         </div>
