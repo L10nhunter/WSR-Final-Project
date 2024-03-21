@@ -1,6 +1,5 @@
 import data from '../../../Server/data/users.json';
 import {reactive, ref} from "vue";
-import {useRouter} from "vue-router";
 
 export interface User {
     id: number
