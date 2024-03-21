@@ -2,7 +2,7 @@ import data from '../../../Server/data/workouts.json';
 import {type User} from "@/model/users";
 import {computed, ref} from "vue";
 import {useRouter} from "vue-router";
-import {getSession} from "@/model/session";
+import {getUser} from "@/model/session";
 
 export interface Workout {
     user: User
@@ -22,9 +22,11 @@ export interface Workout {
 
 export const workoutTypes = ["Run", "Walk", "Bike", "Swim", "Cardio", "Strength", "Other"]
 export const Workouts = ref<Workout[]>(data.items);
-export const workoutsByID = computed<Workout[]>(() => {
-    return Workouts.value.filter(workout => workout.user.id === getSession().user?.id);
+export const workoutsBySessionID = computed<Workout[]>(() => {
+    return Workouts.value.filter(workout => workout.user.id === getUser()?.id);
 });
+
+
 
 export function toReversed(workouts: Workout[]): Workout[] {
     return workouts.slice().reverse();
@@ -32,7 +34,7 @@ export function toReversed(workouts: Workout[]): Workout[] {
 export function addWorkout(workout: Workout): void {
     const router = useRouter();
     Workouts.value.push(workout);
-    workoutsByID.value.push(workout);
+    workoutsBySessionID.value.push(workout);
     router.push(router.currentRoute.value).then(r => r);
 }
 
