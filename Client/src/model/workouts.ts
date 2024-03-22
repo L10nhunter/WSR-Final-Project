@@ -26,6 +26,9 @@ export const workoutsBySessionID = computed<Workout[]>(() => {
     return Workouts.value.filter(workout => workout.user.id === getUser()?.id);
 });
 
+export function getWorkoutsByUserID(userID: number): Workout[] {
+    return Workouts.value.filter(workout => workout.user.id === userID);
+}
 
 
 export function toReversed(workouts: Workout[]): Workout[] {
