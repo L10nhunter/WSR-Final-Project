@@ -12,16 +12,13 @@ export interface Workout {
     duration?: number
     distance?: number
     calories?: number
-    location?: {
-        latitude: string
-        longitude: string
-    } | string
+    location?: string
     picture?: string
     type: string
 }
 
 export const workoutTypes = ["Run", "Walk", "Bike", "Swim", "Cardio", "Strength", "Other"]
-export const Workouts = ref<Workout[]>(data.items);
+export const Workouts = ref<Workout[]>(data.items as Workout[]);
 export const workoutsBySessionID = computed<Workout[]>(() => {
     return Workouts.value.filter(workout => workout.user.id === getUser()?.id);
 });

@@ -33,10 +33,7 @@
       "duration": 60,
       "distance": 0,
       "calories": 2300,
-      "location": {
-        "latitude": "37.7749",
-        "longitude": "-122.4194"
-      },
+      "location": "Home",
       "type": "Strength"
     },
     {
