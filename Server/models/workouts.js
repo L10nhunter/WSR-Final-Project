@@ -49,13 +49,14 @@ async function search(q) {
 
 /**
  * @param {number} id
+ * @param {Object} body
  * @returns Promise<{Workout}>
  */
-async function edit(id) {
+async function edit(id, body) {
     /** @type {Workout} */
     const workout = data.items.find(workout => workout.id === id);
     if (!workout) return null;
-    Object.assign(workout, workout);
+    for(let key in body) workout[key] = body[key];
     return workout;
 }
 /**
