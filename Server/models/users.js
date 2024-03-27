@@ -63,9 +63,10 @@ async function search(q) {
  * @returns Promise<{User}>
  */
 async function remove(id) {
-    const user = get(id);
+    /** @type {User} */
+    const user = await get(id);
     data.items.splice(data.items.findIndex(item => item.id === id), 1);
-    return await user;
+    return user;
 }
 
 /**
@@ -92,10 +93,10 @@ async function addNewUser(inputInfo) {
  * @returns {Promise<User>}
  */
 async function login(emailOrUsername, password) {
-    return await getAll().find(user => (user.email === emailOrUsername || user.username === emailOrUsername)).then(user => {
-        if (!user || user.password !== password) throw new Error('Invalid email or password');
-        return user;
-    })
+    const users = await getAll();
+    const user = users.find(user => (user.email === emailOrUsername || user.username === emailOrUsername));
+    if (!user || user.password !== password) throw new Error('Invalid email or password');
+    return user;
 }
 
 module.exports = {
