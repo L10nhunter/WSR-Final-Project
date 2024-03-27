@@ -24,6 +24,7 @@ declare module 'vue-router/auto-routes' {
     '/documentation': RouteRecordInfo<'/documentation', '/documentation', Record<never, never>, Record<never, never>>,
     '/FriendsActivity': RouteRecordInfo<'/FriendsActivity', '/FriendsActivity', Record<never, never>, Record<never, never>>,
     '/MyActivity': RouteRecordInfo<'/MyActivity', '/MyActivity', Record<never, never>, Record<never, never>>,
+    '/profile': RouteRecordInfo<'/profile', '/profile', Record<never, never>, Record<never, never>>,
     '/report': RouteRecordInfo<'/report', '/report', Record<never, never>, Record<never, never>>,
     'PeopleSearch': RouteRecordInfo<'PeopleSearch', '/search', Record<never, never>, Record<never, never>>,
     '/signup': RouteRecordInfo<'/signup', '/signup', Record<never, never>, Record<never, never>>,
