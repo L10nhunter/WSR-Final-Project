@@ -17,17 +17,13 @@ const session = reactive({
     loading: false
 });
 
-export function api(action: string, body?: unknown, method?: string, headers?: any) {
+export async function api(action: string, body?: unknown, method?: string, headers?: any) {
     console.log("session.ts api action: " + action);
     console.log("session.ts api body: " + JSON.stringify(body));
     console.log("session.ts api method: " + method);
     console.log("session.ts api headers: " + headers);
     session.loading = true;
-    if (session.token) {
-        headers = headers ?? {};
-        headers.Authorization = `Bearer ${session.token}`;
-    }
-    return rest.api(`${action}`, body, method, headers)
+    return await rest.api(`${action}`, body, method, headers)
         .catch(err => showError(err))
         .finally(() => session.loading = false);
 
@@ -51,7 +47,6 @@ export function useLogin() {
     const router = useRouter();
     return {
         async login(emailOrUsername: string, password: string): Promise<User | undefined> {
-            console.log(emailOrUsername, password)
             try {
                 if (!emailOrUsername || !password) {
                     showError("Please enter a username and password");
@@ -59,14 +54,16 @@ export function useLogin() {
                 }
                 await api("users/login", {emailOrUsername, password}, "POST")
                     .then((user: User) => {
+                        if(!user) throw new Error("Invalid username or password");
+                        console.log("session.ts login user: " + JSON.stringify(user));
                         session.user = user;
                         showLoginModal.value = false;
                         router.push(session.redirectURL ?? "/").then((r) => r);
-                        //toast.success("Welcome " + user.firstName + " " + user.lastName);
+                        toast.success("Welcome " + user.firstName + " " + user.lastName);
                         return session.user;
                     }).catch((e) => {
                         showError("Invalid username or password", e);
-                        return null;
+                        return;
                     });
             }
             catch (e) {
