@@ -1,5 +1,4 @@
 import {getWorkoutByType, getWorkoutsByUser} from "@/model/workouts";
-import {ref} from "vue";
 import {getUser} from "@/model/session";
 export interface Stats{
     distance: number;
@@ -7,23 +6,21 @@ export interface Stats{
     pace: number;
     calories: number;
 }
-export const type = ref("All");
-
-export function getAllTimeStats(type?: string){
-    return getStats(0, type);
+export async function getAllTimeStats(type?: string){
+    return await getStats(0, type);
 }
-export function getWeekStats(type?: string){
+export async function getWeekStats(type?: string){
     const date = new Date();
-    return getStats(date.setHours(date.getHours() - 168), type);
+    return await getStats(date.setHours(date.getHours() - 168), type);
 }
-export function getTodayStats(type?: string){
+export async function getTodayStats(type?: string){
     const date = new Date();
-    return getStats(date.setHours(date.getHours() - 24), type)
+    return await getStats(date.setHours(date.getHours() - 24), type)
 }
 
-function getStats(time: number, type?: string) : Stats{
+async function getStats(time: number, type?: string) : Promise<Stats>{
     if(!getUser()) return {distance: 0, duration: 0, pace: 0, calories: 0};
-    const workouts = !type ? getWorkoutsByUser(getUser() ?? undefined) : getWorkoutByType(type, getUser() ?? undefined);
+    const workouts = !type ? await getWorkoutsByUser(getUser() ?? undefined) : await getWorkoutByType(type, getUser() ?? undefined);
     const stats: Stats = {
         distance: 0,
         duration: 0,

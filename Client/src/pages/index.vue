@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import "@/assets/main.css";
-import {getAllTimeStats, getTodayStats, getWeekStats} from "@/model/stats";
+import {getAllTimeStats, getTodayStats, getWeekStats, type Stats} from "@/model/stats";
 import StatsBox from "@/components/StatsBox.vue";
-import {computed} from "vue";
+import {ref} from "vue";
 
-const Stats = computed(() => [
-    {array: getTodayStats(), label: "Today"},
-    {array: getWeekStats(), label: "This Week"},
-    {array: getAllTimeStats(), label: "All Time"}
-]);
+const todayStats = ref<Stats>(await getTodayStats());
+const weekStats = ref<Stats>(await getWeekStats());
+const allTimeStats = ref<Stats>(await getAllTimeStats());
+
 
 </script>
 
 <template>
     <div class="columns is-centered">
         <div class="column is-half">
-            <StatsBox v-for="stat in Stats" :stats="stat.array" :label="stat.label"/>
+            <StatsBox :stats="todayStats" label="Today"/>
+            <StatsBox :stats="weekStats" label="This Week"/>
+            <StatsBox :stats="allTimeStats" label="All Time"/>
         </div>
     </div>
 </template>

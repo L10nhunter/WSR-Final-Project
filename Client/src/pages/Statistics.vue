@@ -1,27 +1,26 @@
 <script setup lang="ts">
 
-import {getAllTimeStats, getTodayStats, getWeekStats} from "@/model/stats";
+import {getAllTimeStats, getTodayStats, getWeekStats, type Stats} from "@/model/stats";
 import StatsBox from "@/components/StatsBox.vue";
 import {workoutTypes} from "@/model/workouts";
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
-// noinspection TypeScriptCheckImport
 import {definePage} from "vue-router/auto";
 
-definePage({
-    meta: {
-        requiresAuth: true
-    }
-})
+definePage({meta: {requiresAuth: true}});
 
 const selected = ref("All");
+const todayStats = ref<Stats>(await getTodayStats(selected.value));
+const weekStats = ref<Stats>(await getWeekStats(selected.value));
+const allTimeStats = ref<Stats>(await getAllTimeStats(selected.value));
 
-const shownStats = computed(() => [
-    {array: getTodayStats(selected.value), label: "Today"},
-    {array: getWeekStats(selected.value), label: "This Week"},
-    {array: getAllTimeStats(selected.value), label: "All Time"}
-]);
+const recalculateStats = async () => {
+    todayStats.value = await getTodayStats(selected.value);
+    weekStats.value = await getWeekStats(selected.value);
+    allTimeStats.value = await getAllTimeStats(selected.value);
+}
+
 </script>
 
 <template>
@@ -30,12 +29,14 @@ const shownStats = computed(() => [
         <div class="columns is-centered">
             <div class="column is-half">
                 <div class="select is-fullwidth mb-4">
-                    <select class="ics bordered" v-model="selected">
+                    <select class="ics bordered" v-model="selected" @change="recalculateStats()">
                         <option selected class="is-hovered-mute">All</option>
                         <option class="is-hovered-mute" v-for="type in workoutTypes" :value="type">{{ type }}</option>
                     </select>
                 </div>
-                <StatsBox v-for="stats in shownStats" :stats="stats.array" :label="stats.label"/>
+                <StatsBox :stats="todayStats" label="Today"/>
+                <StatsBox :stats="weekStats" label="This Week"/>
+                <StatsBox :stats="allTimeStats" label="All Time"/>
             </div>
         </div>
     </LoggedInContent>

@@ -1,9 +1,6 @@
-import data from '../../../Server/data/workouts.json';
 import {type User} from "@/model/users";
-import {computed, ref} from "vue";
-import {useRouter} from "vue-router";
 import {getUser} from "@/model/session";
-
+import {api} from "@/model/session";
 export interface Workout {
     user: User
     id: number
@@ -17,32 +14,31 @@ export interface Workout {
     type: string
 }
 
-export const workoutTypes = ["Run", "Walk", "Bike", "Swim", "Cardio", "Strength", "Other"]
-export const Workouts = ref<Workout[]>(data.items as Workout[]);
-export const workoutsBySessionID = computed<Workout[]>(() => {
-    return Workouts.value.filter(workout => workout.user.id === getUser()?.id);
-});
+export const workoutTypes = ["Run", "Walk", "Bike", "Swim", "Cardio", "Strength", "Other"];
 
-export function getWorkoutsByUserID(userID: number): Workout[] {
-    return Workouts.value.filter(workout => workout.user.id === userID);
+export async function getAllWorkouts(): Promise<Workout[]> {
+    return await api("workouts") as Workout[];
+}
+export async function workoutsBySessionID() : Promise<Workout[]> {
+    return await getWorkoutsByUserID(getUser()?.id ?? -1) as Workout[];
 }
 
+export async function getWorkoutsByUserID(userID: number): Promise<Workout[]> {
+    return await api(`workouts/user?uid=${userID}`) as Workout[];
+}
 
 export function toReversed(workouts: Workout[]): Workout[] {
     return workouts.slice().reverse();
 }
-export function addWorkout(workout: Workout): void {
-    const router = useRouter();
-    Workouts.value.push(workout);
-    workoutsBySessionID.value.push(workout);
-    router.push(router.currentRoute.value).then(r => r);
+export async function addWorkout(workout: Workout): Promise<void> {
+    return await api("workouts", workout, "POST");
 }
 
-export function getWorkoutsByUser(user?: User): Workout[] {
-    return Workouts.value.filter(workout => workout.user.id === user?.id);
+export async function getWorkoutsByUser(user?: User): Promise<Workout[]> {
+    return await getWorkoutsByUserID(user?.id ?? -1) as Workout[];
 }
 
-export function getWorkoutByType(type: string, user?: User): Workout[] {
-    if(type === "All") return user ? getWorkoutsByUser(user) : [];
-    return user ? getWorkoutsByUser(user).filter(workout => workout.type === type) : Workouts.value.filter(workout => workout.type === type);
+export async function getWorkoutByType(type: string, user?: User): Promise<Workout[]> {
+    if(type === "All") return user ? await getWorkoutsByUser(user) : [];
+    return user ? await getWorkoutsByUser(user).then(workouts => workouts.filter(workout => workout.type === type)) : await getAllWorkouts().then(workouts=> workouts.filter(workout => workout.type === type));
 }

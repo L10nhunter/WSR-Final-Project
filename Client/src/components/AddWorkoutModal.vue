@@ -2,7 +2,7 @@
 import {ref} from "vue";
 import {getTextField} from "@/model/textField";
 import WorkoutTextField from "@/components/Fields/WorkoutTextField.vue";
-import {addWorkout, Workouts, workoutTypes} from "@/model/workouts";
+import {addWorkout, getAllWorkouts, workoutTypes} from "@/model/workouts";
 import {type User} from "@/model/users";
 import {getUser} from "@/model/session";
 
@@ -31,10 +31,10 @@ const emits = defineEmits<{
     (event: 'hideModal', value: void): void;
 }>();
 
-function addThisWorkout(workout: any) {
-    addWorkout({
-        user: getUser() as User,
-        id: Workouts.value.length + 1,
+async function addThisWorkout(workout: any) {
+    await addWorkout({
+        user: getUser()! as User,
+        id: await getAllWorkouts().then(workouts => workouts.length + 1),
         title: workout.Title.value !== "" ? workout.Title.value : "Workout",
         time: new Date().getTime(),
         duration: workout.Duration.value !== "" ? workout.Duration.value : 0,

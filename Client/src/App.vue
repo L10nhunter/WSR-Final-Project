@@ -5,14 +5,16 @@ import {RouterView} from 'vue-router';
 </script>
 
 <template>
-    <body class="has-navbar-fixed-top">
+    <Suspense>
+        <body class="has-navbar-fixed-top">
         <div id="app">
             <NavBar/>
             <div class="container" id="site-container">
                 <RouterView/>
             </div>
         </div>
-    </body>
+        </body>
+    </Suspense>
 </template>
 
 <style scoped>
@@ -22,6 +24,7 @@ import {RouterView} from 'vue-router';
     -moz-osx-font-smoothing: grayscale;
     color: var(--color-text);
 }
+
 #site-container {
     padding-top: 1.25rem;
     display: flex;

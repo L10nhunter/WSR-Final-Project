@@ -17,12 +17,12 @@ definePage({
 })
 
 // function to make API call to get all friends' workouts
-function getFriendsWorkouts(): Workout[] {
+async function getFriendsWorkouts(): Promise<Workout[]> {
     // make API call to get all workouts of each friend
     if (!getUser()!.friends) return [] as Workout[];
     const workouts = [] as Workout[];
     for(const friend of getUser()!.friends!){
-        const friendWorkouts = getWorkoutsByUserID(friend);
+        const friendWorkouts = await getWorkoutsByUserID(friend);
         for(const workout of friendWorkouts){
             workouts.push(workout);
         }
@@ -32,7 +32,7 @@ function getFriendsWorkouts(): Workout[] {
         return b.time - a.time;
     });
 }
-const friendsWorkouts: Workout[] = getFriendsWorkouts();
+const friendsWorkouts: Workout[] = await getFriendsWorkouts();
 
 const showAddWorkoutModal = ref(false);
 </script>
