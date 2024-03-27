@@ -1,19 +1,22 @@
 <script setup lang="ts">
 
-import {Users, type User} from "@/model/users";
+import {getUsers, type User} from "@/model/users";
 import {ref} from "vue";
 import {getTextField} from "@/model/textField";
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
-/*import {definePage} from "vue-router/auto";
+import {definePage} from "vue-router/auto";
+
 definePage({
     meta: {
         requiresAuth: true
     }
-});*/
+});
+
+const Users = await getUsers();
 
 const showEditUserModal = ref(-1);
 
-const editedUser = ref<User | null>(Users.value[showEditUserModal.value >= 0 ? showEditUserModal.value : 0]);
+const editedUser = ref<User | null>(Users[showEditUserModal.value >= 0 ? showEditUserModal.value : 0]);
 
 const textFields = [
     {field: getTextField("First Name"), model: editedUser.value?.firstName ?? ""},
@@ -25,24 +28,24 @@ const textFields = [
 ];
 
 function editUser(user: User | null): void {
-    if(user && showEditUserModal.value > 0) Users.value[showEditUserModal.value] = user;
+    if(user && showEditUserModal.value > 0) Users[showEditUserModal.value] = user;
     showEditUserModal.value = -1;
 }
 function deleteUser(user: User): void {
-    Users.value.splice(Users.value.indexOf(user), 1);
-    console.log(Users.value);
+    Users.splice(Users.indexOf(user), 1);
+    console.log(Users);
 }
 
 function striper(user: User): string {
-    return Users.value.indexOf(user) % 2 === 0 ? 'ics' : 'dcs';
+    return Users.indexOf(user) % 2 === 0 ? 'ics' : 'dcs';
 }
 
 function showModal(user: User | null): void {
     console.log("showing modal with user: " + user?.firstName + " " + user?.lastName + " " + user?.id)
     if(user) {
-        showEditUserModal.value = Users.value.indexOf(user);
+        showEditUserModal.value = Users.indexOf(user);
         console.log("show var updated to: " + showEditUserModal.value);
-        editedUser.value = Users.value[showEditUserModal.value];
+        editedUser.value = Users[showEditUserModal.value];
         console.log("edited user: " + editedUser.value?.firstName + " " + editedUser.value?.lastName + " " + editedUser.value?.id);
 
     }

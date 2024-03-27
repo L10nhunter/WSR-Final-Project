@@ -1,41 +1,25 @@
-const workouts = require('../data/workouts').items;
-
 const express = require('express');
 const app = express.Router();
+const workouts = require('../models/workouts');
+app
+    .get('/', (req, res) => {
+        workouts.getAll().then(workouts => res.send(workouts)).catch(err => res.status(500).send(err));
+    })
+    .get('/:userid', (req, res) => {
+        workouts.getWorkoutsByUser(parseInt(req.params["userid"])).then(userWorkouts => userWorkouts.length > 0 ? res.send(userWorkouts) : res.status(404).send('User not found')).catch(err => res.status(500).send(err));
+    })
+    .get('/search', (req, res) => {
+        workouts.search(req.query.q).then(workouts => res.send(workouts)).catch(err => res.status(500).send(err));
+    })
 
-function getWorkoutsByUser(userid){
-    return workouts.filter(workout => workout.user.id === userid);
-}
-
-app.get('/', (req, res) => {
-    res.send(workouts);
-});
-app.get('/:userid', (req, res) => {
-    const userWorkouts = getWorkoutsByUser(parseInt(req.params["userid"]));
-    userWorkouts.length > 0 ? res.send(userWorkouts) : res.status(404).send('User not found');
-});
-app.get('/:userid/:id', (req, res) => {
-    const userWorkouts = getWorkoutsByUser(parseInt(req.params["userid"]));
-    for(let workout of userWorkouts){ console.log(workout.id, req.params["id"], ); }
-    const workout = userWorkouts.find(workout => workout.id === parseInt(req.params.id));
-    workout ? res.send(workout) : res.status(404).send('Workout not found');
-});
-app.post('/', (req, res) => {
-    const workout = req.body;
-    const userWorkouts = getWorkoutsByUser(workout.user.id);
-    workout.id = userWorkouts.length + 1;
-    workouts.push(workout);
-    res.send(workout);
-});
-app.patch('/:id', (req, res) => {
-    const workout = workouts.find(workout => workout.id === parseInt(req.params["id"]));
-    if(!workout) res.status(404).send('Workout not found');
-    for(let key in req.body) workout[key] = req.body[key];
-    res.send(workout);
-});
-app.delete('/:id', (req, res) => {
-    workouts.items = workouts.filter(workout => workout.id !== parseInt(req.params["id"]));
-    res.send(workouts);
-});
+    .post('/', (req, res) => {
+        workouts.addNewWorkout(req.body).then(workout => res.send(workout)).catch(err => res.status(500).send(err));
+    })
+    .patch('/:id', (req, res) => {
+        workouts.edit(parseInt(req.params["id"]), req.body).then(workout => workout ? res.send(workout) : res.status(404).send('Workout not found')).catch(err => res.status(500).send(err));
+    })
+    .delete('/:id', (req, res) => {
+        workouts.remove(parseInt(req.params["id"])).then(workout => workout ? res.send(workout) : res.status(404).send('Workout not found')).catch(err => res.status(500).send(err));
+    });
 
 module.exports = app;
