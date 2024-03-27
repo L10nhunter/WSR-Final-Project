@@ -1,5 +1,5 @@
-import data from '../../../Server/data/users.json';
 import {ref} from "vue";
+import {api} from "@/model/session";
 
 export interface User {
     id: number
@@ -71,14 +71,17 @@ export interface User {
     }
 }
 export const showLoginModal = ref(false);
-export const Users = ref<User[]>(data.items);
 
-
-export function getUserByLoginCredentials(emailOrUsername: string, password: string): User | undefined {
-    if(emailOrUsername.includes('@'))  return data.items.find(user => user.email === emailOrUsername && user.password === password)
-    return data.items.find(user => user.username === emailOrUsername && user.password === password);
+export async function getUsers(): Promise<User[]> {
+    return await api("users") as User[];
 }
 
-export function addUser(user: User): void {
-    Users.value.push(user);
+
+export async function getUserByLoginCredentials(emailOrUsername: string, password: string): Promise<User | undefined> {
+    if(emailOrUsername.includes('@'))  return await getUsers().then(users => users.find(user => user.email === emailOrUsername && user.password === password)) as User;
+    return await getUsers().then(users => users.find(user => user.username === emailOrUsername && user.password === password));
+}
+
+export async function addUser(user: User): Promise<void> {
+    return await api("users", user, "POST");
 }

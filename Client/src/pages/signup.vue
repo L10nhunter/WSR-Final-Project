@@ -4,9 +4,10 @@ import "bulma/css/bulma.css";
 import "../assets/main.css";
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {getTextField} from "@/model/textField";
-import {addUser, getUserByLoginCredentials, updateLoggedInUser, Users} from "@/model/users";
+import {addUser} from "@/model/users";
+import {useLogin} from "@/model/session";
 
-const {login} = updateLoggedInUser();
+const {login} = useLogin();
 
 const user = {
     firstName: ref(''),
@@ -35,7 +36,7 @@ const enableSubmit = ref(false);
 
 function addNewUser(user: any) {
     addUser({
-        id: Users.value[-1].id + 1,
+        id: -1,
         firstName: user.firstName,
         lastName: user.lastName,
         username: user.username,
@@ -44,7 +45,7 @@ function addNewUser(user: any) {
         password: user.password,
         admin: false,
     });
-    login(getUserByLoginCredentials(user.username, user.password));
+    login(user.username, user.password);
 }
 
 function isValidFirstName(): boolean {return user.firstName.value !== '';}
