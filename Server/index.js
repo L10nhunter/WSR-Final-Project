@@ -9,6 +9,9 @@ app.use(cors({
     optionsSuccessStatus: 200
 }));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);
 });
