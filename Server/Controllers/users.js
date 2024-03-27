@@ -10,18 +10,16 @@ app
         users.search(req.query.q).then(users => res.send(users)).catch(err => res.status(500).send(err));
     })
     .post('/', (req, res) => {
-        console.log('POST new user');
-        console.log(req.body);
-
         res.send(users.addNewUser(req.body));
     })
     .post('/login', (req, res) => {
         users.login(req.body.emailOrUsername, req.body.password).then(user => {
-        if (user) res.send({ user });
-        else res.status(401).send('Invalid email or password');
+            if (user) res.send(user);
+            else res.status(401).send('Invalid email or password');
+        })
+    });
 
-    })})
-
+app
     .get('/:id', (req, res) => {
         users.get(parseInt(req.params["id"])).then(user => {
             user ? res.send(user) : res.status(404).send('User not found: ' + req.params["id"])
