@@ -17,6 +17,9 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
             ? response.json()
             : response.json().then(err => Promise.reject(err))
         )
+        .catch(err => {
+            throw err;
+        });
 
 }
 
