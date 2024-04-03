@@ -1,9 +1,7 @@
 import {ref} from "vue";
 import {api} from "@/model/session";
 
-export interface User {
-    id: number
-    admin: boolean
+export interface newUser {
     firstName: string
     lastName: string
     email: string
@@ -69,6 +67,10 @@ export interface User {
         wallet?: string
         network?: string
     }
+}
+export interface User extends newUser{
+    id: number
+    admin: boolean
 }
 export const showLoginModal = ref(false);
 
