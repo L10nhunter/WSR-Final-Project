@@ -7,7 +7,7 @@ app
         users.getAll().then(users => res.send(users));
     })
     .get('/search', (req, res) => {
-        users.search(req.query.q).then(users => res.send(users)).catch(err => res.status(500).send(err));
+        users.search(req.query.q).then(users => res.send(users)).catch(err => res.status(500).send({message: err}));
     })
     .post('/', (req, res) => {
         res.send(users.addNewUser(req.body));
@@ -15,20 +15,20 @@ app
     .post('/login', (req, res) => {
         users.login(req.body.emailOrUsername, req.body.password).then(user => {
             if (user) res.send(user);
-            else res.status(401).send('Invalid email or password');
+            else res.status(401).send({message: 'Invalid login credentials. Please try again.'});
         })
     });
 
 app
     .get('/:id', (req, res) => {
         users.get(parseInt(req.params["id"])).then(user => {
-            user ? res.send(user) : res.status(404).send('User not found: ' + req.params["id"])
+            user ? res.send(user) : res.status(404).send({message: 'User not found: ' +req.params["id"]})
         });
     })
 
     .patch('/:id', (req, res) => {
         const user = users.get(parseInt(req.params["id"]));
-        if (!user) res.status(404).send('User not found');
+        if (!user) res.status(404).send({message: 'User not found'});
         for (let key in req.body) user[key] = req.body[key];
         res.send(user);
     })
