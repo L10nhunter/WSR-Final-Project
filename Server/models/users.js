@@ -1,29 +1,6 @@
 /**
- * User Model
- * @typedef {Object} User
- * @property {number} id
- * @property {string} firstName
- * @property {string} lastName
- * @property {string} email
- * @property {string} username
- * @property {string} password
- * @property {string} image
- * @property {boolean} admin
- * @property {Array<string>} friends
- */
-/**
- * newUser Model
- * @typedef {Object} newUser
- * @property {string} firstName
- * @property {string} lastName
- * @property {string} email
- * @property {string} username
- * @property {string} password
- * @property {string} image
- */
-
-
-/**
+ * @typedef {import('../../Client/src/model/users').User} User
+ * @typedef {import('../../Client/src/model/users').newUser} newUser
  * @typedef {Object} data
  * @property {User[]} items
  * @property {number} total
@@ -36,7 +13,15 @@ const data = require('../data/users.json');
  * @returns {Promise<User[]>}
  */
 async function getAll() {
-    return await data.items;
+    return await data.items.map(item => ({
+        id: item.id,
+        firstName: item.firstName,
+        lastName: item.lastName,
+        email: item.email,
+        username: item.username,
+        admin: item.admin,
+        friends: item.friends
+    }));
 }
 
 /**
@@ -60,7 +45,7 @@ async function search(q) {
 
 /**
  * @param {number} id
- * @returns Promise<{User}>
+ * @returns Promise<User>
  */
 async function remove(id) {
     /** @type {User} */
@@ -71,13 +56,13 @@ async function remove(id) {
 
 /**
  * @param {newUser} inputInfo
- * @returns {User}
+ * @returns {Promise<User>}
  */
 async function addNewUser(inputInfo) {
-    const data = await getAll()
+    const users = await data.items
     /** @type {User} */
     const newUser = {
-        id: data[data.length - 1].id + 1,
+        id: users[users.length - 1].id + 1,
         admin: false,
         ...inputInfo,
         friends: []
@@ -93,17 +78,10 @@ async function addNewUser(inputInfo) {
  * @returns {Promise<User>}
  */
 async function login(emailOrUsername, password) {
-    const users = await getAll();
+    const users = await data.items;
     const user = users.find(user => (user.email === emailOrUsername || user.username === emailOrUsername));
-    if (!user || user.password !== password) throw new Error('Invalid email or password');
+    if (!user || user.password !== password) return users.find(user => (user.id === -1));
     return user;
 }
 
-module.exports = {
-    getAll,
-    get,
-    remove,
-    search,
-    addNewUser,
-    login
-}
+module.exports = {getAll, get, remove, search, addNewUser, login}
