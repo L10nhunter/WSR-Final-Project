@@ -24,7 +24,7 @@ export async function api(action: string, body?: unknown, method?: string, heade
     console.log("session.ts api headers: " + headers);
     session.loading = true;
     return await rest.api(`${action}`, body, method, headers)
-        .catch(err => showError(err))
+        .catch(err => showError("",err))
         .finally(() => session.loading = false);
 
 }
@@ -47,29 +47,16 @@ export function useLogin() {
     const router = useRouter();
     return {
         async login(emailOrUsername: string, password: string): Promise<User | undefined> {
-            try {
-                if (!emailOrUsername || !password) {
-                    showError("Please enter a username and password");
-                    return;
-                }
-                await api("users/login", {emailOrUsername, password}, "POST")
-                    .then((user: User) => {
-                        if(!user) throw new Error("Invalid username or password");
-                        console.log("session.ts login user: " + JSON.stringify(user));
-                        session.user = user;
-                        showLoginModal.value = false;
-                        router.push(session.redirectURL ?? "/").then((r) => r);
-                        toast.success("Welcome " + user.firstName + " " + user.lastName);
-                        return session.user;
-                    }).catch((e) => {
-                        showError("Invalid username or password", e);
-                        return;
-                    });
-            }
-            catch (e) {
-                showError("Invalid username or password");
-                return;
-            }
+            return await api("users/login", {emailOrUsername, password}, "POST")
+                .then((user: User) => {
+                    if (!user) throw new Error();
+                    session.user = user;
+                    showLoginModal.value = false;
+                    router.push(session.redirectURL ?? "/").then((r) => r);
+                    toast.success("Welcome " + user.firstName + " " + user.lastName + "!\nYou are now logged in.");
+                    return session.user;
+                }).catch(() => {}) as User | undefined;
+
         },
         logout(): void {
             session.user = null;
@@ -81,7 +68,8 @@ export function useLogin() {
 }
 
 function showError(message: string, error?: any) {
-    console.error(message + "\n" + error);
+    if (error && error.message) message = error.message;
+    console.error("Error: " + JSON.stringify(message));
     session.messages.push({type: "error", message: message});
     toast.error(message);
 }
