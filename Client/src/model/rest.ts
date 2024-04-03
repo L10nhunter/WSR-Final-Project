@@ -16,11 +16,7 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
         .then(response => response.ok
             ? response.json()
             : response.json().then(err => Promise.reject(err))
-        )
-        .catch(err => {
-            throw err;
-        });
-
+        );
 }
 
 export async function api(endpointURL: string, body?: unknown, method?: string, headers?: any) {
