@@ -4,8 +4,6 @@ import {useToast} from "vue-toastification";
 import {showLoginModal, type User} from "@/model/users";
 import * as rest from "./rest";
 
-const toast = useToast();
-
 const session = reactive({
     user: null as User | null,
     token: null as string | null,
@@ -24,7 +22,7 @@ export async function api(action: string, body?: unknown, method?: string, heade
     console.log("session.ts api headers: " + headers);
     session.loading = true;
     return await rest.api(`${action}`, body, method, headers)
-        .catch(err => showError("",err))
+        .catch(err => showError(err, err.message))
         .finally(() => session.loading = false);
 
 }
@@ -46,16 +44,18 @@ export function getUserFullName() {
 export function useLogin() {
     const router = useRouter();
     return {
-        async login(emailOrUsername: string, password: string): Promise<User | undefined> {
+        async login(emailOrUsername: string, password: string): Promise<User> {
             return await api("users/login", {emailOrUsername, password}, "POST")
                 .then((user: User) => {
                     if (!user) throw new Error();
                     session.user = user;
                     showLoginModal.value = false;
                     router.push(session.redirectURL ?? "/").then((r) => r);
+                    const toast= useToast();
                     toast.success("Welcome " + user.firstName + " " + user.lastName + "!\nYou are now logged in.");
                     return session.user;
-                }).catch(() => {}) as User | undefined;
+                })
+                .catch(()=>{}) as User;
 
         },
         logout(): void {
@@ -67,9 +67,10 @@ export function useLogin() {
     }
 }
 
-function showError(message: string, error?: any) {
-    if (error && error.message) message = error.message;
-    console.error("Error: " + JSON.stringify(message));
-    session.messages.push({type: "error", message: message});
-    toast.error(message);
+export function showError(error: any, message?: string, consoleOnly?: string, toastOnly?: string) {
+    const toast= useToast();
+    if (error && error.message && !message) message = error.message;
+    console.error(error + consoleOnly ? consoleOnly : "" + message);
+    session.messages.push({type: "error", message: message!});
+    toast.error(message ? message : "" + toastOnly ? toastOnly : "");
 }
