@@ -18,7 +18,7 @@ function toggleShowPassword(): void {showPassword.value = !showPassword.value;}
                 <i :class="textField.icon"></i>
             </span>
         </div>
-        <button class="button ics bordered" type="button" v-if="textField.label.includes('Password')"
+        <button class="button ics bordered" type="button" tabindex="-1" v-if="textField.label.includes('Password')"
            @click.prevent="toggleShowPassword()">
             <span class="icon is-small is-right">
                 <i class="fa-solid" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
