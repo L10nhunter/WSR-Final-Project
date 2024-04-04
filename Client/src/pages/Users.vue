@@ -1,14 +1,16 @@
 <script setup lang="ts">
 
-import {getUsers, type User} from "@/model/users";
+import {getUsers, type User, deleteUser, updateUser} from "@/model/users";
 import {ref} from "vue";
 import {getTextField} from "@/model/textField";
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {definePage} from "vue-router/auto";
+import {useRouter} from "vue-router";
 
 definePage({
     meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresAdmin: true
     }
 });
 
@@ -16,7 +18,7 @@ const Users = await getUsers();
 
 const showEditUserModal = ref(-1);
 
-const editedUser = ref<User | null>(Users[showEditUserModal.value >= 0 ? showEditUserModal.value : 0]);
+const editedUser = ref<User>(Users[showEditUserModal.value >= 0 ? showEditUserModal.value : 0]);
 
 const textFields = [
     {field: getTextField("First Name"), model: editedUser.value?.firstName ?? ""},
@@ -27,13 +29,13 @@ const textFields = [
     {field: getTextField("PasswordLogin"), model: editedUser.value?.password ?? ""},
 ];
 
-function editUser(user: User | null): void {
-    if(user && showEditUserModal.value > 0) Users[showEditUserModal.value] = user;
-    showEditUserModal.value = -1;
-}
-function deleteUser(user: User): void {
-    Users.splice(Users.indexOf(user), 1);
-    console.log(Users);
+function editHandler(user: User): void {
+    updateUser(user)
+        .then((user) => {
+                if (user && showEditUserModal.value > 0) Users[showEditUserModal.value] = user;
+                showEditUserModal.value = -1;
+            }
+        );
 }
 
 function striper(user: User): string {
@@ -52,6 +54,11 @@ function showModal(user: User | null): void {
 }
 function hideModal(): void {
     showEditUserModal.value = -1;
+}
+function deleteHandler(user: User): void {
+    deleteUser(user).then(() => {
+        useRouter().push("/users");
+    });
 }
 
 </script>
@@ -83,7 +90,7 @@ function hideModal(): void {
                         <td>
                             <button class="button is-small is-primary" @click="showModal(user)"><i
                                 class="fa-solid fa-pen"></i></button>
-                            <button class="button is-small is-danger" @click="deleteUser(user)"><i
+                            <button class="button is-small is-danger" @click="deleteHandler(user)"><i
                                 class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
@@ -115,7 +122,7 @@ function hideModal(): void {
                     </div>
                 </section>
                 <footer class="modal-card-foot dcs">
-                    <button class="button is-primary" @submit.prevent @click="editUser(editedUser)">Edit User</button>
+                    <button class="button is-primary" @submit.prevent @click="editHandler(editedUser)">Edit User</button>
                     <button class="button has-text-weight-bold" @click="hideModal">Cancel</button>
                 </footer>
             </div>
