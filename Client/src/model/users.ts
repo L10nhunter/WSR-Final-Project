@@ -1,5 +1,5 @@
 import {ref} from "vue";
-import {api} from "@/model/session";
+import {api, showError} from "@/model/session";
 
 export interface newUser {
     firstName: string
@@ -74,16 +74,18 @@ export interface User extends newUser{
 }
 export const showLoginModal = ref(false);
 
+export async function addUser(newUser: newUser): Promise<User> {
+    return await api("users", newUser, "POST").catch((e) => showError(e,"Error adding user"));
+}
+
 export async function getUsers(): Promise<User[]> {
     return await api("users") as User[];
 }
 
-
-export async function getUserByLoginCredentials(emailOrUsername: string, password: string): Promise<User | undefined> {
-    if(emailOrUsername.includes('@'))  return await getUsers().then(users => users.find(user => user.email === emailOrUsername && user.password === password)) as User;
-    return await getUsers().then(users => users.find(user => user.username === emailOrUsername && user.password === password));
+export async function updateUser(user: User): Promise<User> {
+    return await api(`users/${user.id}`, user, "PUT").catch((e) => showError(e,"Error updating user"));
 }
 
-export async function addUser(user: User): Promise<void> {
-    return await api("users", user, "POST");
+export async function deleteUser(user: User): Promise<User> {
+    return await api(`users/${user.id}`, undefined, "DELETE").catch((e) => showError(e,"Error deleting user"));
 }
