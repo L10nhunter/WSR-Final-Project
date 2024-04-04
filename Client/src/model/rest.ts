@@ -1,4 +1,6 @@
-const API_ROOT = "http://localhost:3000/api/v1";
+import {showError} from "@/model/session";
+
+const API_ROOT: string = "http://localhost:3000/api/v1";
 
 async function rest(url: string, body?: unknown, method?: string, headers?: any) {
     console.log("rest.ts rest url: " + url)
@@ -15,7 +17,11 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
     })
         .then(response => response.ok
             ? response.json()
-            : response.json().then(err => Promise.reject(err))
+            : response.json().then(err => {
+                    showError(err,"Error " + response.status + " (" + response.statusText + "): " + err.message)
+                    Promise.reject(err)
+                }
+            )
         );
 }
 
