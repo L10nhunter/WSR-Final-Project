@@ -15,17 +15,10 @@ const emits = defineEmits<{
     (event: 'hideModal', value: void): void;
 }>();
 
-const textFields = [
-    {field: getTextField("EmailLogin"), model: input.emailOrUsername},
-    {field: getTextField("PasswordLogin"), model: input.password},
-]
-
 const props = defineProps({
     isModalActive: Boolean
 });
 const isModalActive = ref(props.isModalActive);
-
-
 </script>
 
 <template>
@@ -38,7 +31,8 @@ const isModalActive = ref(props.isModalActive);
             </header>
             <section class="modal-content">
                 <form autocomplete="on" @submit.prevent>
-                    <SignupTextField v-for="text in textFields" v-bind="text.field" v-model="text.model.value"/>
+                    <SignupTextField v-bind="getTextField('EmailLogin')" v-model="input.emailOrUsername.value"/>
+                    <SignupTextField v-bind="getTextField('PasswordLogin')" v-model="input.password.value"/>
                     <div class="control">
                         <button class="button is-primary" type="submit" @click.prevent="login(input.emailOrUsername.value, input.password.value)">Log In</button>
                     </div>
