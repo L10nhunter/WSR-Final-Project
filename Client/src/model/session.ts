@@ -40,7 +40,6 @@ export function getUserFullName() {
     return session.user?.firstName + " " + session.user?.lastName;
 }
 
-// this will at some point be a call to the server to get the user
 export function useLogin() {
     const router = useRouter();
     return {
