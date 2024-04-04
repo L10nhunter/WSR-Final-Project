@@ -9,7 +9,7 @@ import Toast from "vue-toastification";
 const app = createApp(App)
 
 const options = {
-    position: 'top-right',
+    position: 'top-center',
     timeout: 5000,
     closeOnClick: true,
     pauseOnFocusLoss: true,
