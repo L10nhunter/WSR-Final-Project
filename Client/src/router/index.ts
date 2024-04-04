@@ -16,6 +16,7 @@ router.beforeEach((to, from, next) => {
         showLoginModal.value = true;
         next(false);
     }
+    else if(to.meta.requiresAdmin && !(getUser()?.admin)) next(false);
     else next();
 })
 
