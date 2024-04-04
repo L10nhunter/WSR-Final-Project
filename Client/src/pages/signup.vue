@@ -4,7 +4,7 @@ import "bulma/css/bulma.css";
 import "../assets/main.css";
 import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {getTextField} from "@/model/textField";
-import {addUser} from "@/model/users";
+import {addUser, type newUser} from "@/model/users";
 import {useLogin} from "@/model/session";
 
 const {login} = useLogin();
@@ -32,43 +32,36 @@ const textFields = [
 const usernameRegex = /^[a-zA-Z0-9_-]{3,15}$/;
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
+const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
 const enableSubmit = ref(false);
 
-function addNewUser(user: any) {
-    addUser({
-        id: -1,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        email: user.email,
-        phone: user.phone,
-        password: user.password,
-        admin: false,
-    });
-    login(user.username, user.password);
+function newUser(): newUser {
+    return {
+        firstName: user.firstName.value,
+        lastName: user.lastName.value,
+        username: user.username.value,
+        email: user.email.value,
+        phone: user.phone.value,
+        password: user.password.value,
+    }
+}
+async function addNewUser(user: newUser) {
+    await addUser(user)
+        .then((user) => login(user.username, user.password))
+        .catch(() => {return});
 }
 
 function isValidFirstName(): boolean {return user.firstName.value !== '';}
 function isValidLastName(): boolean {return user.lastName.value !== '';}
 function isValidUsername(): boolean {return usernameRegex.test(user.username.value);}
+function isValidPhone(): boolean {return phoneRegex.test(user.phone.value);}
 function isValidEmail(): boolean {return emailRegex.test(user.email.value);}
 function isValidPassword(): boolean {return passwordRegex.test(user.password.value);}
 function isValidPasswordCheck(): boolean {return user.passwordCheck.value === user.password.value;}
 function isValidTos(): boolean {return user.tosAccept.value;}
 
-function isValid(): void {
-    console.log("");
-    console.log("validating:");
-    console.log("first name: " + isValidFirstName());
-    console.log("last name: " + isValidLastName());
-    console.log("username: " + isValidUsername());
-    console.log("email: " + isValidEmail());
-    console.log("password: " + isValidPassword());
-    console.log("password check: " + isValidPasswordCheck());
-    console.log("tos: " + isValidTos());
-    console.log("actual tos: " + user.tosAccept.value);
-    enableSubmit.value = isValidTos() && isValidFirstName() && isValidLastName() && isValidUsername() && isValidEmail() && isValidPassword() && isValidPasswordCheck();
-    console.log("enable submit: " + enableSubmit.value);
+async function isValid(): Promise<void> {
+    enableSubmit.value = isValidTos() && isValidFirstName() && isValidLastName() && isValidUsername() && isValidPhone() && isValidEmail() && isValidPassword() && isValidPasswordCheck();
 }
 
 </script>
@@ -88,7 +81,7 @@ function isValid(): void {
             </div>
             <div class="field pl-3">
                 <div class="control">
-                    <button class="button is-primary" :disabled="!enableSubmit" @click.prevent="addNewUser(user)">Submit</button>
+                    <button class="button is-primary" :disabled="!enableSubmit" @click.prevent="addNewUser(newUser())">Submit</button>
                 </div>
             </div>
         </form>
