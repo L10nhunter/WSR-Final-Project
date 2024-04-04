@@ -4,36 +4,40 @@ const app = express.Router();
 
 app
     .get('/', (req, res) => {
-        users.getAll().then(users => res.send(users));
+        users.getAll()
+            .then(users => res.send(users))
+            .catch(err => res.status(500).send({message: err.message}));
     })
     .get('/search', (req, res) => {
-        users.search(req.query.q).then(users => res.send(users)).catch(err => res.status(500).send({message: err}));
+        users.search(req.query.q)
+            .then(users => res.send(users))
+            .catch(err => res.status(500).send({message: err.message}));
     })
     .post('/', (req, res) => {
-        res.send(users.addNewUser(req.body));
+        users.create(req.body)
+            .then(user => res.send(user))
+            .catch(err => res.status(500).send({message: err.message}));
     })
     .post('/login', (req, res) => {
-        users.login(req.body.emailOrUsername, req.body.password).then(user => {
-            if (user) res.send(user);
-            else res.status(401).send({message: 'Invalid login credentials. Please try again.'});
-        })
+        users.login(req.body.emailOrUsername, req.body.password)
+            .then(user => res.send(user))
+            .catch(err => res.status(401).send({message: err.message}));
     });
 
 app
     .get('/:id', (req, res) => {
-        users.get(parseInt(req.params["id"])).then(user => {
-            user ? res.send(user) : res.status(404).send({message: 'User not found: ' +req.params["id"]})
-        });
+        users.get(parseInt(req.params["id"]))
+            .then(user => res.send(user))
+            .catch(err => res.status(404).send({message: err.message}));
     })
-
     .patch('/:id', (req, res) => {
-        const user = users.get(parseInt(req.params["id"]));
-        if (!user) res.status(404).send({message: 'User not found'});
-        for (let key in req.body) user[key] = req.body[key];
-        res.send(user);
+        users.update(parseInt(req.params["id"]), req.body)
+            .then(user => res.send(user))
+            .catch(err => res.status(404).send({message: err.message}));
     })
-
     .delete('/:id', (req, res) => {
-        res.send(users.remove(parseInt(req.params["id"])));
+        users.destroy(parseInt(req.params["id"]))
+            .then(user => res.send(user))
+            .catch(err => res.status(404).send({message: err.message}));
     });
 module.exports = app;
