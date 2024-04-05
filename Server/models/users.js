@@ -9,7 +9,7 @@ const data = require('../data/users.json');
  */
 async function getAll() {
     /**@type {User[]}*/
-    const users = await data.items;
+    const users = data.items;
     return users.map(item => ({
         id: item.id,
         firstName: item.firstName,
@@ -48,7 +48,7 @@ async function get(id) {
     const users = data.items
     const user = users.find(item => item.id === id);
     if (!user) throw new Error('User not found', {cause: {status: 404}});
-    return users.find(item => item.id === id);
+    return user;
 }
 
 /**
@@ -69,8 +69,7 @@ async function search(q) {
  * @returns {Promise<User>}
  */
 async function update(id, inputInfo) {
-    const users =  data.items;
-    const user = users.find(item => item.id === id);
+    const user = await get(id).catch(err => {throw new Error(err.message, {cause: {status: 404}})});
     if (!user) throw new Error('User not found', {cause: {status: 404}});
     for (let key in inputInfo) user[key] = inputInfo[key];
     return user;
@@ -82,8 +81,7 @@ async function update(id, inputInfo) {
  * @returns Promise<User>
  */
 async function destroy(id) {
-    const user = await get(id);
-    if(!user) throw new Error('User not found', {cause: {status: 404}});
+    const user = await get(id).catch(err => {throw new Error(err.message, {cause: {status: 404}})});
     data.items.splice(data.items.findIndex(item => item.id === id), 1);
     return user;
 }
