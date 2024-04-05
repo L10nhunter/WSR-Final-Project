@@ -1,18 +1,5 @@
-/**
- * Workout Model
- * @typedef {Object} Workout
- * @property {Object} user
- * @property {number} id
- * @property {string} title
- * @property {number} time
- * @property {number} duration
- * @property {number} distance
- * @property {number} calories
- * @property {string} location
- * @property {string} imageURL
- * @property {string} type
- * @property {Array<string>} comments
- */
+/** @typedef {import('../../Client/src/model/workouts').Workout} Workout*/
+/** @typedef {import('../../Client/src/model/workouts').NewWorkout} NewWorkout*/
 /**
  * @typedef {Object} data
  * @property {Workout[]} items
@@ -20,40 +7,44 @@
  * @property {number} skip
  * @property {number} limit
  */
+/**@type {{items: Workout[], total: number, skip: number, limit: number}}*/
 const data = require('../data/workouts.json');
-const session = require
 
 /**
+ * @description Get all workouts
  * @returns {Promise<Workout[]>}
  */
 async function getAll() {
-    return await data.items;
+    return data.items;
 }
 /**
+ * @description Get all workouts by a specific user
  * @param {number} userid
  * @returns {Promise<Workout[]>}
  */
 async function getWorkoutsByUser(userid){
-    return await data.items.filter(workout => workout.user.id === userid);
+    const workouts = data.items;
+    return data.items.filter(workout => workout.user.id === userid);
 }
 /**
+ * @description Search for workouts given a query
  * @param {string} q
  * @returns {Promise<Workout[]>}
  */
 async function search(q) {
-    return await data.items.filter(item =>
+    return data.items.filter(item =>
         new RegExp(q, 'i').test(item.title) ||
         new RegExp(q, 'i').test(item.location) ||
         new RegExp(q, 'i').test(item.type));
 }
 
 /**
+ * @description update a workout
  * @param {number} id
  * @param {Object} body
- * @returns Promise<{Workout}>
+ * @returns Promise<Workout>
  */
-async function edit(id, body) {
-    /** @type {Workout} */
+async function update(id, body) {
     const workout = data.items.find(workout => workout.id === id);
     if (!workout) return null;
     for(let key in body) workout[key] = body[key];
@@ -61,35 +52,37 @@ async function edit(id, body) {
 }
 /**
  * @param {number} id
- * @returns Promise<{Workout}>
+ * @returns Promise<Workout>
  */
-async function remove(id) {
+async function destroy(id) {
     /** @type {Workout} */
-    getWorkoutsByUser()
-    if (!workout) return null;
+    const workout = await data.items.find(workout => workout.id === id);
+    if (!workout) throw new Error("Workout not found", {cause:{status: 404}});
     /** @type {Workout} workout */
     data.items = data.items.filter(workout => workout.id !== id);
     return workout;
 }
 
 /**
- * @param {Workout} workout
- * @returns Promise<{Workout}>
+ * @param {newWorkout} newWorkout
+ * @returns Promise<Workout>
  */
-async function addNewWorkout(workout) {
-    workout.id = await getWorkoutsByUser(session.user.id).length + 1;
+async function create(newWorkout) {
+    const workouts = data.items;
+    /**@type {Workout}*/
+    const workout = {
+        id: workouts[workouts.length-1].id + 1,
+        ...newWorkout
+    };
     data.items.push(workout);
     return workout;
 }
-
-
-
 
 module.exports = {
     getAll,
     getWorkoutsByUser,
     search,
-    edit,
-    remove,
-    addNewWorkout
+    update,
+    destroy,
+    create
 }

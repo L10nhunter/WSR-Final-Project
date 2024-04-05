@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {type Workout} from "@/model/workouts";
+import {type safeUser} from "@/model/users";
 
 const isHidden = ref(false);
 const workout = defineProps<Workout>();
@@ -24,7 +25,6 @@ function durationFormat(duration?: number): string {
 
 function howLongAgo(time: number): string {
     const now = new Date();
-
     const then = new Date(time);
     const diff = now.getTime() - then.getTime();
     const seconds = Math.floor(diff / 1000);
@@ -45,12 +45,10 @@ function howLongAgo(time: number): string {
     return retString + " ago";
 }
 
-function imageProcess(image: string): string {
-    if (!image) return "/l10nFitnessIcon.png";
-    return image;
+function imageProcess(user: safeUser): string {
+    if (!user.image) return "/l10nFitnessIcon.png";
+    return user.image;
 }
-
-
 </script>
 
 <template>
@@ -58,7 +56,7 @@ function imageProcess(image: string): string {
         <article class="media dcs">
             <div class="media-left">
                 <figure class="image is-64x64">
-                    <img :src="imageProcess(workout.user.image)" alt="Image">
+                    <img :src="imageProcess(workout.user)" alt="Image">
                 </figure>
             </div>
             <div class="media-content dcs">

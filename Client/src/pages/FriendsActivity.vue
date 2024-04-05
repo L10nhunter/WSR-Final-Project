@@ -9,6 +9,7 @@ import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
 import {definePage} from "vue-router/auto";
 import {getUser} from "@/model/session";
+import type {User} from "@/model/users";
 
 definePage({
     meta: {
@@ -19,9 +20,10 @@ definePage({
 // function to make API call to get all friends' workouts
 async function getFriendsWorkouts(): Promise<Workout[]> {
     // make API call to get all workouts of each friend
-    if (!getUser()!.friends) return [] as Workout[];
+    const user = getUser() as User;
+    if (user.friends?.length === 0) return [] as Workout[];
     const workouts = [] as Workout[];
-    for(const friend of getUser()!.friends!){
+    for(const friend of user.friends!){
         const friendWorkouts = await getWorkoutsByUserID(friend);
         for(const workout of friendWorkouts){
             workouts.push(workout);
@@ -32,7 +34,7 @@ async function getFriendsWorkouts(): Promise<Workout[]> {
         return b.time - a.time;
     });
 }
-const friendsWorkouts: Workout[] = await getFriendsWorkouts();
+const friendsWorkouts = await getFriendsWorkouts();
 
 const showAddWorkoutModal = ref(false);
 </script>

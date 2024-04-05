@@ -1,9 +1,8 @@
-import {type User} from "@/model/users";
+import {type safeUser, type User} from "@/model/users";
 import {getUser} from "@/model/session";
 import {api} from "@/model/session";
-export interface Workout {
-    user: User
-    id: number
+export interface NewWorkout {
+    user: safeUser
     title: string
     time: number
     duration?: number
@@ -12,6 +11,11 @@ export interface Workout {
     location?: string
     picture?: string
     type: string
+    imageURL?: string
+    comments?: string[]
+}
+export interface Workout extends NewWorkout {
+    id: number
 }
 
 export const workoutTypes = ["Run", "Walk", "Bike", "Swim", "Cardio", "Strength", "Other"];
@@ -30,8 +34,8 @@ export async function getWorkoutsByUserID(userID: number): Promise<Workout[]> {
 export function toReversed(workouts: Workout[]): Workout[] {
     return workouts.slice().reverse();
 }
-export async function addWorkout(workout: Workout): Promise<void> {
-    return await api("workouts", workout, "POST");
+export async function addWorkout(newWorkout: NewWorkout): Promise<void> {
+    return await api("workouts", newWorkout, "POST");
 }
 
 export async function getWorkoutsByUser(user?: User): Promise<Workout[]> {
