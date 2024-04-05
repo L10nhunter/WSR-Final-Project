@@ -1,5 +1,5 @@
 import {ref} from "vue";
-import {api, showError} from "@/model/session";
+import {api} from "@/model/session";
 
 export interface newUser {
     firstName: string
@@ -72,10 +72,18 @@ export interface User extends newUser{
     id: number
     admin: boolean
 }
+export interface safeUser {
+    id: number
+    firstName: string
+    lastName: string
+    username: string
+    friends?: number[]
+    image?: string
+}
 export const showLoginModal = ref(false);
 
 export async function addUser(newUser: newUser): Promise<User> {
-    return await api("users", newUser, "POST").catch((e) => showError(e,"Error adding user"));
+    return await api("users", newUser, "POST");
 }
 
 export async function getUsers(): Promise<User[]> {
@@ -83,9 +91,9 @@ export async function getUsers(): Promise<User[]> {
 }
 
 export async function updateUser(user: User): Promise<User> {
-    return await api(`users/${user.id}`, user, "PUT").catch((e) => showError(e,"Error updating user"));
+    return await api(`users/${user.id}`, user, "PUT");
 }
 
 export async function deleteUser(user: User): Promise<User> {
-    return await api(`users/${user.id}`, undefined, "DELETE").catch((e) => showError(e,"Error deleting user"));
+    return await api(`users/${user.id}`, undefined, "DELETE");
 }
