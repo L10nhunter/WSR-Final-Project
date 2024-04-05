@@ -18,13 +18,11 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
         .then(response => response.ok
             ? response.json()
             : response.json().then(err => {
-                    showError(err,"Error " + response.status + " (" + response.statusText + "): " + err.message)
-                    Promise.reject(err)
-                }
-            )
-        );
+                    showError(err, true,{code: response.status, message: response.statusText})
+                    throw err;
+            }));
 }
 
 export async function api(endpointURL: string, body?: unknown, method?: string, headers?: any) {
-    return await rest(`${API_ROOT}/${endpointURL}`, body, method, headers);
+    return await rest(`${API_ROOT}/${endpointURL}`, body, method, headers).catch(() => {}); // return empty object on error
 }

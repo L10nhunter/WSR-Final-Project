@@ -4,6 +4,7 @@ import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {ref} from "vue";
 import {getTextField} from "@/model/textField";
 import {useLogin} from "@/model/session";
+import {useToast} from "vue-toastification";
 
 const {login} = useLogin();
 
@@ -11,9 +12,11 @@ const input = {
     emailOrUsername: ref(''),
     password: ref(''),
 };
-const emits = defineEmits<{
-    (event: 'hideModal', value: void): void;
-}>();
+const emits = defineEmits<{(event: 'hideModal', value: void): void;}>();
+
+async function loginHandler() {
+    await login(input.emailOrUsername.value, input.password.value).then(() => emits('hideModal')).catch((error) => useToast().error(error.message));
+}
 
 const props = defineProps({
     isModalActive: Boolean
@@ -34,7 +37,7 @@ const isModalActive = ref(props.isModalActive);
                     <SignupTextField v-bind="getTextField('EmailLogin')" v-model="input.emailOrUsername.value"/>
                     <SignupTextField v-bind="getTextField('PasswordLogin')" v-model="input.password.value"/>
                     <div class="control">
-                        <button class="button is-primary" type="submit" @click.prevent="login(input.emailOrUsername.value, input.password.value)">Log In</button>
+                        <button class="button is-primary" type="submit" @click.prevent="loginHandler()">Log In</button>
                     </div>
                 </form>
             </section>

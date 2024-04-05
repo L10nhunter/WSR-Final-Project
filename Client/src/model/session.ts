@@ -22,7 +22,7 @@ export async function api(action: string, body?: unknown, method?: string, heade
     console.log("session.ts api headers: " + headers);
     session.loading = true;
     return await rest.api(`${action}`, body, method, headers)
-        .catch(err => showError(err, err.message))
+        .catch(() => {})
         .finally(() => session.loading = false);
 
 }
@@ -46,7 +46,7 @@ export function useLogin() {
         async login(emailOrUsername: string, password: string): Promise<User> {
             return await api("users/login", {emailOrUsername, password}, "POST")
                 .then((user: User) => {
-                    if (!user) throw new Error();
+                    if (!user) throw new Error("Invalid login credentials. Please try again.");
                     session.user = user;
                     showLoginModal.value = false;
                     router.push(session.redirectURL ?? "/").then((r) => r);
@@ -54,7 +54,7 @@ export function useLogin() {
                     toast.success("Welcome " + user.firstName + " " + user.lastName + "!\nYou are now logged in.");
                     return session.user;
                 })
-                .catch(()=>{}) as User;
+                .catch((err)=>{throw err}) as User;
 
         },
         logout(): void {
@@ -66,10 +66,14 @@ export function useLogin() {
     }
 }
 
-export function showError(error: any, message?: string, consoleOnly?: string, toastOnly?: string) {
+interface Status {
+    code: number;
+    message: string;
+}
+
+export function showError(error: any, consoleOnly?: boolean, status?: Status):void {
     const toast= useToast();
-    if (error && error.message && !message) message = error.message;
-    console.error(error + consoleOnly ? consoleOnly : "" + message);
-    session.messages.push({type: "error", message: message!});
-    toast.error(message ? message : "" + toastOnly ? toastOnly : "");
+    status ? console.error("Error " + status.code + " (" + status.message + ") " + error.message) : console.error(error);
+    session.messages.push({type: "error", message: error.message});
+    if(!consoleOnly) toast.error(error.message);
 }
