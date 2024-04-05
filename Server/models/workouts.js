@@ -9,6 +9,7 @@
  */
 /**@type {{items: Workout[], total: number, skip: number, limit: number}}*/
 const data = require('../data/workouts.json');
+const {get} = require("./users");
 
 /**
  * @description Get all workouts
@@ -23,8 +24,9 @@ async function getAll() {
  * @returns {Promise<Workout[]>}
  */
 async function getWorkoutsByUser(userid){
+    await get(userid).catch(err => {throw err});
     const workouts = data.items;
-    return data.items.filter(workout => workout.user.id === userid);
+    return workouts.filter(workout => workout.user.id === userid);
 }
 /**
  * @description Search for workouts given a query
