@@ -2,14 +2,13 @@
   "items": [
     {
       "user": {
-        "id": 31,
+        "_id": "6612b700ee58d0eb6e573b34",
         "firstName": "Ari",
         "lastName": "Yeger",
         "username": "L10nhunter",
-        "friends": [1],
+        "friends": ["6612b700ee58d0eb6e573b16"],
         "image": "/l10nFitnessIcon.png"
       },
-      "id": 1,
       "title": "Workout 1",
       "time" : 1709353914000,
       "duration": 60,
@@ -20,14 +19,13 @@
     },
     {
       "user": {
-        "id": 31,
+        "_id": "6612b700ee58d0eb6e573b34",
         "firstName": "Ari",
         "lastName": "Yeger",
         "username": "L10nhunter",
-        "friends": [1],
+        "friends": ["6612b700ee58d0eb6e573b16"],
         "image": "/l10nFitnessIcon.png"
       },
-      "id": 2,
       "title": "Workout 2",
       "time": 1709857995000,
       "duration": 95,
@@ -39,14 +37,13 @@
     },
     {
       "user": {
-        "id": 1,
+        "_id": "6612b700ee58d0eb6e573b16",
         "firstName": "Terry",
         "lastName": "Medhurst",
         "username": "atuny0",
-        "friends": [2,3,4,31],
+        "friends": ["6612b700ee58d0eb6e573b17","6612b700ee58d0eb6e573b18","6612b700ee58d0eb6e573b19","6612b700ee58d0eb6e573b34"],
         "image": "https://robohash.org/Terry.png?set=set4"
       },
-      "id": 1,
       "title": "my workout",
       "time": 1710113595000,
       "duration": 95,
@@ -58,14 +55,13 @@
     },
     {
       "user": {
-        "id": 31,
+        "_id": "6612b700ee58d0eb6e573b34",
         "firstName": "Ari",
         "lastName": "Yeger",
         "username": "L10nhunter",
-        "friends": [1],
+        "friends": ["6612b700ee58d0eb6e573b16"],
         "image": "/l10nFitnessIcon.png"
       },
-      "id": 3,
       "title": "Workout 3",
       "time": 1710113595000,
       "duration": 95,
