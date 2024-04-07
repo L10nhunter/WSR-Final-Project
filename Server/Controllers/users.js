@@ -1,5 +1,6 @@
 const users = require('../models/users');
 const express = require('express');
+const {ObjectID} = require('../models/mongo');
 const app = express.Router();
 
 app
@@ -26,17 +27,17 @@ app
 
 app
     .get('/:id', (req, res) => {
-        users.get(parseInt(req.params["id"]))
+        users.get(new ObjectID(req.params["id"]))
             .then(user => res.send(user))
             .catch(err => res.status(err.cause.status).send({message: err.message}));
     })
     .patch('/:id', (req, res) => {
-        users.update(parseInt(req.params["id"]), req.body)
+        users.update(new ObjectID(req.params["id"]), req.body)
             .then(user => res.send(user))
             .catch(err => res.status(err.cause.status).send({message: err.message}));
     })
     .delete('/:id', (req, res) => {
-        users.destroy(parseInt(req.params["id"]))
+        users.destroy(new ObjectID(req.params["id"]))
             .then(user => res.send(user))
             .catch(err => res.status(err.cause.status).send({message: err.message}));
     });

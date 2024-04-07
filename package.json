@@ -6,11 +6,13 @@
   "author": "Ari Yeger",
   "scripts": {
     "start": "node Server/index.js",
-    "dev": "nodemon Server/index.js  --watch Server/",
+    "dev": "dotenvx run -- nodemon Server/index.js  --watch Server/",
     "test": "echo 'Error: no test specified' && exit 1",
     "devCombo": "\"npm run dev\" \"cd Client && npm run dev\""
   },
   "dependencies": {
+    "@dotenvx/dotenvx": "^0.30.0",
+    "mongodb": "^6.5.0",
     "chai": "^5.1.0",
     "cors": "^2.8.5",
     "dayjs": "^1.11.10",

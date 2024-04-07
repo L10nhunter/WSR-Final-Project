@@ -1,32 +1,37 @@
 /** @typedef {import('../../Client/src/model/workouts').Workout} Workout*/
 /** @typedef {import('../../Client/src/model/workouts').NewWorkout} NewWorkout*/
-/**
- * @typedef {Object} data
- * @property {Workout[]} items
- * @property {number} total
- * @property {number} skip
- * @property {number} limit
- */
-/**@type {{items: Workout[], total: number, skip: number, limit: number}}*/
-const data = require('../data/workouts.json');
+
 const {get} = require("./users");
+const {connect} = require("./mongo");
+
+/**
+ * @return {Promise<Collection<Workout>>}
+ */
+async function getData() {
+    const db = await connect();
+    return db.collection('Workouts');
+}
+
+async function seed() {
+    const col = await getData();
+    await col.insertMany(require('../data/workouts.json').items);
+}
 
 /**
  * @description Get all workouts
  * @returns {Promise<Workout[]>}
  */
 async function getAll() {
-    return data.items;
+    return await getData().then(col => col.find({}).toArray());
 }
 /**
  * @description Get all workouts by a specific user
- * @param {number} userid
+ * @param {ObjectId} userid
  * @returns {Promise<Workout[]>}
  */
 async function getWorkoutsByUser(userid){
     await get(userid).catch(err => {throw err});
-    const workouts = data.items;
-    return workouts.filter(workout => workout.user.id === userid);
+    return await getData().then(col => col.find({'user._id': userid}).toArray());
 }
 /**
  * @description Search for workouts given a query
@@ -34,34 +39,44 @@ async function getWorkoutsByUser(userid){
  * @returns {Promise<Workout[]>}
  */
 async function search(q) {
-    return data.items.filter(item =>
-        new RegExp(q, 'i').test(item.title) ||
-        new RegExp(q, 'i').test(item.location) ||
-        new RegExp(q, 'i').test(item.type));
+    return await getData()
+        .then(col => col.find({
+            $or: [
+                {title: {$regex: q, $options: 'i'}},
+                {location: {$regex: q, $options: 'i'}},
+                {type: {$regex: q, $options: 'i'}},
+            ],
+        }).toArray())
+        .catch(err => {
+            throw new Error(err.message, {cause: {status: 500}})
+        })
 }
 
 /**
  * @description update a workout
- * @param {number} id
+ * @param {ObjectId} _id
  * @param {Object} body
  * @returns Promise<Workout>
  */
-async function update(id, body) {
-    const workout = data.items.find(workout => workout.id === id);
-    if (!workout) return null;
-    for(let key in body) workout[key] = body[key];
-    return workout;
+async function update(_id, body) {
+    const workouts = await getData()
+        .catch(err => {throw new Error(err.message, {cause: {status: 500}})});
+    const workout = await workouts.findOne({_id:_id})
+        .catch(err => {throw new Error(err.message, {cause: {status: 404}})});
+    if (!workout) throw new Error('Workout not found', {cause: {status: 404}});
+    const result = await workouts.updateOne({_id: _id}, {$set: body});
+    if(!result.acknowledged) throw new Error('Update failed', {cause: {status: 500}});
+    return await workouts.findOne({_id:_id});
 }
 /**
- * @param {number} id
+ * @param {ObjectId} _id
  * @returns Promise<Workout>
  */
-async function destroy(id) {
+async function destroy(_id) {
+    const col = await getData();
     /** @type {Workout} */
-    const workout = await data.items.find(workout => workout.id === id);
-    if (!workout) throw new Error("Workout not found", {cause:{status: 404}});
-    /** @type {Workout} workout */
-    data.items = data.items.filter(workout => workout.id !== id);
+    const workout = await col.findOne({_id: _id}).catch(err => {throw new Error(err.message, {cause: {status: 404}})});
+    await getData().then(col => col.deleteOne({_id: _id}));
     return workout;
 }
 
@@ -70,14 +85,10 @@ async function destroy(id) {
  * @returns Promise<Workout>
  */
 async function create(newWorkout) {
-    const workouts = data.items;
-    /**@type {Workout}*/
-    const workout = {
-        id: workouts[workouts.length-1].id + 1,
-        ...newWorkout
-    };
-    data.items.push(workout);
-    return workout;
+    const users = await getData();
+    const result = await users.insertOne(newWorkout);
+    if(!result.acknowledged) throw new Error('Insert failed', {cause: {status: 500}});
+    return await users.findOne({_id: result.insertedId});
 }
 
 module.exports = {
@@ -86,5 +97,6 @@ module.exports = {
     search,
     update,
     destroy,
-    create
+    create,
+    seed
 }

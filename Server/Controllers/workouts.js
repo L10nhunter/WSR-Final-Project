@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express.Router();
 const workouts = require('../models/workouts');
+const {ObjectId} = require("mongodb");
 app
     .get('/', (req, res) => {
         workouts.getAll()
@@ -8,7 +9,7 @@ app
             .catch(err => res.status(err.cause.status).send(err.message));
     })
     .get('/user',  (req, res) => {
-        workouts.getWorkoutsByUser(parseInt(req.query.uid))
+        workouts.getWorkoutsByUser(new ObjectId(req.query.uid))
             .then(byUser => res.send(byUser))
             .catch(err => res.status(err.cause.status).send(err.message));
     })
@@ -23,12 +24,12 @@ app
             .catch(err => res.status(err.cause.status).send(err.message));
     })
     .patch('/:id', (req, res) => {
-        workouts.update(parseInt(req.params.id), req.body)
+        workouts.update(new ObjectId(req.params.id), req.body)
             .then(workout => res.send(workout))
             .catch(err => res.status(err.cause.status).send(err.message));
     })
     .delete('/:id', (req, res) => {
-        workouts.destroy(parseInt(req.params.id))
+        workouts.destroy(new ObjectId(req.params.id))
             .then(workout => res.send(workout))
             .catch(err => res.status(err.cause.status).send(err.message));
     });

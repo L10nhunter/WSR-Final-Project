@@ -1,5 +1,6 @@
 import {ref} from "vue";
 import {api} from "@/model/session";
+import type {ObjectId} from "mongodb";
 
 export interface newUser {
     firstName: string
@@ -8,7 +9,7 @@ export interface newUser {
     phone: string
     username: string
     password: string
-    friends?: number[]
+    friends?: ObjectId[]
 
     maidenName?: string
     age?: number
@@ -69,11 +70,11 @@ export interface newUser {
     }
 }
 export interface User extends newUser{
-    id: number
+    _id: ObjectId
     admin: boolean
 }
 export interface safeUser {
-    id: number
+    _id: ObjectId
     firstName: string
     lastName: string
     username: string
@@ -82,18 +83,25 @@ export interface safeUser {
 }
 export const showLoginModal = ref(false);
 
+const API = "users";
+
 export async function addUser(newUser: newUser): Promise<User> {
-    return await api("users", newUser, "POST");
+    return await api(API, newUser, "POST");
 }
 
 export async function getUsers(): Promise<User[]> {
-    return await api("users") as User[];
+    return await api(API) as User[];
+}
+
+export async function addFriend(user: User, friend: User): Promise<User> {
+    user.friends ? user.friends.push(friend._id) : user.friends = [friend._id];
+    return await updateUser(user);
 }
 
 export async function updateUser(user: User): Promise<User> {
-    return await api(`users/${user.id}`, user, "PUT");
+    return await api(`${API}/${user._id}`, user, "PATCH");
 }
 
 export async function deleteUser(user: User): Promise<User> {
-    return await api(`users/${user.id}`, undefined, "DELETE");
+    return await api(`${API}/${user._id}`, undefined, "DELETE");
 }
