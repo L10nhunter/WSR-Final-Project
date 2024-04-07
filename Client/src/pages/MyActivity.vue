@@ -2,7 +2,7 @@
 import "@/assets/main.css";
 import {ref} from "vue";
 import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
-import {workoutsBySessionID, toReversed} from "@/model/workouts";
+import {workoutsBySessionID} from "@/model/workouts";
 import WorkoutBox from "@/components/WorkoutBox.vue";
 import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
@@ -18,7 +18,7 @@ definePage({
 
 const showAddWorkoutModal = ref(false);
 
-const workouts = await workoutsBySessionID().then(workouts => toReversed(workouts));
+const workouts = await workoutsBySessionID().then(workouts => workouts.slice().reverse());
 
 </script>
 
