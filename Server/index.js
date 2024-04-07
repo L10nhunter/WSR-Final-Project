@@ -1,8 +1,11 @@
 if(process.env.NODE_ENV === 'development') {
     console.log('Development Mode');
     require('@dotenvx/dotenvx').config()
-    //require("./models/users.js").seed();
-    //require("./models/workouts.js").seed();
+    if(process.env.RESEED_DB === 'true') {
+        console.log('Reseeding Database');
+        require('./models/users').seed().then(r => console.log(r));
+        require('./models/workouts').seed().then(r => console.log(r));
+    }
 }
 const express = require('express');
 const cors = require('cors');
