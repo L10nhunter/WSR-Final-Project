@@ -1,4 +1,4 @@
-const {MongoClient, ObjectId, ServerApiVersion, Collection} = require('mongodb');
+const {MongoClient, ServerApiVersion, Collection} = require('mongodb');
 
 const client = new MongoClient(process.env.MONGO_URI, {
     serverApi: {
@@ -13,4 +13,4 @@ async function connect() {
     return client.db(process.env.MONGO_DB_NAME);
 }
 
-module.exports = {connect, ObjectId, Collection};
+module.exports = {connect, Collection};
