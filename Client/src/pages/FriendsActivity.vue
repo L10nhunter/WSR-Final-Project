@@ -21,8 +21,8 @@ definePage({
 async function getFriendsWorkouts(): Promise<Workout[]> {
     // make API call to get all workouts of each friend
     const user = getUser() as User;
-    if (user.friends?.length === 0) return [] as Workout[];
     const workouts = [] as Workout[];
+    if (user.friends?.length === 0) return workouts;
     for(const friend of user.friends!){
         const friendWorkouts = await getWorkoutsByUserID(friend);
         for(const workout of friendWorkouts){
