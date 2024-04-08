@@ -3,6 +3,7 @@ import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
 import {showLoginModal, type User} from "@/model/users";
 import * as rest from "./rest";
+import type {ObjectId} from "mongodb";
 
 const session = reactive({
     user: null as User | null,
@@ -24,9 +25,7 @@ export async function api(action: string, body?: unknown, method?: string, heade
     return await rest.api(`${action}`, body, method, headers)
         .catch(() => {})
         .finally(() => session.loading = false);
-
 }
-
 
 export function getSession() {
     return session;
@@ -38,6 +37,12 @@ export function getUser() {
 
 export function getUserFullName() {
     return session.user?.firstName + " " + session.user?.lastName;
+}
+
+export function useRouteToEditUser(_id: ObjectId) {
+    console.log("session.ts useRouteToEditUser _id: " + _id);
+    const router = useRouter();
+    router.push("/editUser/" + _id).then((r) => r);
 }
 
 export function useLogin() {
@@ -52,6 +57,7 @@ export function useLogin() {
                     router.push(session.redirectURL ?? "/").then((r) => r);
                     const toast= useToast();
                     toast.success("Welcome " + user.firstName + " " + user.lastName + "!\nYou are now logged in.");
+                    console.log("User " + user.firstName + " " + user.lastName + " logged in.");
                     return session.user;
                 })
                 .catch((err)=>{throw err}) as User;

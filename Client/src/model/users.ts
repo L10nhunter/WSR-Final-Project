@@ -93,6 +93,10 @@ export async function getUsers(): Promise<User[]> {
     return await api(API) as User[];
 }
 
+export async function getUser(id: ObjectId): Promise<User> {
+    return await api(`${API}/${id}`) as User;
+}
+
 export async function addFriend(user: User, friend: User): Promise<User> {
     user.friends ? user.friends.push(friend._id) : user.friends = [friend._id];
     return await updateUser(user);

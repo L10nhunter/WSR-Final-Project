@@ -1,59 +1,27 @@
 <script setup lang="ts">
 
-import {getUsers, type User, deleteUser, updateUser} from "@/model/users";
-import {ref} from "vue";
-import {getTextField} from "@/model/textField";
-import SignupTextField from "@/components/Fields/SignupTextField.vue";
+import {getUsers, type User, deleteUser} from "@/model/users";
 import {definePage} from "vue-router/auto";
 import {useRouter} from "vue-router";
+import {useRouteToEditUser} from "@/model/session";
 
 definePage({
     meta: {
         requiresAuth: true,
-        requiresAdmin: true
+        requiresAdmin: true,
     }
 });
 
 const Users = await getUsers();
 
-const showEditUserModal = ref(-1);
-
-const editedUser = ref<User>(Users[showEditUserModal.value >= 0 ? showEditUserModal.value : 0]);
-
-const textFields = [
-    {field: getTextField("First Name"), model: editedUser.value?.firstName ?? ""},
-    {field: getTextField("Last Name"), model: editedUser.value?.lastName ?? ""},
-    {field: getTextField("EmailReg"), model: editedUser.value?.email ?? ""},
-    {field: getTextField("Phone"), model: editedUser.value?.phone ?? ""},
-    {field: getTextField("Username"), model: editedUser.value?.username ?? ""},
-    {field: getTextField("PasswordLogin"), model: editedUser.value?.password ?? ""},
-];
-
-function editHandler(user: User): void {
-    updateUser(user)
-        .then((user) => {
-                if (user && showEditUserModal.value > 0) Users[showEditUserModal.value] = user;
-                showEditUserModal.value = -1;
-            }
-        );
-}
-
 function striper(user: User): string {
     return Users.indexOf(user) % 2 === 0 ? 'ics' : 'dcs';
 }
 
-function showModal(user: User | null): void {
-    console.log("showing modal with user: " + user?.firstName + " " + user?.lastName + " " + user?.id)
-    if(user) {
-        showEditUserModal.value = Users.indexOf(user);
-        console.log("show var updated to: " + showEditUserModal.value);
-        editedUser.value = Users[showEditUserModal.value];
-        console.log("edited user: " + editedUser.value?.firstName + " " + editedUser.value?.lastName + " " + editedUser.value?.id);
-
-    }
-}
-function hideModal(): void {
-    showEditUserModal.value = -1;
+function routeToEditUser(user: User): void {
+    console.log("routing to edit user: " + user._id);
+    console.log("pushed route to: /editUser/" + user._id);
+    useRouteToEditUser(user._id);
 }
 function deleteHandler(user: User): void {
     deleteUser(user).then(() => {
@@ -88,7 +56,7 @@ function deleteHandler(user: User): void {
                         <td>{{ user.phone }}</td>
                         <td>{{ user.admin }}</td>
                         <td>
-                            <button class="button is-small is-primary" @click="showModal(user)"><i
+                            <button class="button is-small is-primary" @click="routeToEditUser(user)"><i
                                 class="fa-solid fa-pen"></i></button>
                             <button class="button is-small is-danger" @click="deleteHandler(user)"><i
                                 class="fa-solid fa-trash"></i></button>
@@ -96,35 +64,6 @@ function deleteHandler(user: User): void {
                     </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="modal" :class="{'is-active': showEditUserModal >= 0}">
-            <div class="modal-background" @click="hideModal"></div>
-            <div class="modal-card dcs bordered">
-                <header class="modal-card-head dcs">
-                    <p class="modal-card-title dcs">Edit User</p>
-                    <button class="delete" @click="hideModal" aria-label="close"></button>
-                </header>
-                <section class="modal-content dcs">
-                    <div class="form">
-                        <SignupTextField v-for="text in textFields" v-bind="text.field" :v-model="text.model"/>
-                        <div class="field control">
-                            <label>Admin: </label>
-                            <label class="radio">
-                                <input type="radio" value="Yes" :checked="editedUser?.admin ?? false">
-                                Yes
-                            </label>
-                            <label class="radio">
-                                <input type="radio" value="No" :checked="!editedUser?.admin ?? true">
-                                No
-                            </label>
-                        </div>
-                    </div>
-                </section>
-                <footer class="modal-card-foot dcs">
-                    <button class="button is-primary" @submit.prevent @click="editHandler(editedUser)">Edit User</button>
-                    <button class="button has-text-weight-bold" @click="hideModal">Cancel</button>
-                </footer>
             </div>
         </div>
     </div>
