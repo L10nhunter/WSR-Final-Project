@@ -1,17 +1,23 @@
 /** @typedef {import('../../Client/src/model/workouts').Workout} Workout*/
 /** @typedef {import('../../Client/src/model/workouts').NewWorkout} NewWorkout*/
 
-const {get} = require("./users");
+const getUser = require("./users").get;
 const {connect} = require("./mongo");
+const {ObjectId} = require("mongodb");
 
 /**
  * @return {Promise<Collection<Workout>>}
  */
 async function getData() {
-    const db = await connect();
-    return db.collection('Workouts');
+    return await connect()
+        .then(db => db.collection('Workouts'))
+        .catch(err => {throw new Error(err.message, {cause: {status: 500}})});
 }
 
+/**
+ * @description Seed the workouts collection
+ * @return {Promise<void>}
+ */
 async function seed() {
     const col = await getData();
     await col.insertMany(require('../data/workouts.json').items);
@@ -24,14 +30,24 @@ async function seed() {
 async function getAll() {
     return await getData().then(col => col.find({}).toArray());
 }
+
+async function get(_id) {
+    return await getData().then(col => col.findOne({_id: _id}));
+}
+
 /**
  * @description Get all workouts by a specific user
  * @param {ObjectId} userid
  * @returns {Promise<Workout[]>}
  */
 async function getWorkoutsByUser(userid){
-    await get(userid).catch(err => {throw err});
-    return await getData().then(col => col.find({'user._id': userid}).toArray());
+    const user= await getUser(userid).catch(err => {throw new Error(err.message, {cause: {status: 500}})});
+    if(!user) throw new Error('User not found', {cause: {status: 404}});
+    return await getData()
+        .then(workouts => {
+            return workouts.find({"user._id": userid}).toArray();
+        })
+        .catch(err => {throw new Error(err.message, {cause: {status: 500}})});
 }
 /**
  * @description Search for workouts given a query
@@ -93,6 +109,7 @@ async function create(newWorkout) {
 
 module.exports = {
     getAll,
+    get,
     getWorkoutsByUser,
     search,
     update,

@@ -1,4 +1,5 @@
-const {ObjectId, connect, Collection} = require('./mongo')
+const {connect, Collection} = require('./mongo')
+const {ObjectId} = require('mongodb');
 /**@typedef {import('../../Client/src/model/users').User} User*/
 
 /**@typedef {import('../../Client/src/model/users').newUser} newUser*/
@@ -18,8 +19,8 @@ async function seed() {
  * @returns {Promise<User[]>}
  */
 async function getAll() {
+    /**@type {User[]} */
     const users = await getData().then(col => col.find({}).toArray());
-    /**@type {User[]}*/
     return users.map(item => ({
         /**@type {ObjectId} */
         _id: item._id,
@@ -54,6 +55,7 @@ async function create(inputInfo) {
         friends: []
     };
     const result = await users.insertOne(newUser);
+    if(!result.acknowledged) throw new Error('Insert failed', {cause: {status: 400}});
     newUser._id = result.insertedId;
     return newUser;
 }
@@ -139,4 +141,13 @@ async function login(emailOrUsername, password) {
     return user;
 }
 
-module.exports = {create, getAll, get, search, update, destroy, login, seed}
+module.exports = {
+    create,
+    getAll,
+    get,
+    search,
+    update,
+    destroy,
+    login,
+    seed
+}
