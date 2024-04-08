@@ -15,11 +15,14 @@ const PORT = !isNaN(parseInt(process.env.PORT)) ? parseInt(process.env.PORT) : 3
 
 app.use(cors({
     origin: '*',
+    methods: '*',
+    allowedHeaders: '*',
     optionsSuccessStatus: 200
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+if(process.env.NODE_ENV !== 'development') app.use('/', express.static('../client/dist'));
 
 app.use('/api/v1/users', require('./Controllers/users'));
 app.use('/api/v1/workouts', require('./Controllers/workouts'));
