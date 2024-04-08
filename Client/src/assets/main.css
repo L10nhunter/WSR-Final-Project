@@ -97,6 +97,7 @@ label{
     margin-bottom: .125rem !important;
 }
 button.is-primary, a.is-primary{
+    color: var(--color-text) !important;
     font-weight: bold !important;
 }
 *.is-primary {
