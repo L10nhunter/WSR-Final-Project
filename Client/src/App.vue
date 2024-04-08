@@ -10,14 +10,19 @@ import {getSession} from "@/model/session";
     <body class="has-navbar-fixed-top">
     <div id="app">
         <NavBar/>
-        <div class="">
-            <progress class="progress is-primary is-small" max="100" v-if="getSession().loading">15%</progress>
-        </div>
+        <progress class="progress is-primary is-small" max="100" v-if="getSession().loading"/>
         <Suspense>
             <div class="container" id="site-container">
                 <RouterView/>
             </div>
         </Suspense>
+        <footer class="footer dcs">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>L10n Fitness</strong> by <a href="https://github.com/L10nhunter">This Weirdo</a>.
+                </p>
+            </div>
+        </footer>
     </div>
     </body>
 
@@ -36,10 +41,10 @@ import {getSession} from "@/model/session";
     display: flex;
     flex-direction: column;
 }
-
-.progress.is-primary:indeterminate {
-    background-color: var(--color-background-mute);
-    background-image: linear-gradient(to right, var(--color-background-soft) 0% 10%, var(--color-primary) 15%, var(--color-background-soft) 20% 30%, var(--color-background-mute));
+.progress.is-primary {
+    --bulma-progress-value-background-color: var(--color-primary) !important;
+    --bulma-progress-bar-background-color: var(--color-background-soft) !important;
+    background-image: linear-gradient(to right, var(--bulma-progress-value-background-color) 30%, var(--bulma-progress-bar-background-color) 30%);
 }
 </style>
 ```
