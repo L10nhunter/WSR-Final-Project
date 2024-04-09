@@ -3,7 +3,6 @@
 
 const getUser = require("./users").get;
 const {connect} = require("./mongo");
-const {ObjectId} = require("mongodb");
 
 /**
  * @return {Promise<Collection<Workout>>}
@@ -11,7 +10,7 @@ const {ObjectId} = require("mongodb");
 async function getData() {
     return await connect()
         .then(db => db.collection('Workouts'))
-        .catch(err => {throw new Error(err.message, {cause: {status: 500}})});
+        .catch(err => {throw new Error(err.message, {cause: {status: 500}});});
 }
 
 /**
@@ -31,23 +30,24 @@ async function getAll() {
     return await getData().then(col => col.find({}).toArray());
 }
 
+/** @param {import('mongodb').ObjectId} _id */
 async function get(_id) {
     return await getData().then(col => col.findOne({_id: _id}));
 }
 
 /**
  * @description Get all workouts by a specific user
- * @param {ObjectId} userid
+ * @param {import('mongodb').ObjectId} userid
  * @returns {Promise<Workout[]>}
  */
 async function getWorkoutsByUser(userid){
-    const user= await getUser(userid).catch(err => {throw new Error(err.message, {cause: {status: 500}})});
+    const user= await getUser(userid).catch(err => {throw new Error(err.message, {cause: {status: 500}});});
     if(!user) throw new Error('User not found', {cause: {status: 404}});
     return await getData()
         .then(workouts => {
             return workouts.find({"user._id": userid}).toArray();
         })
-        .catch(err => {throw new Error(err.message, {cause: {status: 500}})});
+        .catch(err => {throw new Error(err.message, {cause: {status: 500}});});
 }
 /**
  * @description Search for workouts given a query
@@ -64,34 +64,34 @@ async function search(q) {
             ],
         }).toArray())
         .catch(err => {
-            throw new Error(err.message, {cause: {status: 500}})
-        })
+            throw new Error(err.message, {cause: {status: 500}});
+        });
 }
 
 /**
  * @description update a workout
- * @param {ObjectId} _id
+ * @param {import('mongodb').ObjectId} _id
  * @param {Object} body
  * @returns Promise<Workout>
  */
 async function update(_id, body) {
     const workouts = await getData()
-        .catch(err => {throw new Error(err.message, {cause: {status: 500}})});
+        .catch(err => {throw new Error(err.message, {cause: {status: 500}});});
     const workout = await workouts.findOne({_id:_id})
-        .catch(err => {throw new Error(err.message, {cause: {status: 404}})});
+        .catch(err => {throw new Error(err.message, {cause: {status: 404}});});
     if (!workout) throw new Error('Workout not found', {cause: {status: 404}});
     const result = await workouts.updateOne({_id: _id}, {$set: body});
     if(!result.acknowledged) throw new Error('Update failed', {cause: {status: 500}});
     return await workouts.findOne({_id:_id});
 }
 /**
- * @param {ObjectId} _id
+ * @param {import('mongodb').ObjectId} _id
  * @returns Promise<Workout>
  */
 async function destroy(_id) {
     const col = await getData();
     /** @type {Workout} */
-    const workout = await col.findOne({_id: _id}).catch(err => {throw new Error(err.message, {cause: {status: 404}})});
+    const workout = await col.findOne({_id: _id}).catch(err => {throw new Error(err.message, {cause: {status: 404}});});
     await getData().then(col => col.deleteOne({_id: _id}));
     return workout;
 }
@@ -116,4 +116,4 @@ module.exports = {
     destroy,
     create,
     seed
-}
+};

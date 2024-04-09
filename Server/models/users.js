@@ -1,7 +1,5 @@
-const {connect, Collection} = require('./mongo')
-const {ObjectId} = require('mongodb');
+const {connect} = require('./mongo');
 /**@typedef {import('../../Client/src/model/users').User} User*/
-
 /**@typedef {import('../../Client/src/model/users').newUser} newUser*/
 
 /** @return {Promise<Collection<User>>}*/
@@ -22,7 +20,7 @@ async function getAll() {
     /**@type {User[]} */
     const users = await getData().then(col => col.find({}).toArray());
     return users.map(item => ({
-        /**@type {ObjectId} */
+        /**@type {import('mongodb').ObjectId} */
         _id: item._id,
         /**@type {string} */
         firstName: item.firstName,
@@ -36,7 +34,7 @@ async function getAll() {
         username: item.username,
         /**@type {boolean} */
         admin: item.admin,
-        /**@type {ObjectId[]} */
+        /**@type {import('mongodb').ObjectId[]} */
         friends: item.friends
     }));
 }
@@ -45,7 +43,7 @@ async function getAll() {
  * @returns {Promise<User>}
  */
 async function create(inputInfo) {
-    const users = await getData().catch(err => {throw new Error(err.message, {cause: {status: 500}})});
+    const users = await getData().catch(err => {throw new Error(err.message, {cause: {status: 500}});});
     if (await users.findOne({email: inputInfo.email})) throw new Error('Email already exists', {cause: {status: 400}});
     if (await users.findOne({username: inputInfo.username})) throw new Error('Username already exists', {cause: {status: 400}});
     /** @type {User} */
@@ -61,7 +59,7 @@ async function create(inputInfo) {
 }
 
 /**
- * @param {ObjectId} _id
+ * @param {import('mongodb').ObjectId} _id
  * @returns Promise<User>
  */
 async function get(_id) {
@@ -84,21 +82,21 @@ async function search(q) {
             ],
         }).toArray())
         .catch(err => {
-            throw new Error(err.message, {cause: {status: 500}})
-        })
+            throw new Error(err.message, {cause: {status: 500}});
+        });
 }
 
 /**
- * @param {ObjectId} _id
+ * @param {import('mongodb').ObjectId} _id
  * @param {newUser} inputInfo
  * @returns {Promise<User>}
  */
 async function update(_id, inputInfo) {
     const users = await getData()
-        .catch(err => {throw new Error(err.message, {cause: {status: 500}})});
+        .catch(err => {throw new Error(err.message, {cause: {status: 500}});});
     /** @type {User} */
     const user= await users.findOne({_id:_id})
-        .catch(err => {throw new Error(err.message, {cause: {status: 404}})});
+        .catch(err => {throw new Error(err.message, {cause: {status: 404}});});
     if (!user) throw new Error('User not found', {cause: {status: 404}});
 
     const result = await users.updateOne({_id: _id}, {$set: inputInfo});
@@ -109,13 +107,13 @@ async function update(_id, inputInfo) {
 }
 
 /**
- * @param {ObjectId} _id
+ * @param {import('mongodb').ObjectId} _id
  * @returns Promise<User>
  */
 async function destroy(_id) {
     const col = await getData();
     /**@type {User}*/
-    const user = await col.findOne({_id: _id}).catch(err => {throw new Error(err.message, {cause: {status: 404}})});
+    const user = await col.findOne({_id: _id}).catch(err => {throw new Error(err.message, {cause: {status: 404}});});
     await getData().then(col => col.deleteOne({_id: _id}));
     return user;
 }
@@ -135,7 +133,7 @@ async function login(emailOrUsername, password) {
                 {username: emailOrUsername}
             ],
         }))
-        .catch(err => {throw new Error(err.message, {cause: {status: 500}})});
+        .catch(err => {throw new Error(err.message, {cause: {status: 500}});});
     if(!user) throw new Error('Invalid login credentials. Please try again.', {cause: {status: 401}});
     if (user.password !== password) throw new Error('Invalid login credentials. Please try again.', {cause: {status: 403}});
     return user;
@@ -150,4 +148,4 @@ module.exports = {
     destroy,
     login,
     seed
-}
+};

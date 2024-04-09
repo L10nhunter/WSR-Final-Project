@@ -44,7 +44,7 @@ app
             .then(workout => res.send(workout))
             .catch(err => res.status(err.cause.status).send(err.message))
             .finally(next);
-    })
+    });
 
 
 module.exports = app;

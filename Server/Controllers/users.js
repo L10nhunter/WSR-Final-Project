@@ -31,19 +31,19 @@ app
 
 app
     .get('/:id', (req, res, next) => {
-        users.get(new ObjectId(req.params["id"]))
+        users.get(new ObjectId(req.params.id))
             .then(user => res.send(user))
             .catch(err => res.status(err.cause.status).send({message: err.message}))
             .finally(next);
     })
     .patch('/:id', (req, res, next) => {
-        users.update(new ObjectId(req.params["id"]), req.body)
+        users.update(new ObjectId(req.params.id), req.body)
             .then(user => res.send(user))
             .catch(err => res.status(err.cause.status).send({message: err.message}))
             .finally(next);
     })
     .delete('/:id', (req, res, next) => {
-        users.destroy(new ObjectId(req.params["id"]))
+        users.destroy(new ObjectId(req.params.id))
             .then(user => res.send(user))
             .catch(err => res.status(err.cause.status).send({message: err.message}))
             .finally(next);
