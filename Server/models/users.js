@@ -1,3 +1,4 @@
+const MyError = require('../../Client/src/model/myError').MyError;
 const {connect} = require('./mongo');
 /**@typedef {import('../../Client/src/model/users').User} User*/
 /**@typedef {import('../../Client/src/model/users').newUser} newUser*/
@@ -43,17 +44,17 @@ async function getAll() {
  * @returns {Promise<User>}
  */
 async function create(inputInfo) {
-    const users = await getData().catch(err => {throw new Error(err.message, {cause: {status: 500}});});
-    if (await users.findOne({email: inputInfo.email})) throw new Error('Email already exists', {cause: {status: 400}});
-    if (await users.findOne({username: inputInfo.username})) throw new Error('Username already exists', {cause: {status: 400}});
+    const users = await getData().catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
+    if (await users.findOne({email: inputInfo.email})) throw new MyError('Email already exists', {status: 400, message: "Bad Request"});
+    if (await users.findOne({username: inputInfo.username})) throw new MyError('Username already exists', {status: 400, message: "Bad Request"});
     /** @type {User} */
     const newUser = {
         admin: false,
         ...inputInfo,
         friends: []
     };
-    const result = await users.insertOne(newUser);
-    if(!result.acknowledged) throw new Error('Insert failed', {cause: {status: 400}});
+    const result = await users.insertOne(newUser).catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
+    if(!result.acknowledged) throw new MyError('Insert failed', {status: 400, message: "Bad Request"});
     newUser._id = result.insertedId;
     return newUser;
 }
@@ -64,7 +65,7 @@ async function create(inputInfo) {
  */
 async function get(_id) {
     const user = await getData().then(col => col.findOne({_id: _id}));
-    if (!user) throw new Error('User not found', {cause: {status: 404}});
+    if (!user) throw new MyError('User not found', {status: 404, message: "Not Found"});
     return user;
 }
 
@@ -82,7 +83,7 @@ async function search(q) {
             ],
         }).toArray())
         .catch(err => {
-            throw new Error(err.message, {cause: {status: 500}});
+            throw new MyError(err.message, {status: 500, message: "Internal Server Error"});
         });
 }
 
@@ -93,14 +94,14 @@ async function search(q) {
  */
 async function update(_id, inputInfo) {
     const users = await getData()
-        .catch(err => {throw new Error(err.message, {cause: {status: 500}});});
+        .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
     /** @type {User} */
     const user= await users.findOne({_id:_id})
-        .catch(err => {throw new Error(err.message, {cause: {status: 404}});});
-    if (!user) throw new Error('User not found', {cause: {status: 404}});
+        .catch(err => {throw new MyError(err.message, {status: 404, message: "Not Found"});});
+    if (!user) throw new MyError('User not found', {status: 404, message: "Not Found"});
 
     const result = await users.updateOne({_id: _id}, {$set: inputInfo});
-    if(!result.acknowledged) throw new Error('Update failed', {cause: {status: 500}});
+    if(!result.acknowledged) throw new MyError('Update failed', {status: 500, message: "Internal Server Error"});
 
     return await users.findOne({_id:_id});
 
@@ -113,7 +114,7 @@ async function update(_id, inputInfo) {
 async function destroy(_id) {
     const col = await getData();
     /**@type {User}*/
-    const user = await col.findOne({_id: _id}).catch(err => {throw new Error(err.message, {cause: {status: 404}});});
+    const user = await col.findOne({_id: _id}).catch(err => {throw new MyError(err.message, {status: 404, message: "Not Found"});});
     await getData().then(col => col.deleteOne({_id: _id}));
     return user;
 }
@@ -133,9 +134,9 @@ async function login(emailOrUsername, password) {
                 {username: emailOrUsername}
             ],
         }))
-        .catch(err => {throw new Error(err.message, {cause: {status: 500}});});
-    if(!user) throw new Error('Invalid login credentials. Please try again.', {cause: {status: 401}});
-    if (user.password !== password) throw new Error('Invalid login credentials. Please try again.', {cause: {status: 403}});
+        .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
+    if(!user) throw new MyError('Invalid login credentials. Please try again.', {status: 401, message: "Unauthorized"});
+    if (user.password !== password) throw new MyError('Invalid login credentials. Please try again.', {status: 403, message: "Forbidden"});
     return user;
 }
 

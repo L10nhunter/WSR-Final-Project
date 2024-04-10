@@ -3,6 +3,7 @@
 
 const getUser = require("./users").get;
 const {connect} = require("./mongo");
+const {MyError} = require("../../Client/src/model/myError");
 
 /**
  * @return {Promise<Collection<Workout>>}
@@ -10,7 +11,7 @@ const {connect} = require("./mongo");
 async function getData() {
     return await connect()
         .then(db => db.collection('Workouts'))
-        .catch(err => {throw new Error(err.message, {cause: {status: 500}});});
+        .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
 }
 
 /**
@@ -41,13 +42,13 @@ async function get(_id) {
  * @returns {Promise<Workout[]>}
  */
 async function getWorkoutsByUser(userid){
-    const user= await getUser(userid).catch(err => {throw new Error(err.message, {cause: {status: 500}});});
-    if(!user) throw new Error('User not found', {cause: {status: 404}});
+    const user= await getUser(userid).catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
+    if(!user) throw new MyError('User not found', {status: 404, message: "Not Found"});
     return await getData()
         .then(workouts => {
             return workouts.find({"user._id": userid}).toArray();
         })
-        .catch(err => {throw new Error(err.message, {cause: {status: 500}});});
+        .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
 }
 /**
  * @description Search for workouts given a query
@@ -64,7 +65,7 @@ async function search(q) {
             ],
         }).toArray())
         .catch(err => {
-            throw new Error(err.message, {cause: {status: 500}});
+            throw new MyError(err.message, {status: 500, message: "Internal Server Error"});
         });
 }
 
@@ -76,12 +77,12 @@ async function search(q) {
  */
 async function update(_id, body) {
     const workouts = await getData()
-        .catch(err => {throw new Error(err.message, {cause: {status: 500}});});
+        .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
     const workout = await workouts.findOne({_id:_id})
-        .catch(err => {throw new Error(err.message, {cause: {status: 404}});});
-    if (!workout) throw new Error('Workout not found', {cause: {status: 404}});
-    const result = await workouts.updateOne({_id: _id}, {$set: body});
-    if(!result.acknowledged) throw new Error('Update failed', {cause: {status: 500}});
+        .catch(err => {throw new MyError(err.message, {status: 404, message: "Not Found"});});
+    if (!workout) throw new MyError('Workout not found', {status: 404, message: "Not Found"});
+    const result = await workouts.updateOne({_id: _id}, {$set: body}).catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
+    if(!result.acknowledged) throw new MyError('Failed To Update', {status: 500, message: "Internal Server Error"});
     return await workouts.findOne({_id:_id});
 }
 /**
@@ -91,7 +92,7 @@ async function update(_id, body) {
 async function destroy(_id) {
     const col = await getData();
     /** @type {Workout} */
-    const workout = await col.findOne({_id: _id}).catch(err => {throw new Error(err.message, {cause: {status: 404}});});
+    const workout = await col.findOne({_id: _id}).catch(err => {throw new MyError(err.message, {status: 404, message: "Not Found"});});
     await getData().then(col => col.deleteOne({_id: _id}));
     return workout;
 }
@@ -102,8 +103,8 @@ async function destroy(_id) {
  */
 async function create(newWorkout) {
     const users = await getData();
-    const result = await users.insertOne(newWorkout);
-    if(!result.acknowledged) throw new Error('Insert failed', {cause: {status: 500}});
+    const result = await users.insertOne(newWorkout).catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
+    if(!result.acknowledged) throw new MyError("Creation Error", {status: 500, message: "Internal Server Error"});
     return await users.findOne({_id: result.insertedId});
 }
 
