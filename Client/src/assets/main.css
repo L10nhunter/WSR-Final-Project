@@ -90,8 +90,7 @@
     color: var(--color-text-mute) !important;
 }
 div.form{
-    margin: 1rem !important;
-    margin-right: 1.25rem !important;
+    margin-right: .25rem !important;
 }
 label{
     margin-bottom: .125rem !important;
