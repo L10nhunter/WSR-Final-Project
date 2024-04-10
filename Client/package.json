@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "vite",
     "build": "run-p \"build-only {@}\" --",
