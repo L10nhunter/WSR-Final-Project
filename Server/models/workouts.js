@@ -9,6 +9,7 @@ const {MyError} = require("../../Client/src/model/myError");
  * @return {Promise<Collection<Workout>>}
  */
 async function getData() {
+    "use strict";
     return await connect()
         .then(db => db.collection('Workouts'))
         .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
@@ -19,6 +20,7 @@ async function getData() {
  * @return {Promise<void>}
  */
 async function seed() {
+    "use strict";
     const col = await getData();
     await col.insertMany(require('../data/workouts.json').items);
 }
@@ -28,11 +30,13 @@ async function seed() {
  * @returns {Promise<Workout[]>}
  */
 async function getAll() {
+    "use strict";
     return await getData().then(col => col.find({}).toArray());
 }
 
 /** @param {import('mongodb').ObjectId} _id */
 async function get(_id) {
+    "use strict";
     return await getData().then(col => col.findOne({_id: _id}));
 }
 
@@ -42,6 +46,7 @@ async function get(_id) {
  * @returns {Promise<Workout[]>}
  */
 async function getWorkoutsByUser(userid){
+    "use strict";
     const user= await getUser(userid).catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
     if(!user) throw new MyError('User not found', {status: 404, message: "Not Found"});
     return await getData()
@@ -56,6 +61,7 @@ async function getWorkoutsByUser(userid){
  * @returns {Promise<Workout[]>}
  */
 async function search(q) {
+    "use strict";
     return await getData()
         .then(col => col.find({
             $or: [
@@ -76,6 +82,7 @@ async function search(q) {
  * @returns Promise<Workout>
  */
 async function update(_id, body) {
+    "use strict";
     const workouts = await getData()
         .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
     const workout = await workouts.findOne({_id:_id})
@@ -90,6 +97,7 @@ async function update(_id, body) {
  * @returns Promise<Workout>
  */
 async function destroy(_id) {
+    "use strict";
     const col = await getData();
     /** @type {Workout} */
     const workout = await col.findOne({_id: _id}).catch(err => {throw new MyError(err.message, {status: 404, message: "Not Found"});});
@@ -102,6 +110,7 @@ async function destroy(_id) {
  * @returns Promise<Workout>
  */
 async function create(newWorkout) {
+    "use strict";
     const users = await getData();
     const result = await users.insertOne(newWorkout).catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
     if(!result.acknowledged) throw new MyError("Creation Error", {status: 500, message: "Internal Server Error"});

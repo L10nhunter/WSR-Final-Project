@@ -5,11 +5,13 @@ const {connect} = require('./mongo');
 
 /** @return {Promise<Collection<User>>}*/
 async function getData() {
+    "use strict";
     const db = await connect();
     return db.collection('Users');
 }
 
 async function seed() {
+    "use strict";
     const col = await getData();
     await col.insertMany(require('../data/users.json').items);
 }
@@ -18,6 +20,7 @@ async function seed() {
  * @returns {Promise<User[]>}
  */
 async function getAll() {
+    "use strict";
     /**@type {User[]} */
     const users = await getData().then(col => col.find({}).toArray());
     return users.map(item => ({
@@ -44,6 +47,7 @@ async function getAll() {
  * @returns {Promise<User>}
  */
 async function create(inputInfo) {
+    "use strict";
     const users = await getData().catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
     if (await users.findOne({email: inputInfo.email})) throw new MyError('Email already exists', {status: 400, message: "Bad Request"});
     if (await users.findOne({username: inputInfo.username})) throw new MyError('Username already exists', {status: 400, message: "Bad Request"});
@@ -64,6 +68,7 @@ async function create(inputInfo) {
  * @returns Promise<User>
  */
 async function get(_id) {
+    "use strict";
     const user = await getData().then(col => col.findOne({_id: _id}));
     if (!user) throw new MyError('User not found', {status: 404, message: "Not Found"});
     return user;
@@ -74,6 +79,7 @@ async function get(_id) {
  * @returns {Promise<User[]>}
  */
 async function search(q) {
+    "use strict";
     return await getData()
         .then(col => col.find({
             $or: [
@@ -93,6 +99,7 @@ async function search(q) {
  * @returns {Promise<User>}
  */
 async function update(_id, inputInfo) {
+    "use strict";
     const users = await getData()
         .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
     /** @type {User} */
@@ -112,6 +119,7 @@ async function update(_id, inputInfo) {
  * @returns Promise<User>
  */
 async function destroy(_id) {
+    "use strict";
     const col = await getData();
     /**@type {User}*/
     const user = await col.findOne({_id: _id}).catch(err => {throw new MyError(err.message, {status: 404, message: "Not Found"});});
@@ -126,6 +134,7 @@ async function destroy(_id) {
  * @returns {Promise<User>}
  */
 async function login(emailOrUsername, password) {
+    "use strict";
     /**@type {User}*/
     const user = await getData()
         .then(col => col.findOne({

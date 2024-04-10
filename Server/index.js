@@ -3,8 +3,14 @@ if(process.env.NODE_ENV === 'development') {
     require('@dotenvx/dotenvx').config();
     if(process.env.RESEED_DB === 'true') {
         console.log('Reseeding Database');
-        require('./models/users').seed().then(r => console.log(r));
-        require('./models/workouts').seed().then(r => console.log(r));
+        require('./models/users').seed().then(r => {
+            "use strict";
+            console.log(r);
+        });
+        require('./models/workouts').seed().then(r => {
+            "use strict";
+            console.log(r);
+        });
     }
 }
 const express = require('express');
@@ -27,5 +33,6 @@ if(process.env.NODE_ENV !== 'development') app.use('/', express.static('../clien
 app.use('/api/v1/users', require('./Controllers/users'));
 app.use('/api/v1/workouts', require('./Controllers/workouts'));
 app.listen(PORT, () => {
+    "use strict";
     console.log(`Server started at: http://localhost:${PORT}`);
 });
