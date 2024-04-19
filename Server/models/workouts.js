@@ -3,7 +3,7 @@
 
 const getUser = require("./users").get;
 const {connect} = require("./mongo");
-const {MyError} = require("../../Client/src/model/myError");
+const {MyError} = require("./MyError");
 
 /**
  * @return {Promise<Collection<Workout>>}
@@ -12,7 +12,7 @@ async function getData() {
     "use strict";
     return await connect()
         .then(db => db.collection('Workouts'))
-        .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
+        .catch(err => {throw new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 15});});
 }
 
 /**
@@ -47,13 +47,13 @@ async function get(_id) {
  */
 async function getWorkoutsByUser(userid){
     "use strict";
-    const user= await getUser(userid).catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
-    if(!user) throw new MyError('User not found', {status: 404, message: "Not Found"});
+    const user= await getUser(userid).catch(err => {throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 50});});
+    if(!user) throw new MyError(404, 'User not found', {fileName: 'models/workouts.js', lineNum: 51});
     return await getData()
         .then(workouts => {
             return workouts.find({"user._id": userid}).toArray();
         })
-        .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
+        .catch(err => {throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 56});});
 }
 /**
  * @description Search for workouts given a query
@@ -71,7 +71,7 @@ async function search(q) {
             ],
         }).toArray())
         .catch(err => {
-            throw new MyError(err.message, {status: 500, message: "Internal Server Error"});
+            throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 74});
         });
 }
 
@@ -84,12 +84,12 @@ async function search(q) {
 async function update(_id, body) {
     "use strict";
     const workouts = await getData()
-        .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
+        .catch(err => {throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 87});});
     const workout = await workouts.findOne({_id:_id})
-        .catch(err => {throw new MyError(err.message, {status: 404, message: "Not Found"});});
-    if (!workout) throw new MyError('Workout not found', {status: 404, message: "Not Found"});
-    const result = await workouts.updateOne({_id: _id}, {$set: body}).catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
-    if(!result.acknowledged) throw new MyError('Failed To Update', {status: 500, message: "Internal Server Error"});
+        .catch(err => {throw err instanceof MyError ? err : new MyError(404, err.message, {fileName: 'models/workouts.js', lineNum: 89});});
+    if (!workout)throw new MyError(404, "Workout not Found", {fileName: 'models/workouts.js', lineNum: 90});
+    const result = await workouts.updateOne({_id: _id}, {$set: body}).catch(err => {throw new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 91});});
+    if(!result.acknowledged) throw new MyError(500, 'Failed To Update: result not acknowledged', {fileName: 'models/workouts.js', lineNum: 92});
     return await workouts.findOne({_id:_id});
 }
 /**
@@ -100,8 +100,9 @@ async function destroy(_id) {
     "use strict";
     const col = await getData();
     /** @type {Workout} */
-    const workout = await col.findOne({_id: _id}).catch(err => {throw new MyError(err.message, {status: 404, message: "Not Found"});});
-    await getData().then(col => col.deleteOne({_id: _id}));
+    const workout = await col.findOne({_id: _id}).catch(err => {throw err instanceof MyError ? err : new MyError(404, err.message, {fileName: 'models/workouts.js', lineNum: 103});});
+    const result = await getData().then(col => col.deleteOne({_id: _id}));
+    if(!result.acknowledged) throw new MyError(500, 'Failed to delete: result not acknowledged', {fileName: 'models/workouts.js', lineNum: 105});
     return workout;
 }
 
@@ -112,8 +113,8 @@ async function destroy(_id) {
 async function create(newWorkout) {
     "use strict";
     const users = await getData();
-    const result = await users.insertOne(newWorkout).catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
-    if(!result.acknowledged) throw new MyError("Creation Error", {status: 500, message: "Internal Server Error"});
+    const result = await users.insertOne(newWorkout).catch(err => {throw new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 116});});
+    if(!result.acknowledged) throw new MyError(500, 'Failed to delete: result not acknowledged', {fileName: 'models/workouts.js', lineNum: 117});
     return await users.findOne({_id: result.insertedId});
 }
 
