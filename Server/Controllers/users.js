@@ -59,7 +59,7 @@ app
                 res.status(envelope.status).send(envelope);
             });*/
     })
-    .post('/', (req, res, next) => {
+    .post('/', (req, res) => {
         "use strict";
         users.create(req.body)
             .then(user => {
@@ -82,7 +82,7 @@ app
                 res.status(envelope.status).send(envelope);
             });
     })
-    .post('/login', (req, res, next) => {
+    .post('/login', (req, res) => {
         "use strict";
         users.login(req.body.emailOrUsername, req.body.password)
             .then(user => {
@@ -107,7 +107,7 @@ app
     });
 
 app
-    .get('/:id', (req, res, next) => {
+    .get('/:id', (req, res) => {
         "use strict";
         users.get(new ObjectId(req.params.id))
             .then(user => {
@@ -130,7 +130,7 @@ app
                 res.status(envelope.status).send(envelope);
             });
     })
-    .patch('/:id', (req, res, next) => {
+    .patch('/:id', (req, res) => {
         "use strict";
         users.update(new ObjectId(req.params.id), req.body)
             .then(user => {
@@ -153,7 +153,7 @@ app
                 res.status(envelope.status).send(envelope);
             });
     })
-    .delete('/:id', (req, res, next) => {
+    .delete('/:id', (req, res) => {
         "use strict";
         users.destroy(new ObjectId(req.params.id))
             .then(user => {
