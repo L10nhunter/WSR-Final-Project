@@ -1,4 +1,4 @@
-const MyError = require('../../Client/src/model/myError').MyError;
+const {MyError} = require("./MyError");
 const {connect} = require('./mongo');
 /**@typedef {import('../../Client/src/model/users').User} User*/
 /**@typedef {import('../../Client/src/model/users').newUser} newUser*/
@@ -36,6 +36,8 @@ async function getAll() {
         phone: item.phone,
         /**@type {string} */
         username: item.username,
+        /**@type {string} */
+        password: '********',
         /**@type {boolean} */
         admin: item.admin,
         /**@type {import('mongodb').ObjectId[]} */
@@ -48,21 +50,20 @@ async function getAll() {
  */
 async function create(inputInfo) {
     "use strict";
-    const users = await getData().catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
-    if (await users.findOne({email: inputInfo.email})) throw new MyError('Email already exists', {status: 400, message: "Bad Request"});
-    if (await users.findOne({username: inputInfo.username})) throw new MyError('Username already exists', {status: 400, message: "Bad Request"});
+    const users = await getData().catch(err => {throw new MyError(500, err.message,{fileName: 'models/users.js', lineNum: 53});});
+    if (await users.findOne({email: inputInfo.email})) throw new MyError(400,'Email already exists', {fileName: 'models/users.js', lineNum: 54});
+    if (await users.findOne({username: inputInfo.username})) throw new MyError(400,'Username already exists', {fileName: 'models/users.js', lineNum: 55});
     /** @type {User} */
     const newUser = {
         admin: false,
         ...inputInfo,
         friends: []
     };
-    const result = await users.insertOne(newUser).catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
-    if(!result.acknowledged) throw new MyError('Insert failed', {status: 400, message: "Bad Request"});
+    const result = await users.insertOne(newUser).catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 62});});
+    if(!result.acknowledged) throw new MyError(500, 'Insert failed: result not acknowledged', {fileName: 'models/users.js', lineNum: 63});
     newUser._id = result.insertedId;
     return newUser;
 }
-
 /**
  * @param {import('mongodb').ObjectId} _id
  * @returns Promise<User>
@@ -70,7 +71,7 @@ async function create(inputInfo) {
 async function get(_id) {
     "use strict";
     const user = await getData().then(col => col.findOne({_id: _id}));
-    if (!user) throw new MyError('User not found', {status: 404, message: "Not Found"});
+    if (!user) {throw new MyError(404, 'User not found', {fileName: 'models/users.js', lineNum: 74});}
     return user;
 }
 
@@ -80,6 +81,7 @@ async function get(_id) {
  */
 async function search(q) {
     "use strict";
+    console.log(q);
     return await getData()
         .then(col => col.find({
             $or: [
@@ -88,9 +90,7 @@ async function search(q) {
                 {email: {$regex: q, $options: 'i'}},
             ],
         }).toArray())
-        .catch(err => {
-            throw new MyError(err.message, {status: 500, message: "Internal Server Error"});
-        });
+        .catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 93});});
 }
 
 /**
@@ -101,14 +101,14 @@ async function search(q) {
 async function update(_id, inputInfo) {
     "use strict";
     const users = await getData()
-        .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
+        .catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 104});});
     /** @type {User} */
     const user= await users.findOne({_id:_id})
-        .catch(err => {throw new MyError(err.message, {status: 404, message: "Not Found"});});
-    if (!user) throw new MyError('User not found', {status: 404, message: "Not Found"});
+        .catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 107});});
+    if (!user) throw new MyError(404, 'User not found', {fileName: 'models/users.js', lineNum: 108});
 
     const result = await users.updateOne({_id: _id}, {$set: inputInfo});
-    if(!result.acknowledged) throw new MyError('Update failed', {status: 500, message: "Internal Server Error"});
+    if(!result.acknowledged) throw new MyError(500, 'Update failed: result not acknowledged', {fileName: 'models/users.js', lineNum: 111});
 
     return await users.findOne({_id:_id});
 
@@ -122,7 +122,8 @@ async function destroy(_id) {
     "use strict";
     const col = await getData();
     /**@type {User}*/
-    const user = await col.findOne({_id: _id}).catch(err => {throw new MyError(err.message, {status: 404, message: "Not Found"});});
+    const user = await col.findOne({_id: _id}).catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 125});});
+    if (!user) throw new MyError(404, 'User not found', {fileName: 'models/users.js', lineNum: 126});
     await getData().then(col => col.deleteOne({_id: _id}));
     return user;
 }
@@ -143,9 +144,9 @@ async function login(emailOrUsername, password) {
                 {username: emailOrUsername}
             ],
         }))
-        .catch(err => {throw new MyError(err.message, {status: 500, message: "Internal Server Error"});});
-    if(!user) throw new MyError('Invalid login credentials. Please try again.', {status: 401, message: "Unauthorized"});
-    if (user.password !== password) throw new MyError('Invalid login credentials. Please try again.', {status: 403, message: "Forbidden"});
+        .catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 146});});
+    if(!user) throw new MyError(401,'Invalid login credentials. Please try again.', {fileName: 'models/users.js', lineNum: 147});
+    if (user.password !== password) throw new MyError(403,'Invalid login credentials. Please try again.', {fileName: 'models/users.js', lineNum: 148});
     return user;
 }
 

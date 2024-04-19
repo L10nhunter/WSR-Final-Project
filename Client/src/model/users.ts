@@ -1,21 +1,12 @@
 import {ref} from "vue";
-import {api} from "@/model/session";
+import {api} from "@/model/rest";
 import type {ObjectId} from "mongodb";
 
-export interface newUser {
-    firstName: string
-    lastName: string
-    email: string
-    phone: string
-    username: string
-    password: string
-    friends?: ObjectId[]
-
+interface Extras {
     maidenName?: string
     age?: number
     gender?: string
     birthDate?: string
-    image?: string
     bloodGroup?: string
     height?: number
     weight?: number
@@ -69,6 +60,17 @@ export interface newUser {
         network?: string
     }
 }
+
+export interface newUser extends Extras{
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    username: string
+    password: string
+    friends?: ObjectId[]
+    image?: string
+}
 export interface User extends newUser{
     _id: ObjectId
     admin: boolean
@@ -86,15 +88,18 @@ export const showLoginModal = ref(false);
 const API = "users";
 
 export async function addUser(newUser: newUser): Promise<User> {
-    return await api(API, newUser, "POST");
+    const user = await api<User>(API, newUser, "POST");
+    return user.data;
 }
 
 export async function getUsers(): Promise<User[]> {
-    return await api(API) as User[];
+    const users  = await api<User[]>(API);
+    return users.data;
 }
 
 export async function getUser(id: ObjectId): Promise<User> {
-    return await api(`${API}/${id}`) as User;
+    const user  = await api<User>(`${API}/${id}`);
+    return user.data;
 }
 
 export async function addFriend(user: User, friend: User): Promise<User> {
@@ -103,9 +108,11 @@ export async function addFriend(user: User, friend: User): Promise<User> {
 }
 
 export async function updateUser(user: User): Promise<User> {
-    return await api(`${API}/${user._id}`, user, "PATCH");
+    const ret  = await api<User>(`${API}/${user._id}`, user, "PATCH");
+    return ret.data;
 }
 
 export async function deleteUser(user: User): Promise<User> {
-    return await api(`${API}/${user._id}`, undefined, "DELETE");
+    const ret  = await api<User>(`${API}/${user._id}`, undefined, "DELETE");
+    return ret.data;
 }
