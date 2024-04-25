@@ -80,8 +80,7 @@ export interface safeUser {
     firstName: string
     lastName: string
     username: string
-    friends?: number[]
-    image?: string
+    friends?: ObjectId[]
 }
 export const showLoginModal = ref(false);
 

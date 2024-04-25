@@ -8,12 +8,13 @@ const devMode = process.env.NODE_ENV === 'development';
 app
     .get('/', async (req, res, next) => {
         "use strict";
+        /**@type {DataListEnvelope<User>} */
+        let envelope = {pageLimit: 30};
         try {
             const users = await DB.getAll();
-            /**@type {DataListEnvelope<User>} */
-            const envelope = {
+            envelope = {
                 data: users,
-                pageLimit: 30,
+                ...envelope,
                 isSuccessful: true,
                 message: 'Success',
                 status: 200
@@ -21,10 +22,9 @@ app
             res.send(envelope);
         } catch (err) {
             if (devMode) {
-                /**@type {DataListEnvelope<User>} */
-                const envelope = {
+                envelope = {
                     data: [],
-                    pageLimit: 30,
+                    ...envelope,
                     isSuccessful: false,
                     message: err.message,
                     status: err instanceof MyError ? err.code : 500
@@ -35,12 +35,13 @@ app
     })
     .get('/search', async (req, res, next) => {
         "use strict";
+        /**@type {DataListEnvelope<User>} */
+        let envelope = { pageLimit: 30 };
         try {
             const users = await DB.search(req.query.q);
-            /**@type {DataListEnvelope<User>} */
-            const envelope = {
+            envelope = {
                 data: users,
-                pageLimit: 30,
+                ...envelope,
                 isSuccessful: true,
                 message: 'Success',
                 status: 200
@@ -48,10 +49,9 @@ app
             res.send(envelope);
         } catch (err) {
             if (devMode) {
-                /**@type {DataListEnvelope<User>} */
-                const envelope = {
+                envelope = {
                     data: [],
-                    pageLimit: 30,
+                    ...envelope,
                     isSuccessful: false,
                     message: err.message,
                     status: err instanceof MyError ? err.code : 500

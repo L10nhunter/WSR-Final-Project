@@ -24,24 +24,15 @@ async function getAll() {
     /**@type {User[]} */
     const users = await getData().then(col => col.find({}).toArray());
     return users.map(item => ({
-        /**@type {import('mongodb').ObjectId} */
         _id: item._id,
-        /**@type {string} */
         firstName: item.firstName,
-        /**@type {string} */
         lastName: item.lastName,
-        /**@type {string} */
         email: item.email,
-        /**@type {string} */
         phone: item.phone,
-        /**@type {string} */
         username: item.username,
-        /**@type {string} */
         password: '********',
-        /**@type {boolean} */
         admin: item.admin,
-        /**@type {import('mongodb').ObjectId[]} */
-        friends: item.friends
+        friends: item.friends,
     }));
 }
 /**

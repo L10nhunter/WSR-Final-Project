@@ -1,6 +1,6 @@
+require('@dotenvx/dotenvx').config();
 if (process.env.NODE_ENV === 'development') {
     console.log('Development Mode');
-    require('@dotenvx/dotenvx').config();
     if (process.env.RESEED_DB === 'true') {
         console.log('Reseeding Database');
         require('./models/users').seed().then(r => {
@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 const express = require('express');
 const cors = require('cors');
-const app = express();
+const app = express("Client/dist");
 
 const PORT = !isNaN(parseInt(process.env.PORT)) ? parseInt(process.env.PORT) : 3000;
 
@@ -30,8 +30,13 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 if (process.env.NODE_ENV !== 'development') app.use('/', express.static('../client/dist'));
 
-app.use('/api/v1/users', require('./Controllers/users'));
-app.use('/api/v1/workouts', require('./Controllers/workouts'));
+app
+    .get('/', (req, res) => {
+        "use strict";
+        res.send({message: 'Welcome to the API'});
+    })
+    .use('/api/v1/users', require('./Controllers/users'))
+    .use('/api/v1/workouts', require('./Controllers/workouts'));
 app.use(
     /**
      * @param {import('express').ErrorRequestHandler} err

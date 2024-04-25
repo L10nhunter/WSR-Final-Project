@@ -1,10 +1,9 @@
-import {type safeUser, type User} from "@/model/users";
+import {type User} from "@/model/users";
 import {getUser} from "@/model/session";
 import {api} from "@/model/rest";
 import type {ObjectId} from "mongodb";
 
 export interface NewWorkout {
-    user: safeUser
     title: string
     time: number
     duration?: number
@@ -15,6 +14,7 @@ export interface NewWorkout {
     type: string
     imageURL?: string
     comments?: string[]
+    uid: ObjectId
 }
 
 export interface Workout extends NewWorkout {
@@ -40,6 +40,7 @@ export async function getWorkoutsByUserID(userID?: ObjectId): Promise<Workout[]>
 }
 
 export async function addWorkout(newWorkout: NewWorkout): Promise<Workout> {
+    newWorkout.uid = getUser()!._id;
     const workout = await api<Workout>(API, newWorkout, "POST")
     return workout.data;
 }
