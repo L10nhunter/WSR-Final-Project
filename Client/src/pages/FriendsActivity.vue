@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 import "@/assets/main.css";
 import {ref} from "vue";
@@ -20,7 +19,7 @@ definePage({
 // function to make API call to get all friends' workouts
 async function getFriendsWorkouts(): Promise<Workout[]> {
     // make API call to get all workouts of each friend
-    const user = getUser() as User;
+    const user: User = getUser()!;
     const workouts = [] as Workout[];
     if (user.friends?.length === 0) return workouts;
     for(const friend of user.friends!){
@@ -35,6 +34,7 @@ async function getFriendsWorkouts(): Promise<Workout[]> {
     });
 }
 const friendsWorkouts = await getFriendsWorkouts();
+console.log(friendsWorkouts);
 
 const showAddWorkoutModal = ref(false);
 </script>
