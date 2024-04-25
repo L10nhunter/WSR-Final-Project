@@ -5,10 +5,11 @@
   "license": "ISC",
   "author": "Ari Yeger",
   "scripts": {
+    "build": "npm install --production && cd Client && npm install && npm run build",
     "start": "node Server/index.js",
     "dev": "dotenvx run -- nodemon Server/index.js  --watch Server/",
     "test": "echo 'Error: no test specified' && exit 1",
-    "devCombo": "\"npm run dev\" \"cd Client && npm run dev\""
+    "devCombo": "npm run dev && cd Client && npm run dev"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^0.30.0",
