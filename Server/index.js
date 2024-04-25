@@ -1,7 +1,7 @@
-if(process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development') {
     console.log('Development Mode');
     require('@dotenvx/dotenvx').config();
-    if(process.env.RESEED_DB === 'true') {
+    if (process.env.RESEED_DB === 'true') {
         console.log('Reseeding Database');
         require('./models/users').seed().then(r => {
             "use strict";
@@ -27,8 +27,8 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-if(process.env.NODE_ENV !== 'development') app.use('/', express.static('../client/dist'));
+app.use(express.urlencoded({extended: true}));
+if (process.env.NODE_ENV !== 'development') app.use('/', express.static('../client/dist'));
 
 app.use('/api/v1/users', require('./Controllers/users'));
 app.use('/api/v1/workouts', require('./Controllers/workouts'));
@@ -40,11 +40,12 @@ app.use(
      * @param {import('express').NextFunction} next
      */
     (err, req, res, next) => {
-    "use strict";
-    console.error(err);
-    res.status( 500).send({message: "Internal Server Error"});
-    next();
-});
+        "use strict";
+        console.error(err);
+        res.status(500).send({message: "Internal Server Error"});
+        next();
+    });
+
 app.listen(PORT, () => {
     "use strict";
     console.log(`Server started at: http://localhost:${PORT}`);

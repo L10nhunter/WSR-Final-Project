@@ -1,4 +1,4 @@
-const {MyError} = require("./MyError");
+MyError = require("./MyError");
 const {connect} = require('./mongo');
 /**@typedef {import('../../Client/src/model/users').User} User*/
 /**@typedef {import('../../Client/src/model/users').newUser} newUser*/
@@ -51,7 +51,7 @@ async function getAll() {
 async function create(inputInfo) {
     "use strict";
     const users = await getData().catch(err => {throw new MyError(500, err.message,{fileName: 'models/users.js', lineNum: 53});});
-    if (await users.findOne({email: inputInfo.email})) throw new MyError(400,'Email already exists', {fileName: 'models/users.js', lineNum: 54});
+    if (await users.findOne({email: inputInfo.email})) throw new MyError(400, 'Email already exists', {fileName: 'models/users.js', lineNum: 54});
     if (await users.findOne({username: inputInfo.username})) throw new MyError(400,'Username already exists', {fileName: 'models/users.js', lineNum: 55});
     /** @type {User} */
     const newUser = {
@@ -81,12 +81,12 @@ async function get(_id) {
  */
 async function search(q) {
     "use strict";
-    console.log(q);
     return await getData()
         .then(col => col.find({
             $or: [
                 {firstName: {$regex: q, $options: 'i'}},
                 {lastName: {$regex: q, $options: 'i'}},
+                {username: {$regex: q, $options: 'i'}},
                 {email: {$regex: q, $options: 'i'}},
             ],
         }).toArray())
@@ -145,8 +145,7 @@ async function login(emailOrUsername, password) {
             ],
         }))
         .catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 146});});
-    if(!user) throw new MyError(401,'Invalid login credentials. Please try again.', {fileName: 'models/users.js', lineNum: 147});
-    if (user.password !== password) throw new MyError(403,'Invalid login credentials. Please try again.', {fileName: 'models/users.js', lineNum: 148});
+    if(!user || user.password !== password) throw new MyError(401,'Invalid login credentials. Please try again.', {fileName: 'models/users.js', lineNum: 147});
     return user;
 }
 

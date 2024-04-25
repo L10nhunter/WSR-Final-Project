@@ -1,25 +1,26 @@
-const users = require('../models/users');
+const DB = require('../models/users');
 const express = require('express');
-const {MyError} = require("../models/MyError");
+MyError = require("../models/MyError");
 const {ObjectId} = require("mongodb");
 const app = express.Router();
+const devMode = process.env.NODE_ENV === 'development';
 
 app
-    .get('/', (req, res, next) => {
+    .get('/', async (req, res, next) => {
         "use strict";
-        users.getAll()
-            .then(users => {
-                /**@type {DataListEnvelope<User>} */
-                const envelope = {
-                    data: users,
-                    pageLimit: 30,
-                    isSuccessful: true,
-                    message: 'Success',
-                    status: 200
-                };
-                res.send(envelope);
-            })
-            .catch(err => {
+        try {
+            const users = await DB.getAll();
+            /**@type {DataListEnvelope<User>} */
+            const envelope = {
+                data: users,
+                pageLimit: 30,
+                isSuccessful: true,
+                message: 'Success',
+                status: 200
+            };
+            res.send(envelope);
+        } catch (err) {
+            if (devMode) {
                 /**@type {DataListEnvelope<User>} */
                 const envelope = {
                     data: [],
@@ -29,26 +30,25 @@ app
                     status: err instanceof MyError ? err.code : 500
                 };
                 res.status(envelope.status).send(envelope);
-            })
-            .finally(next);
+            } else (next(err));
+        }
     })
-    .get('/search', (req, res, next) => {
+    .get('/search', async (req, res, next) => {
         "use strict";
-        users.search(req.query.q)
-            .then(users => {
-                if(users.length === 0) throw new Error('No users found');
+        try {
+            const users = await DB.search(req.query.q);
+            /**@type {DataListEnvelope<User>} */
+            const envelope = {
+                data: users,
+                pageLimit: 30,
+                isSuccessful: true,
+                message: 'Success',
+                status: 200
+            };
+            res.send(envelope);
+        } catch (err) {
+            if (devMode) {
                 /**@type {DataListEnvelope<User>} */
-                const envelope = {
-                    data: users,
-                    pageLimit: 30,
-                    isSuccessful: true,
-                    message: 'Success',
-                    status: 200
-                };
-                res.send(envelope);
-            })
-            .catch(err => {next(err);});
-               /* /!**@type {DataListEnvelope<User>} *!/
                 const envelope = {
                     data: [],
                     pageLimit: 30,
@@ -57,123 +57,135 @@ app
                     status: err instanceof MyError ? err.code : 500
                 };
                 res.status(envelope.status).send(envelope);
-            });*/
+            } else (next(err));
+        }
     })
-    .post('/', (req, res) => {
+    .post('/', async (req, res, next) => {
         "use strict";
-        users.create(req.body)
-            .then(user => {
+        try {
+            const user = await DB.create(req.body);
+            /**@type {DataEnvelope<User>} */
+            const envelope = {
+                data: user,
+                isSuccessful: true,
+                message: 'Success',
+                status: 200
+            };
+            res.send(envelope);
+        } catch (err) {
+            if (devMode) {
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
-                    data: user,
-                    isSuccessful: true,
-                    message: 'Success',
-                    status: 200
+                    data: null,
+                    isSuccessful: false,
+                    message: err.message,
+                    status: err instanceof MyError ? err.code : 500
                 };
-                res.send(envelope);
-            })
-            .catch(err => {
+                res.status(envelope.status).send(envelope);
+            } else (next(err));
+        }
+    })
+    .post('/login', async (req, res, next) => {
+        "use strict";
+        try {
+            const user = await DB.login(req.body.emailOrUsername, req.body.password);
+            /**@type {DataEnvelope<User>} */
+            const envelope = {
+                data: user,
+                isSuccessful: true,
+                message: 'Success',
+                status: 200
+            };
+            res.send(envelope);
+        } catch (err) {
+            if (devMode) {
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
+                    data: null,
                     isSuccessful: false,
                     message: err.message,
                     status: err instanceof MyError ? err.code : 404
                 };
                 res.status(envelope.status).send(envelope);
-            });
-    })
-    .post('/login', (req, res) => {
-        "use strict";
-        users.login(req.body.emailOrUsername, req.body.password)
-            .then(user => {
-                /**@type {DataEnvelope<User>} */
-                const envelope = {
-                    data: user,
-                    isSuccessful: true,
-                    message: 'Success',
-                    status: 200
-                };
-                res.send(envelope);
-            })
-            .catch(err => {
-                /**@type {DataEnvelope<User>} */
-                const envelope = {
-                    isSuccessful: false,
-                    message: err.message,
-                    status: err instanceof MyError ? err.code : 404
-                };
-                res.status(envelope.status).send(envelope);
-            });
+            } else (next(err));
+        }
     });
 
 app
-    .get('/:id', (req, res) => {
+    .get('/:id', async (req, res, next) => {
         "use strict";
-        users.get(new ObjectId(req.params.id))
-            .then(user => {
+        try {
+            const user = await DB.get(new ObjectId(req.params.id));
+            /**@type {DataEnvelope<User>} */
+            const envelope = {
+                data: user,
+                isSuccessful: true,
+                message: 'Success',
+                status: 200
+            };
+            res.send(envelope);
+        } catch (err) {
+            if (devMode) {
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
-                    data: user,
-                    isSuccessful: true,
-                    message: 'Success',
-                    status: 200
-                };
-                res.send(envelope);
-            })
-            .catch(err => {
-                /**@type {DataEnvelope<User>} */
-                const envelope = {
+                    data: null,
                     isSuccessful: false,
                     message: err.message,
                     status: err instanceof MyError ? err.code : 404
                 };
                 res.status(envelope.status).send(envelope);
-            });
+            } else (next(err));
+        }
     })
-    .patch('/:id', (req, res) => {
+    .patch('/:id', async (req, res, next) => {
         "use strict";
-        users.update(new ObjectId(req.params.id), req.body)
-            .then(user => {
+        try {
+            const user = await DB.update(new ObjectId(req.params.id), req.body);
+            /**@type {DataEnvelope<User>} */
+            const envelope = {
+                data: user,
+                isSuccessful: true,
+                message: 'Success',
+                status: 200
+            };
+            res.send(envelope);
+        } catch (err) {
+            if (devMode) {
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
-                    data: user,
-                    isSuccessful: true,
-                    message: 'Success',
-                    status: 200
-                };
-                res.send(envelope);
-            })
-            .catch(err => {
-                /**@type {DataEnvelope<User>} */
-                const envelope = {
+                    data: null,
                     isSuccessful: false,
                     message: err.message,
                     status: err instanceof MyError ? err.code : 404
                 };
                 res.status(envelope.status).send(envelope);
-            });
+            } else (next(err));
+        }
+
     })
-    .delete('/:id', (req, res) => {
+    .delete('/:id', async (req, res, next) => {
         "use strict";
-        users.destroy(new ObjectId(req.params.id))
-            .then(user => {
+        try {
+            const user = await DB.destroy(new ObjectId(req.params.id));
+            /**@type {DataEnvelope<User>} */
+            const envelope = {
+                data: user,
+                isSuccessful: true,
+                message: 'Success',
+                status: 200
+            };
+            res.send(envelope);
+        } catch (err) {
+            if (devMode) {
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
-                    data: user,
-                    isSuccessful: true,
-                    message: 'Success',
-                    status: 200
-                };
-                res.send(envelope);
-            })
-            .catch(err => {
-                /**@type {DataEnvelope<User>} */
-                const envelope = {
+                    data: null,
                     isSuccessful: false,
                     message: err.message,
                     status: err instanceof MyError ? err.code : 404
                 };
                 res.status(envelope.status).send(envelope);
-            });
+            } else (next(err));
+        }
     });
 module.exports = app;
