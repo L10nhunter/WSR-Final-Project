@@ -2,8 +2,7 @@
 import {ref} from "vue";
 import {getTextField} from "@/model/textField";
 import WorkoutTextField from "@/components/Fields/WorkoutTextField.vue";
-import {addWorkout, getAllWorkouts, workoutTypes} from "@/model/workouts";
-import {type User} from "@/model/users";
+import {addWorkout, workoutTypes} from "@/model/workouts";
 import {getUser} from "@/model/session";
 
 const workout = {
@@ -33,8 +32,7 @@ const emits = defineEmits<{
 
 async function addThisWorkout(workout: any) {
     await addWorkout({
-        user: getUser()! as User,
-        id: await getAllWorkouts().then(workouts => workouts.length + 1),
+        uid: getUser()!._id,
         title: workout.Title.value !== "" ? workout.Title.value : "Workout",
         time: new Date().getTime(),
         duration: workout.Duration.value !== "" ? workout.Duration.value : 0,

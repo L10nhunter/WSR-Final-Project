@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {type Workout} from "@/model/workouts";
-import {type safeUser} from "@/model/users";
+import {getUser} from "@/model/users";
 
 const isHidden = ref(false);
 const workout = defineProps<Workout>();
+const user = await getUser(workout.uid);
 
 function distanceFormat(distance?: number): string {
     if (!distance) return "0ft";
@@ -20,8 +21,6 @@ function durationFormat(duration?: number): string {
     const minutesString = minutes < 10 ? "0" + minutes : minutes;
     return hoursString + ":" + minutesString;
 }
-
-
 
 function howLongAgo(time: number): string {
     const now = new Date();
@@ -45,10 +44,7 @@ function howLongAgo(time: number): string {
     return retString + " ago";
 }
 
-function imageProcess(user: safeUser): string {
-    if (!user.image) return "/l10nFitnessIcon.png";
-    return user.image;
-}
+const userImage = user.image ?? "/l10nFitnessIcon.png";
 </script>
 
 <template>
@@ -56,15 +52,15 @@ function imageProcess(user: safeUser): string {
         <article class="media dcs">
             <div class="media-left">
                 <figure class="image is-64x64">
-                    <img :src="imageProcess(workout.user)" alt="Image">
+                    <img :src="userImage" alt="Image">
                 </figure>
             </div>
             <div class="media-content dcs">
                 <div class="content dcs">
                     <p>
-                        <span class="dcs has-text-weight-bold">{{ workout.user.firstName }} {{workout.user.lastName }}</span>
+                        <span class="dcs has-text-weight-bold">{{ user.firstName }} {{user.lastName }}</span>
                         &nbsp;
-                        <small class="soft-color">@{{ workout.user.username }}</small>
+                        <small class="soft-color">@{{ user.username }}</small>
                         &nbsp;
                         <small class="soft-color">{{ howLongAgo(workout.time) }}</small>
                         <br>
