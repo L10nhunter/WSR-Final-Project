@@ -4,7 +4,7 @@ import {MyError} from "@/model/MyError";
 import { StatusCodes } from "http-status-codes";
 import type {DynamicDataEnvelope} from "@/model/TransferTypes";
 
-const API_ROOT: string = "http://localhost:3000/api/v1";
+const API_ROOT: string = import.meta.env.VITE_API_ROOT;
 
 async function rest(url: string, body?: unknown, method?: string, headers?: any) {
     const session = getSession();
