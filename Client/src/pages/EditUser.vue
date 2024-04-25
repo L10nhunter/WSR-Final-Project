@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {getUser, updateUser, type User} from "@/model/users";
 import router from "@/router";
 import {definePage} from "vue-router/auto";
@@ -8,6 +7,7 @@ import {useRoute} from "vue-router";
 import {ObjectId} from "mongodb";
 import {getTextField} from "@/model/textField";
 import {ref} from "vue";
+import EditUserTextField from "@/components/Fields/EditUserTextField.vue";
 
 definePage({
     path: "/editUser/:id",
@@ -41,6 +41,7 @@ const textFields = [
 function editUserHandler(user: User): void {
     updateUser(user).then(() => router.push("/users"));
 }
+//TODO: make everything less broken.
 </script>
 
 <template>
@@ -51,7 +52,7 @@ function editUserHandler(user: User): void {
         </header>
         <section class="content dcs">
             <div class="form">
-                <SignupTextField v-for="text in textFields" v-bind="text.field" :v-model="text.model"/>
+                <EditUserTextField v-for="text in textFields" v-bind="text.field" :v-model="text.model"/>
                 <div class="field control">
                     <label>Admin: </label>
                     <label class="radio">
