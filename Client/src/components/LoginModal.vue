@@ -4,7 +4,6 @@ import SignupTextField from "@/components/Fields/SignupTextField.vue";
 import {ref} from "vue";
 import {getTextField} from "@/model/textField";
 import {useLogin} from "@/model/session";
-import {useToast} from "vue-toastification";
 
 const {login} = useLogin();
 
@@ -15,7 +14,7 @@ const input = {
 const emits = defineEmits<{(event: 'hideModal', value: void): void;}>();
 
 async function loginHandler() {
-    await login(input.emailOrUsername.value, input.password.value).then(() => emits('hideModal')).catch((error) => useToast().error(error.message));
+    await login(input.emailOrUsername.value, input.password.value).then(() => emits('hideModal')).catch(() => {});
 }
 
 const props = defineProps({
@@ -29,11 +28,11 @@ const isModalActive = ref(props.isModalActive);
         <div class="modal-background" @click="emits('hideModal')"></div>
         <div class="modal-card dcs bordered">
             <header class="modal-card-head dcs">
-                <p class="modal-card-title dcs">Log In</p>
+                <p class="modal-card-title has-text-centered dcs">Log In</p>
                 <button class="delete" aria-label="close" @click="emits('hideModal')"></button>
             </header>
             <section class="modal-content">
-                <form autocomplete="on" @submit.prevent>
+                <form class="px-3 pb-3" autocomplete="on" @submit.prevent>
                     <SignupTextField v-bind="getTextField('EmailLogin')" v-model="input.emailOrUsername.value"/>
                     <SignupTextField v-bind="getTextField('PasswordLogin')" v-model="input.password.value"/>
                     <div class="control">
@@ -46,7 +45,7 @@ const isModalActive = ref(props.isModalActive);
 </template>
 
 <style scoped>
-form {
-    padding-left: .25rem;
+.modal-card-head {
+    box-shadow: none;
 }
 </style>
