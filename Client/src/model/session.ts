@@ -3,7 +3,12 @@ import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
 import {showLoginModal, type User} from "@/model/users";
 import {api} from "@/model/rest";
-import type {ObjectId} from "mongodb";
+import type {DataEnvelope} from "@/model/TransferTypes";
+
+interface LoginReturn {
+    user: User,
+    token: string
+}
 
 const session = reactive({
     user: null as User | null,
@@ -24,25 +29,19 @@ export function getUserFullName() {
     return session.user?.firstName + " " + session.user?.lastName;
 }
 
-export function useRouteToEditUser(_id: ObjectId) {
-    console.log("session.ts useRouteToEditUser _id: " + _id);
-    const router = useRouter();
-    router.push("/editUser/" + _id).then((r) => r);
-}
-
 export function useLogin() {
     const router = useRouter();
     return {
         async login(emailOrUsername: string, password: string): Promise<User> {
-            return await api<User>("users/login", {emailOrUsername, password}, "POST")
-                .then((response ) => {
-                    const user : User = response.data;
-                    if (!user) throw new Error("Invalid login credentials. Please try again.");
-                    session.user = user;
+            return await api<LoginReturn>("users/login", {emailOrUsername, password}, "POST")
+                .then((response : DataEnvelope<LoginReturn> ) => {
+                    session.user = response.data.user;
+                    if (!session.user) throw new Error("Invalid login credentials. Please try again.");
+                    session.token = response.data.token;
                     showLoginModal.value = false;
                     router.push(session.redirectURL ?? "/").then((r) => r);
-                    useToast().success("Welcome " + user.firstName + " " + user.lastName + "!\nYou are now logged in.");
-                    console.debug("User " + user.firstName + " " + user.lastName + " logged in.");
+                    useToast().success("Welcome " + session.user.firstName + " " + session.user.lastName + "!\nYou are now logged in.");
+                    console.debug("User " + session.user.firstName + " " + session.user.lastName + " logged in.");
                     return session.user;
                 })
                 .catch((err)=>{throw err}) as User;
@@ -51,7 +50,14 @@ export function useLogin() {
         logout(): void {
             session.user = null;
             session.token = null;
-            session.messages = [];
+            for(let i = 0; i < session.messages.length; i++) {
+                console.debug("Messages: ");
+                if(session.messages[i].type === "error") {
+                    console.error(session.messages[i].message);
+                } else {
+                    console.debug(session.messages[i].message);
+                }
+            }
             router.push('/').then((r) => r);
         }
     }

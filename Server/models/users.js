@@ -3,6 +3,11 @@ const {connect} = require('./mongo');
 /**@typedef {import('../../Client/src/model/users').User} User*/
 /**@typedef {import('../../Client/src/model/users').newUser} newUser*/
 
+const jwt = require('jsonwebtoken');
+
+const jwtSecret = process.env.JWT_SECRET;
+const jwtExpiresIn = process.env.JWT_EXPIRES_IN;
+
 /** @return {Promise<Collection<User>>}*/
 async function getData() {
     "use strict";
@@ -122,7 +127,32 @@ async function destroy(_id) {
     await getData().then(col => col.deleteOne({_id: _id}));
     return user;
 }
-
+/**
+ * @param {User} user
+ * @returns {Promise<string>}
+ */
+async function generateToken(user) {
+    "use strict";
+    return new Promise((resolve, reject) => {
+        jwt.sign(user, jwtSecret, {expiresIn: jwtExpiresIn}, (err, token) => {
+            if (err) return reject(err);
+            resolve(token);
+        });
+    });
+}
+/**
+ * @param {string} token
+ * @returns {Promise<User>}
+ */
+async function verifyToken(token) {
+    "use strict";
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, jwtSecret, (err, decoded) => {
+            if (err) return reject(err);
+            resolve(decoded);
+        });
+    });
+}
 
 /**
  * @param {string} emailOrUsername
@@ -153,5 +183,6 @@ module.exports = {
     update,
     destroy,
     login,
-    seed
+    seed,
+    verifyToken,
 };
