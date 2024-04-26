@@ -1,13 +1,13 @@
+import type {MyError} from "@/model/MyError";
 export interface DataEnvelope<T> {
     data: T;
-    isSuccessful: boolean;
-    status: number;
-    message: string;
+    message?: string;
+    error?: MyError;
 }
 export interface DataListEnvelope<T> extends DataEnvelope<T[]>{
     data: T[];
-    totalItems: number;
-    pageLimit: number;
+    totalItems?: number;
+    pageLimit?: number;
 }
 
 export type DynamicDataEnvelope<T> = T extends (infer U)[] ? DataListEnvelope<U> : DataEnvelope<T>;
