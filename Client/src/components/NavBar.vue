@@ -7,7 +7,7 @@ import LoginModal from "@/components/LoginModal.vue";
 import {showLoginModal} from "@/model/users";
 import {isMobile} from "@/model/isMobile";
 import LoginBadge from "@/components/LoginBadge.vue";
-import {getUser, useLogin} from "@/model/session";
+import {getSession, useLogin} from "@/model/session";
 
 const isMyMobile = computed<boolean>(() => isMobile.value < 1024);
 
@@ -29,7 +29,7 @@ let mobileNav = [
 const desktopNav = mobileNav.slice(3, 5);
 const desktopNavDropdown = mobileNav.slice(5);
 
-mobileNav = getUser() ? mobileNav : mobileNav.slice(3);
+mobileNav = getSession().user ? mobileNav : mobileNav.slice(3);
 
 </script>
 
@@ -54,12 +54,12 @@ mobileNav = getUser() ? mobileNav : mobileNav.slice(3);
         <div class="navbar-menu navbar-dropdown ics" :class="{'is-active': isBurgerActive, 'is-hidden': !isMyMobile}">
             <div class="navbar-start">
                 <router-link v-for="route in mobileNav" class="navbar-item ics is-hovered-mute"
-                             :class="{'is-hidden': route.name==='Users' && (!getUser()?.admin)}"
+                             :class="{'is-hidden': route.name==='Users' && (!getSession().user?.admin)}"
                              :to="route.path"
                              @click="isBurgerActive = false">
                     {{ route.name }}
                 </router-link>
-                <div :class="{'is-hidden': getUser()}">
+                <div :class="{'is-hidden': getSession().user}">
                     <router-link class="navbar-item ics is-hovered-mute" to="/signup" @click="isBurgerActive = false">
                         Sign up
                     </router-link>
@@ -67,7 +67,7 @@ mobileNav = getUser() ? mobileNav : mobileNav.slice(3);
                         Log in
                     </a>
                 </div>
-                <a class="navbar-item ics is-hovered-mute" :class="{'is-hidden': !getUser()}"
+                <a class="navbar-item ics is-hovered-mute" :class="{'is-hidden': !getSession().user}"
                    @click="[logout(), isBurgerActive = false]">
                     Log Out
                 </a>
@@ -77,7 +77,7 @@ mobileNav = getUser() ? mobileNav : mobileNav.slice(3);
         <div id="navbar-drop-menu" class="navbar-menu">
             <div class="navbar-start">
                 <router-link v-for="route in desktopNav" class="navbar-item ics is-hovered-mute"
-                             :class="{'is-hidden': route.name==='Users' && (!getUser()?.admin)}"
+                             :class="{'is-hidden': route.name==='Users' && (!getSession().user?.admin)}"
                              :to="route.path">
                     {{ route.name }}
                 </router-link>

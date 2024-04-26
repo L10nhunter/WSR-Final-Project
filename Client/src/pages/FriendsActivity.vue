@@ -7,7 +7,7 @@ import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
 import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
 import {definePage} from "vue-router/auto";
-import {getUser} from "@/model/session";
+import {getSession} from "@/model/session";
 import type {User} from "@/model/users";
 
 definePage({
@@ -19,7 +19,7 @@ definePage({
 // function to make API call to get all friends' workouts
 async function getFriendsWorkouts(): Promise<Workout[]> {
     // make API call to get all workouts of each friend
-    const user: User = getUser()!;
+    const user: User = getSession().user!;
     const workouts = [] as Workout[];
     if (user.friends?.length === 0) return workouts;
     for(const friend of user.friends!){
@@ -28,7 +28,7 @@ async function getFriendsWorkouts(): Promise<Workout[]> {
             workouts.push(workout);
         }
     }
-    // sort workouts in descending order of time
+    // sort workouts from newest to oldest
     return workouts.sort((a, b) => {
         return b.time - a.time;
     });

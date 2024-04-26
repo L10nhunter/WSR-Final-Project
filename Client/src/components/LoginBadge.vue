@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {getUser, getUserFullName, useLogin} from "@/model/session";
+import {getSession, getUserFullName, useLogin} from "@/model/session";
 
 const {logout} = useLogin();
 
@@ -10,7 +10,7 @@ const emits = defineEmits<{
 </script>
 
 <template>
-    <div class="navbar-item" v-if="!getUser()">
+    <div class="navbar-item" v-if="!getSession().user">
         <div class="buttons">
             <router-link class="button is-primary" to="/signup">
                 Sign up
@@ -22,7 +22,7 @@ const emits = defineEmits<{
     </div>
     <div class="navbar-item has-dropdown is-hoverable is-hovered-mute" v-else>
         <a class="navbar-link ics is-hovered-mute is-arrowless" aria-haspopup="true" aria-controls="dropdown-menu">
-            <img :src="getUser()?.image" class="is-32x32 pr-3" alt="profile">
+            <img :src="getSession().user?.image" class="is-32x32 pr-3" alt="profile">
             {{ getUserFullName() }}
         </a>
         <div class="navbar-dropdown ics is-right" role="menu">

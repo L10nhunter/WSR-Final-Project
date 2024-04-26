@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import {routes} from 'vue-router/auto-routes';
 import {showLoginModal} from "@/model/users";
-import {getUser, getSession} from "@/model/session";
+import {getSession} from "@/model/session";
 
 
 const router = createRouter({
@@ -10,13 +10,13 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.meta.requiresAuth && !getUser()) {
+    if (to.meta.requiresAuth && !getSession().user) {
         const session = getSession();
         session.redirectURL = to.fullPath;
         showLoginModal.value = true;
         next(false);
     }
-    else if(to.meta.requiresAdmin && !(getUser()?.admin)) next(false);
+    else if(to.meta.requiresAdmin && !(getSession().user?.admin)) next(false);
     else next();
 })
 

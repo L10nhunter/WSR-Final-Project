@@ -96,13 +96,18 @@ const userImage = user.image ?? "/l10nFitnessIcon.png";
                         </a>
                         <a class="level-item" aria-label="retweet">
                             <span class="icon is-small">
-                              <i class="fa-solid fa-retweet" aria-hidden="true"></i>
+                                <i class="fa-solid fa-retweet" aria-hidden="true"></i>
                             </span>
                         </a>
                         <a class="level-item" aria-label="like">
-                        <span class="icon is-small">
-                          <i class="fa-solid fa-heart" aria-hidden="true"></i>
-                        </span>
+                            <span class="icon is-small">
+                                <i class="fa-solid fa-heart" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                        <a class="level-item" aria-label="edit" v-if="user._id === getUser">
+                            <span class="icon is-small">
+                                <i class="fa-solid fa-heart" aria-hidden="true"></i>
+                            </span>
                         </a>
                     </div>
                 </nav>

@@ -1,5 +1,5 @@
 import {type User} from "@/model/users";
-import {getUser} from "@/model/session";
+import {getSession} from "@/model/session";
 import {api} from "@/model/rest";
 import type {ObjectId} from "mongodb";
 
@@ -30,7 +30,7 @@ export async function getAllWorkouts(): Promise<Workout[]> {
 }
 
 export async function workoutsBySessionID(): Promise<Workout[]> {
-    return await getWorkoutsByUserID(getUser()?._id);
+    return await getWorkoutsByUserID(getSession().user?._id);
 }
 
 export async function getWorkoutsByUserID(userID?: ObjectId): Promise<Workout[]> {
@@ -40,7 +40,7 @@ export async function getWorkoutsByUserID(userID?: ObjectId): Promise<Workout[]>
 }
 
 export async function addWorkout(newWorkout: NewWorkout): Promise<Workout> {
-    newWorkout.uid = getUser()!._id;
+    newWorkout.uid = getSession().user!._id;
     const workout = await api<Workout>(API, newWorkout, "POST")
     return workout.data;
 }

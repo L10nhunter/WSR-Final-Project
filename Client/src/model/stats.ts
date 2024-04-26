@@ -1,5 +1,5 @@
 import {getWorkoutByType, getWorkoutsByUser} from "@/model/workouts";
-import {getUser} from "@/model/session";
+import {getSession} from "@/model/session";
 export interface Stats{
     distance: number;
     duration: number;
@@ -19,8 +19,8 @@ export async function getTodayStats(type?: string){
 }
 
 async function getStats(time: number, type?: string) : Promise<Stats>{
-    if(!getUser()) return {distance: 0, duration: 0, pace: 0, calories: 0};
-    const workouts = !type ? await getWorkoutsByUser(getUser() ?? undefined) : await getWorkoutByType(type, getUser() ?? undefined);
+    if(!getSession().user) return {distance: 0, duration: 0, pace: 0, calories: 0};
+    const workouts = !type ? await getWorkoutsByUser(getSession().user ?? undefined) : await getWorkoutByType(type, getSession().user ?? undefined);
     const stats: Stats = {
         distance: 0,
         duration: 0,

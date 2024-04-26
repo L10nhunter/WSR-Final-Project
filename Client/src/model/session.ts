@@ -20,10 +20,6 @@ export function getSession() {
     return session;
 }
 
-export function getUser() {
-    return session.user;
-}
-
 export function getUserFullName() {
     return session.user?.firstName + " " + session.user?.lastName;
 }

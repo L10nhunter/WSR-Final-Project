@@ -1,17 +1,13 @@
 <script setup lang="ts">
 import {updateUser, type User} from "@/model/users";
 import {ref} from "vue";
-import {getUser} from "@/model/session";
+import {getSession} from "@/model/session";
 import {definePage} from "vue-router/auto";
 import EditUserTextField from "@/components/Fields/EditUserTextField.vue";
 import {getTextField} from "@/model/textField";
 
-definePage({
-    meta: {
-        requiresAuth: true,
-    }
-});
-const user = ref<User>(getUser()!);
+definePage({meta: {requiresAuth: true,}});
+const user = ref<User>(getSession().user!);
 console.log(user);
 
 const textFields = [
