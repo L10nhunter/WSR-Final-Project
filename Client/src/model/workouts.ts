@@ -24,42 +24,38 @@ export interface Workout extends NewWorkout {
 export const workoutTypes = ["Run", "Walk", "Bike", "Swim", "Cardio", "Strength", "Other"];
 const API = "workouts";
 
+//TODO: add safeguards to prevent data leakage
 export async function getAllWorkouts(): Promise<Workout[]> {
-    const workouts = await api<Workout[]>(API)
-    return workouts.data;
+    return (await api<Workout[]>(API)).data;
 }
-
+//TODO: add safeguards to prevent data leakage
 export async function workoutsBySessionID(): Promise<Workout[]> {
     return await getWorkoutsByUserID(getSession().user?._id);
 }
-
-export async function getWorkoutsByUserID(userID?: ObjectId): Promise<Workout[]> {
-    const workouts = await api<Workout[]>(`${API}/user/${userID}`);
-    return workouts.data;
-
+//TODO: add safeguards to prevent data leakage
+export async function getWorkoutsByUserID(userID?: ObjectId | string): Promise<Workout[]> {
+    return (await api<Workout[]>(`${API}/user/${userID}`)).data;
 }
-
+//TODO: add safeguards to prevent data leakage
 export async function addWorkout(newWorkout: NewWorkout): Promise<Workout> {
     newWorkout.uid = getSession().user!._id;
-    const workout = await api<Workout>(API, newWorkout, "POST")
-    return workout.data;
+    return (await api<Workout>(API, newWorkout, "POST")).data;
 }
-
+//TODO: add safeguards to prevent data leakage
 export async function getWorkoutsByUser(user?: User): Promise<Workout[]> {
     return await getWorkoutsByUserID(user?._id);
 }
-
+//TODO: add safeguards to prevent data leakage
 export async function getWorkoutByType(type: string, user?: User): Promise<Workout[]> {
     if (type === "All") return user ? await getWorkoutsByUser(user) : [];
     const workouts = await (user ? getWorkoutsByUser(user) : getAllWorkouts());
     return workouts.filter(workout => workout.type === type);
 }
-
+//TODO: add safeguards to prevent data leakage
 export async function updateWorkout(workout: Workout): Promise<Workout> {
-    const ret = await api<Workout>(`${API}/${workout._id}`, workout, "PATCH");
-    return ret.data;
+    return (await api<Workout>(`${API}/${workout._id}`, workout, "PATCH")).data;
 }
+//TODO: add safeguards to prevent data leakage
 export async function deleteWorkout(workout: Workout): Promise<Workout> {
-    const ret = await api<Workout>(`${API}/${workout._id}`, workout, "DELETE");
-    return ret.data;
+    return (await api<Workout>(`${API}/${workout._id}`, workout, "DELETE")).data;
 }

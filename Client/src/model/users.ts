@@ -1,6 +1,8 @@
 import {ref} from "vue";
 import {api} from "@/model/rest";
 import type {ObjectId} from "mongodb";
+import {getSession} from "@/model/session";
+import {MyError} from "@/model/MyError";
 
 interface Extras {
     maidenName?: string
@@ -81,37 +83,37 @@ export interface safeUser {
     lastName: string
     username: string
     friends?: ObjectId[]
+    image?: string
 }
 export const showLoginModal = ref(false);
 
 const API = "users";
 
 export async function addUser(newUser: newUser): Promise<User> {
-    const user = await api<User>(API, newUser, "POST");
-    return user.data;
+    return (await api<User>(API, newUser, "POST")).data;
 }
-
+//TODO: add safeguards to prevent data leakage
 export async function getUsers(): Promise<User[]> {
-    const users  = await api<User[]>(API);
-    return users.data;
+   return (await api<User[]>(API)).data;
+}
+//TODO: add safeguards to prevent data leakage
+export async function getUser(id: ObjectId | string): Promise<User> {
+    return (await api<User>(`${API}/${id}`)).data;
 }
 
-export async function getUser(id: ObjectId): Promise<User> {
-    const user  = await api<User>(`${API}/${id}`);
-    return user.data;
-}
-
-export async function addFriend(user: User, friend: User): Promise<User> {
+export async function addFriend(friend: User): Promise<User> {
+    const user = getSession().user;
+    if(!user) throw new MyError(401, "User not logged in");
     user.friends ? user.friends.push(friend._id) : user.friends = [friend._id];
     return await updateUser(user);
 }
 
 export async function updateUser(user: User): Promise<User> {
-    const ret  = await api<User>(`${API}/${user._id}`, user, "PATCH");
-    return ret.data;
+    const sessionUser = getSession().user;
+    if(user !== sessionUser && !sessionUser?.admin) throw new MyError(401, "User not logged in");
+    return (await api<User>(`${API}/${user._id}`, user, "PATCH")).data;
 }
-
+//TODO: add safeguards to prevent data leakage
 export async function deleteUser(user: User): Promise<User> {
-    const ret  = await api<User>(`${API}/${user._id}`, undefined, "DELETE");
-    return ret.data;
+    return (await api<User>(`${API}/${user._id}`, user, "DELETE")).data;
 }
