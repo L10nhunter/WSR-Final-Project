@@ -1,0 +1,292 @@
+{
+  id : "ba0bcfb1-7298-4418-ad3c-ac6abf921f74",
+  name : "Users",
+  icon : "TEST_ROOT",
+  sortWeight : 1000000,
+  requests : [
+    {
+      id : "218873e3-d50d-475e-baf2-19cf7e0c9b17",
+      name : "All Users",
+      method : "GET",
+      url : "{{API}}",
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.empty;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "9f739040-6fd1-4551-bcb0-829436f0ff69",
+      name : "User By Valid ID",
+      method : "GET",
+      url : "{{API}}/:_id",
+      pathVariables : [
+        {
+          key : "_id",
+          value : "{{MyID}}"
+        }
+      ],
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.null;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined;\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "47805f8c-d351-40da-94ea-64d369c97ab3",
+      name : "User By Invalid ID",
+      method : "GET",
+      url : "{{API}}/:_id",
+      pathVariables : [
+        {
+          key : "_id",
+          value : "000000000000000000000000"
+        }
+      ],
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.be.null;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.equal("User not found");\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("Not Found");\
+});'
+    },
+    {
+      id : "e96e587b-ae13-46b2-a9c7-aa2714ac2d65",
+      name : "Full Search User",
+      method : "GET",
+      url : "{{API}}/search?q=ari",
+      queryParams : [
+        {
+          key : "q",
+          value : "ari"
+        }
+      ],
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.empty;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "7f194b36-0c80-4bac-b007-dc85f2da96a8",
+      name : "Empty Search User",
+      method : "GET",
+      url : "{{API}}/search?q=asdfasdfkjhajdkj",
+      queryParams : [
+        {
+          key : "q",
+          value : "asdfasdfkjhajdkj"
+        }
+      ],
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.be.empty;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "3fc618df-70d0-49af-b1fb-f982cc0d4a08",
+      name : "Login Test",
+      method : "POST",
+      url : "{{API}}/login",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{{login}}'
+      },
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.null;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "822ef6a7-c68f-4d6b-b667-a5bd03f7b5ba",
+      name : "Failed Login",
+      method : "POST",
+      url : "{{API}}/login",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "emailOrUsername": "{{login.emailOrUsername}}",\
+  "password": "{{login.emailOrUsername}}"\
+}'
+      },
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.be.null;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.equal("Invalid login credentials. Please try again.");\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("Unauthorized");\
+});\
+'
+    },
+    {
+      id : "7edf8a9d-f8ec-4ef9-967c-e644a57c299b",
+      name : "New User",
+      method : "POST",
+      url : "{{API}}",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{{rabbi}}'
+      },
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.empty;\
+    jc.globalVariables.setDefault("rabbiID", jc.response.json()["data"]["_id"])\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});\
+\
+'
+    },
+    {
+      id : "d5dd1fa1-521e-4ea0-9a24-7849298a4b3e",
+      name : "Dupe Email User",
+      method : "POST",
+      url : "{{API}}",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{{rabbi}}'
+      },
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.be.null;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.equal("Email already exists");\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("Bad Request");\
+});\
+'
+    },
+    {
+      id : "184394ca-da1f-4ae6-9cf6-a90ff912ed3d",
+      name : "Edit User",
+      method : "PATCH",
+      url : "{{API}}/:_id",
+      pathVariables : [
+        {
+          key : "_id",
+          value : "{{rabbiID}}"
+        }
+      ],
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "firstName": "Rabbi Moshe"\
+}'
+      },
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.empty;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "ac613694-195c-44d5-8825-a9cdd5d50807",
+      name : "Remove Existent User",
+      method : "DELETE",
+      url : "{{API}}/:_id",
+      pathVariables : [
+        {
+          key : "_id",
+          value : "{{rabbiID}}"
+        }
+      ],
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.null;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});\
+'
+    },
+    {
+      id : "ace754d8-c569-4c25-96f0-8786da4cbf26",
+      name : "Remove Nonexistent User",
+      method : "DELETE",
+      url : "{{API}}/:_id",
+      pathVariables : [
+        {
+          key : "_id",
+          value : "{{rabbiID}}"
+        }
+      ],
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.be.null;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.equal("User not found");\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("Not Found");\
+});\
+'
+    }
+  ]
+}

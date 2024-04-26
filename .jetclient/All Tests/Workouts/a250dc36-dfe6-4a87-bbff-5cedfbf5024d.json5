@@ -1,0 +1,209 @@
+{
+  id : "a250dc36-dfe6-4a87-bbff-5cedfbf5024d",
+  name : "Workouts",
+  icon : "TEST_ROOT",
+  sortWeight : 2000000,
+  requests : [
+    {
+      id : "58471d1f-d68c-46a4-9b96-2ed167879120",
+      name : "All Workouts",
+      method : "GET",
+      url : "{{API}}",
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.empty;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "62d84ba1-4164-405c-8571-c123f3f7c1bc",
+      name : "Workouts By Valid UserID",
+      method : "GET",
+      url : "{{API}}/user/:uid",
+      pathVariables : [
+        {
+          key : "uid",
+          value : "{{MyID}}"
+        }
+      ],
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.empty;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "f473dbd8-d909-4abe-9ccb-664a9ade888c",
+      name : "Workouts By Invalid UserID",
+      method : "GET",
+      url : "{{API}}/user/:uid",
+      pathVariables : [
+        {
+          key : "uid",
+          value : "6612d506d0f20d3198217208"
+        }
+      ],
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.be.empty;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.equal("User not found");\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("Not Found");\
+});'
+    },
+    {
+      id : "2e33bc25-188f-432f-8411-69213c2bccb0",
+      name : "Search Valid Workout",
+      method : "GET",
+      url : "{{API}}/search?q=swim",
+      queryParams : [
+        {
+          key : "q",
+          value : "swim"
+        }
+      ],
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.empty;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "62c2b3e5-460d-4656-b6f6-985a9edf830a",
+      name : "Search Invalid Workout",
+      method : "GET",
+      url : "{{API}}/search?q=aldkjhgfapkdjgl",
+      queryParams : [
+        {
+          key : "q",
+          value : "aldkjhgfapkdjgl"
+        }
+      ],
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.be.empty;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "580b9373-ae6a-4dbf-a24b-b2ca509c7a4f",
+      name : "New Valid Workout",
+      method : "POST",
+      url : "{{API}}",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{{tempWorkout}}'
+      },
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.null;\
+    jc.folderVariables.setLocalDefault("tempWorkoutID", jc.response.json()["data"][\'_id\']);\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "79832588-6d10-4071-945f-98f92030c6e9",
+      name : "Edit Workout",
+      method : "PATCH",
+      url : "{{API}}/:_id",
+      pathVariables : [
+        {
+          key : "_id",
+          value : "{{tempWorkoutID}}"
+        }
+      ],
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "time": 1714083462000\
+}'
+      },
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.null;\
+    jc.folderVariables.setLocalDefault("WorkoutTempID", jc.response.json()["data"][\'_id\']);\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "804de0ea-ab8a-4215-855e-e1e105d87db1",
+      name : "Remove Existent Workout",
+      method : "DELETE",
+      url : "{{API}}/:_id",
+      pathVariables : [
+        {
+          key : "_id",
+          value : "{{tempWorkoutID}}"
+        }
+      ],
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.not.be.null;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.be.undefined\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
+    },
+    {
+      id : "c9da7055-985c-4c92-b301-6a4083bad0ae",
+      name : "Remove Nonexistent Workout",
+      method : "DELETE",
+      url : "{{API}}/:_id",
+      pathVariables : [
+        {
+          key : "_id",
+          value : "662ade2e2dc12e21be387cdd"
+        }
+      ],
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.be.null;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.equal("Workout not Found");\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("Not Found");\
+});'
+    }
+  ]
+}
