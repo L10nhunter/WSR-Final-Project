@@ -4,12 +4,12 @@ import {getUser, updateUser, type User} from "@/model/users";
 import router from "@/router";
 import {definePage} from "vue-router/auto";
 import {useRoute} from "vue-router";
-import {ObjectId} from "mongodb";
 import {getTextField} from "@/model/textField";
 import {ref} from "vue";
 import EditUserTextField from "@/components/Fields/EditUserTextField.vue";
 
 definePage({
+    name: "EditUser",
     path: "/editUser/:id",
     meta: {
         requiresAuth: true,
@@ -19,12 +19,15 @@ definePage({
 console.log("editUser page please?");
 
 const route = useRoute();
-console.log("route: " + route);
+console.log(route);
+console.log(route.params);
+console.log(route.params.id);
 for (const key in route) {
     console.log(key + ": " + route.params[key]);
 }
-const userId = route.params.id as string;
-const user = ref<User>(await getUser(new ObjectId(userId)));
+const userId: string= route.params.id as string;
+console.log(userId);
+const user = ref<User>(await getUser(userId));
 console.log(user);
 
 
@@ -47,8 +50,7 @@ function editUserHandler(user: User): void {
 <template>
     <div class="card dcs bordered">
         <header class="card-head dcs">
-            <p class="card-title dcs">Edit User</p>
-            <button class="delete" aria-label="close"></button>
+            <p class="card-title dcs has-text-centered is-size-1">Edit User</p>
         </header>
         <section class="content dcs">
             <div class="form">
@@ -56,11 +58,11 @@ function editUserHandler(user: User): void {
                 <div class="field control">
                     <label>Admin: </label>
                     <label class="radio">
-                        <input type="radio" value="Yes" :checked="user?.admin ?? false">
+                        <input type="radio" value="Yes" :checked="user.admin ?? false">
                         Yes
                     </label>
                     <label class="radio">
-                        <input type="radio" value="No" :checked="!user?.admin ?? true">
+                        <input type="radio" value="No" :checked="!user.admin">
                         No
                     </label>
                 </div>

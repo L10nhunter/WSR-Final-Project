@@ -2,10 +2,15 @@
 import {ref} from "vue";
 import {type Workout} from "@/model/workouts";
 import {getUser} from "@/model/users";
+import {getSession} from "@/model/session";
 
 const isHidden = ref(false);
 const workout = defineProps<Workout>();
 const user = await getUser(workout.uid);
+const showChangeButtons = getSession().user && getSession().user!._id === workout.uid;
+const sessionFriends = getSession().user?.friends ?? [];
+const activeHeart = ref<boolean>(sessionFriends.includes(workout.uid));
+
 
 function distanceFormat(distance?: number): string {
     if (!distance) return "0ft";
@@ -89,24 +94,25 @@ const userImage = user.image ?? "/l10nFitnessIcon.png";
                 </div>
                 <nav class="level is-mobile">
                     <div class="level-left">
+                        <!--TODO: Make a text box slide out of the bottom, pushing everything else down to make room, then add the comment to the workout itself-->
                         <a class="level-item" aria-label="reply">
                             <span class="icon is-small">
                                 <i class="fa-solid fa-reply" aria-hidden="true"></i>
                             </span>
                         </a>
-                        <a class="level-item" aria-label="retweet">
-                            <span class="icon is-small">
-                                <i class="fa-solid fa-retweet" aria-hidden="true"></i>
-                            </span>
-                        </a>
-                        <a class="level-item" aria-label="like">
+                        <a class="level-item" aria-label="like" :class="{'is-color-pink': showChangeButtons || activeHeart}">
                             <span class="icon is-small">
                                 <i class="fa-solid fa-heart" aria-hidden="true"></i>
                             </span>
                         </a>
-                        <a class="level-item" aria-label="edit" v-if="user._id === getUser">
+                        <a class="level-item is-color-primary" aria-label="edit" v-if="showChangeButtons">
                             <span class="icon is-small">
-                                <i class="fa-solid fa-heart" aria-hidden="true"></i>
+                                <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                        <a class="level-item is-color-danger" aria-label="edit" v-if="showChangeButtons">
+                            <span class="icon is-small">
+                                <i class="fa-solid fa-trash" aria-hidden="true"></i>
                             </span>
                         </a>
                     </div>
@@ -136,6 +142,9 @@ div.box {
     margin-bottom: 1rem;
     border: 2px var(--color-border) solid;
     border-radius: .25rem;
+}
+.is-color-pink {
+    color: deeppink;
 }
 
 </style>
