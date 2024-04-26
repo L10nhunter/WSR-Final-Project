@@ -9,6 +9,10 @@ const API_ROOT: string = import.meta.env.VITE_API_ROOT;
 async function rest(url: string, body?: unknown, method?: string, headers?: any) {
     const session = getSession();
     session.loading++;
+    if(session.token) {
+        headers = headers ?? {};
+        headers.Authorization = `Bearer ${session.token}`;
+    }
     console.debug("rest.ts rest url: " + url)
     console.debug("rest.ts rest body: " + JSON.stringify(body))
     console.debug("rest.ts rest method: " + method)
@@ -21,11 +25,15 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
         },
         body: JSON.stringify(body)
     })
-        .then(response => response.ok
-            ? response.json()
-            : response.json().then(err => {
-                showError(new MyError(response.status, err.message))
-            }))
+        .then(response => {
+            console.log("rest.ts rest response: ", response);
+            const ret = response.ok ? response.json() : response.json().then(err => {
+                showError(new MyError(response.status, err.message));
+                return Promise.reject(err);
+            })
+            console.log("rest.ts rest ret: ", ret);
+            return ret;
+        })
         .catch(() => {})
         .finally(() => session.loading--);
 }
