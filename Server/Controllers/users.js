@@ -9,26 +9,24 @@ app
     .get('/', async (req, res, next) => {
         "use strict";
         /**@type {DataListEnvelope<User>} */
-        let envelope = {pageLimit: 30};
+        let envelope;
         try {
             const users = await DB.getAll();
             envelope = {
                 data: users,
-                ...envelope,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
+                totalItems: users.length,
+                pageLimit: 30,
             };
             res.send(envelope);
         } catch (err) {
             if (devMode) {
                 envelope = {
                     data: [],
-                    ...envelope,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 500
+                    status: err instanceof MyError ? err.status : 500,
+                    error: err instanceof MyError ? err : new MyError(500, err.message)
                 };
+                console.trace();
                 res.status(envelope.status).send(envelope);
             } else (next(err));
         }
@@ -36,25 +34,22 @@ app
     .get('/search', async (req, res, next) => {
         "use strict";
         /**@type {DataListEnvelope<User>} */
-        let envelope = { pageLimit: 30 };
+        let envelope;
         try {
             const users = await DB.search(req.query.q);
             envelope = {
                 data: users,
-                ...envelope,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
+                totalItems: users.length,
+                pageLimit: 30,
             };
             res.send(envelope);
         } catch (err) {
             if (devMode) {
                 envelope = {
                     data: [],
-                    ...envelope,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 500
+                    status: err instanceof MyError ? err.status : 500,
+                    error: err instanceof MyError ? err : new MyError(500, err.message)
                 };
                 res.status(envelope.status).send(envelope);
             } else (next(err));
@@ -67,8 +62,6 @@ app
             /**@type {DataEnvelope<User>} */
             const envelope = {
                 data: user,
-                isSuccessful: true,
-                message: 'Success',
                 status: 200
             };
             res.send(envelope);
@@ -77,9 +70,9 @@ app
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
                     data: null,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 500
+                    status: err instanceof MyError ? err.status : 500,
+                    error: err instanceof MyError ? err : new MyError(500, err.message)
                 };
                 res.status(envelope.status).send(envelope);
             } else (next(err));
@@ -92,9 +85,6 @@ app
             /**@type {DataEnvelope<User>} */
             const envelope = {
                 data: user,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
             };
             res.send(envelope);
         } catch (err) {
@@ -102,9 +92,9 @@ app
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
                     data: null,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 404
+                    status: err instanceof MyError ? err.status : 404,
+                    error: err instanceof MyError ? err : new MyError(404, err.message)
                 };
                 res.status(envelope.status).send(envelope);
             } else (next(err));
@@ -119,9 +109,6 @@ app
             /**@type {DataEnvelope<User>} */
             const envelope = {
                 data: user,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
             };
             res.send(envelope);
         } catch (err) {
@@ -129,11 +116,10 @@ app
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
                     data: null,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 404
+                    error: err instanceof MyError ? err : new MyError(500, err.message)
                 };
-                res.status(envelope.status).send(envelope);
+                res.status(err instanceof MyError ? err.status : 500).send(envelope);
             } else (next(err));
         }
     })
@@ -144,9 +130,6 @@ app
             /**@type {DataEnvelope<User>} */
             const envelope = {
                 data: user,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
             };
             res.send(envelope);
         } catch (err) {
@@ -154,9 +137,9 @@ app
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
                     data: null,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 404
+                    status: err instanceof MyError ? err.status : 404,
+                    error: err instanceof MyError ? err : new MyError(404, err.message)
                 };
                 res.status(envelope.status).send(envelope);
             } else (next(err));
@@ -170,9 +153,6 @@ app
             /**@type {DataEnvelope<User>} */
             const envelope = {
                 data: user,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
             };
             res.send(envelope);
         } catch (err) {
@@ -180,9 +160,9 @@ app
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
                     data: null,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 404
+                    status: err instanceof MyError ? err.status : 404,
+                    error: err instanceof MyError ? err : new MyError(404, err.message)
                 };
                 res.status(envelope.status).send(envelope);
             } else (next(err));

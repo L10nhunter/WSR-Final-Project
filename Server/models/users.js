@@ -41,17 +41,19 @@ async function getAll() {
  */
 async function create(inputInfo) {
     "use strict";
-    const users = await getData().catch(err => {throw new MyError(500, err.message,{fileName: 'models/users.js', lineNum: 53});});
-    if (await users.findOne({email: inputInfo.email})) throw new MyError(400, 'Email already exists', {fileName: 'models/users.js', lineNum: 54});
-    if (await users.findOne({username: inputInfo.username})) throw new MyError(400,'Username already exists', {fileName: 'models/users.js', lineNum: 55});
+    const users = await getData().catch(err => {
+        throw new MyError(500, err.message);
+    });
+    if (await users.findOne({email: inputInfo.email})) throw new MyError(400, 'Email already exists');
+    if (await users.findOne({username: inputInfo.username})) throw new MyError(400, 'Username already exists');
     /** @type {User} */
     const newUser = {
         admin: false,
         ...inputInfo,
         friends: []
     };
-    const result = await users.insertOne(newUser).catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 62});});
-    if(!result.acknowledged) throw new MyError(500, 'Insert failed: result not acknowledged', {fileName: 'models/users.js', lineNum: 63});
+    const result = await users.insertOne(newUser).catch(err => {throw new MyError(500, err.message);});
+    if(!result.acknowledged) throw new MyError(500, 'Insert failed: result not acknowledged');
     newUser._id = result.insertedId;
     return newUser;
 }
@@ -62,7 +64,9 @@ async function create(inputInfo) {
 async function get(_id) {
     "use strict";
     const user = await getData().then(col => col.findOne({_id: _id}));
-    if (!user) {throw new MyError(404, 'User not found', {fileName: 'models/users.js', lineNum: 74});}
+    if (!user) {
+        throw new MyError(404, 'User not found');
+    }
     return user;
 }
 
@@ -81,7 +85,7 @@ async function search(q) {
                 {email: {$regex: q, $options: 'i'}},
             ],
         }).toArray())
-        .catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 93});});
+        .catch(err => {throw new MyError(500, err.message);});
 }
 
 /**
@@ -92,14 +96,14 @@ async function search(q) {
 async function update(_id, inputInfo) {
     "use strict";
     const users = await getData()
-        .catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 104});});
+        .catch(err => {throw new MyError(500, err.message);});
     /** @type {User} */
     const user= await users.findOne({_id:_id})
-        .catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 107});});
-    if (!user) throw new MyError(404, 'User not found', {fileName: 'models/users.js', lineNum: 108});
+        .catch(err => {throw new MyError(500, err.message);});
+    if (!user) throw new MyError(404, 'User not found');
 
     const result = await users.updateOne({_id: _id}, {$set: inputInfo});
-    if(!result.acknowledged) throw new MyError(500, 'Update failed: result not acknowledged', {fileName: 'models/users.js', lineNum: 111});
+    if(!result.acknowledged) throw new MyError(500, 'Update failed: result not acknowledged');
 
     return await users.findOne({_id:_id});
 
@@ -113,8 +117,8 @@ async function destroy(_id) {
     "use strict";
     const col = await getData();
     /**@type {User}*/
-    const user = await col.findOne({_id: _id}).catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 125});});
-    if (!user) throw new MyError(404, 'User not found', {fileName: 'models/users.js', lineNum: 126});
+    const user = await col.findOne({_id: _id}).catch(err => {throw new MyError(500, err.message);});
+    if (!user) throw new MyError(404, 'User not found');
     await getData().then(col => col.deleteOne({_id: _id}));
     return user;
 }
@@ -135,9 +139,10 @@ async function login(emailOrUsername, password) {
                 {username: emailOrUsername}
             ],
         }))
-        .catch(err => {throw new MyError(500, err.message, {fileName: 'models/users.js', lineNum: 146});});
-    if(!user || user.password !== password) throw new MyError(401,'Invalid login credentials. Please try again.', {fileName: 'models/users.js', lineNum: 147});
-    return user;
+        .catch(err => {throw new MyError(500, err.message);});
+    if(!user || user.password !== password) throw new MyError(401,'Invalid login credentials. Please try again.');
+    const token = await generateToken(user);
+    return {user, token};
 }
 
 module.exports = {

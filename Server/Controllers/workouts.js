@@ -8,25 +8,22 @@ app
     .get('/', async (req, res, next) => {
         "use strict";
         /**@type {DataListEnvelope<Workout>} */
-        let envelope = {pageLimit: 30};
+        let envelope;
         try {
             const workouts = await DB.getAll();
             envelope = {
                 data: workouts,
-                ...envelope,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
+                totalItems: workouts.length,
+                pageLimit: 30
             };
             res.send(envelope);
         } catch (err) {
             if (devMode) {
                 envelope = {
                     data: [],
-                    ...envelope,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 500
+                    status: err instanceof MyError ? err.status : 500,
+                    error: err instanceof MyError ? err : new MyError(500, err.message)
                 };
                 res.status(envelope.status).send(envelope);
             } else (next(err));
@@ -35,25 +32,22 @@ app
     .get('/search', async (req, res, next) => {
         "use strict";
         /**@type {DataListEnvelope<Workout>} */
-        let envelope = {pageLimit: 30};
+        let envelope;
         try {
             const workouts = await DB.search(req.query.q);
             envelope = {
                 data: workouts,
-                ...envelope,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
+                totalItems: workouts.length,
+                pageLimit: 30
             };
             res.send(envelope);
         } catch (err) {
             if (devMode) {
                 envelope = {
                     data: [],
-                    ...envelope,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 500
+                    status: err instanceof MyError ? err.status : 500,
+                    error: err instanceof MyError ? err : new MyError(500, err.message)
                 };
                 res.status(envelope.status).send(envelope);
             } else (next(err));
@@ -66,9 +60,6 @@ app
             /**@type {DataEnvelope<Workout>} */
             const envelope = {
                 data: workout,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
             };
             res.send(envelope);
         } catch (err) {
@@ -76,9 +67,9 @@ app
                 /**@type {DataEnvelope<Workout>} */
                 const envelope = {
                     data: null,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 500
+                    status: err instanceof MyError ? err.status : 500,
+                    error: err instanceof MyError ? err : new MyError(500, err.message)
                 };
                 res.status(envelope.status).send(envelope);
             } else (next(err));
@@ -87,25 +78,22 @@ app
     .get('/user/:uid', async (req, res, next) => {
         "use strict";
         /**@type {DataListEnvelope<Workout>} */
-        let envelope = {pageLimit: 30};
+        let envelope;
         try {
             const workouts = await DB.getWorkoutsByUser(new ObjectId(req.params.uid));
             envelope = {
                 data: workouts,
-                ...envelope,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
+                totalItems: workouts.length,
+                pageLimit: 30,
             };
             res.send(envelope);
         } catch (err) {
             if (devMode) {
                 envelope = {
                     data: [],
-                    ...envelope,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 500
+                    status: err instanceof MyError ? err.status : 500,
+                    error: err instanceof MyError ? err : new MyError(500, err.message)
                 };
                 res.status(envelope.status).send(envelope);
             } else (next(err));
@@ -119,9 +107,6 @@ app
             /**@type {DataEnvelope<Workout>} */
             const envelope = {
                 data: workout,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
             };
             res.send(envelope);
         } catch (err) {
@@ -129,9 +114,9 @@ app
                 /**@type {DataEnvelope<Workout>} */
                 const envelope = {
                     data: null,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 500
+                    status: err instanceof MyError ? err.status : 500,
+                    error: err instanceof MyError ? err : new MyError(500, err.message)
                 };
                 res.status(envelope.status).send(envelope);
             } else (next(err));
@@ -144,9 +129,6 @@ app
             /**@type {DataEnvelope<Workout>} */
             const envelope = {
                 data: workout,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
             };
             res.send(envelope);
         } catch (err) {
@@ -154,9 +136,9 @@ app
                 /**@type {DataEnvelope<Workout>} */
                 const envelope = {
                     data: null,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 500
+                    status: err instanceof MyError ? err.status : 500,
+                    error: err instanceof MyError ? err : new MyError(500, err.message)
                 };
                 res.status(envelope.status).send(envelope);
             } else (next(err));
@@ -169,9 +151,6 @@ app
             /**@type {DataEnvelope<Workout>} */
             const envelope = {
                 data: workout,
-                isSuccessful: true,
-                message: 'Success',
-                status: 200
             };
             res.send(envelope);
         } catch (err) {
@@ -179,9 +158,9 @@ app
                 /**@type {DataEnvelope<Workout>} */
                 const envelope = {
                     data: null,
-                    isSuccessful: false,
                     message: err.message,
-                    status: err instanceof MyError ? err.code : 500
+                    status: err instanceof MyError ? err.status : 500,
+                    error: err instanceof MyError ? err : new MyError(500, err.message)
                 };
                 res.status(envelope.status).send(envelope);
             } else (next(err));

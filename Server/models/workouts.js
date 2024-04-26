@@ -14,7 +14,7 @@ async function getData() {
     try {
         const db = await connect();
         return db.collection('Workouts');
-    } catch (err) {throw new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 13});}
+    } catch (err) {throw new MyError(500, err.message);}
 }
 
 /**
@@ -28,7 +28,7 @@ async function seed() {
         const count = await col.countDocuments();
         if (count > 0) return;
         await col.insertMany(require('../data/workouts.json').items);
-    } catch (err) {throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 25});}
+    } catch (err) {throw err instanceof MyError ? err : new MyError(500, err.message);}
 }
 /**
  * @description Get all workouts
@@ -39,7 +39,7 @@ async function getAll() {
     try {
         const col = await getData();
         return await col.find({}).toArray();
-    } catch (err) {throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 38});}
+    } catch (err) {throw err instanceof MyError ? err : new MyError(500, err.message);}
 }
 
 /**
@@ -51,7 +51,7 @@ async function get(_id) {
     try{
         const col = await getData();
         return await col.findOne({_id: _id});
-    } catch(err){throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 47});}
+    } catch(err){throw err instanceof MyError ? err : new MyError(500, err.message);}
 }
 /**
  * @description Get all workouts by a specific user
@@ -63,12 +63,12 @@ async function getWorkoutsByUser(userid) {
     /**@type {User} */
     let user;
     try{user = await getUser(userid);}
-    catch(err){throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 61});}
-    if (!user) throw new MyError(404, 'User not found', {fileName: 'models/workouts.js', lineNum: 63});
+    catch(err){throw err instanceof MyError ? err : new MyError(500, err.message);}
+    if (!user) throw new MyError(404, 'User not found');
     try{
         const col = await getData();
         return await col.find({"uid": userid}).toArray();
-    } catch(err){throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 64});}
+    } catch(err){throw err instanceof MyError ? err : new MyError(500, err.message);}
 }
 /**
  * @description Search for workouts given a query
@@ -86,7 +86,7 @@ async function search(q) {
                 {type: {$regex: q, $options: 'i'}},
             ],
         }).toArray();
-    } catch(err){throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 76});}
+    } catch(err){throw err instanceof MyError ? err : new MyError(500, err.message);}
 }
 
 /**
@@ -99,14 +99,14 @@ async function update(_id, body) {
     "use strict";
     let col;
     try{col = await getData();}
-    catch(err){throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 97});}
+    catch(err){throw err instanceof MyError ? err : new MyError(500, err.message);}
     /**@type {Workout} */
     let workout;
     try{workout = await col.findOne({_id: _id});}
-    catch(err){throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 101});}
-    if (!workout) throw new MyError(404, "Workout not Found", {fileName: 'models/workouts.js', lineNum: 87});
+    catch(err){throw err instanceof MyError ? err : new MyError(500, err.message);}
+    if (!workout) throw new MyError(404, "Workout not Found");
     try {await col.updateOne({_id: _id}, {$set: body});}
-    catch(err){throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 104});}
+    catch(err){throw err instanceof MyError ? err : new MyError(500, err.message);}
     workout = await col.findOne({_id: _id});
     return workout;
 }
@@ -118,13 +118,14 @@ async function destroy(_id) {
     "use strict";
     let col;
     try{col = await getData();}
-    catch(err){throw err instanceof MyError ? err : new MyError(500, err.message, {fileName: 'models/workouts.js', lineNum: 115});}
+    catch(err){throw err instanceof MyError ? err : new MyError(500, err.message);}
     /** @type {Workout} */
     let workout;
     try{workout = await col.findOne({_id: _id});}
-    catch(err){throw err instanceof MyError ? err : new MyError(500, "Failed to delete Workout", {fileName: 'models/workouts.js', lineNum: 115});}
+    catch(err){throw err instanceof MyError ? err : new MyError(500, "Failed to delete Workout");}
+    if (!workout) throw new MyError(404, "Workout not Found");
     try{await getData().then(col => col.deleteOne({_id: _id}));
-    } catch(err){throw err instanceof MyError ? err : new MyError(500, "Failed to delete Workout", {fileName: 'models/workouts.js', lineNum: 115});}
+    } catch(err){throw err instanceof MyError ? err : new MyError(500, "Failed to delete Workout");}
     return workout;
 }
 
@@ -135,12 +136,12 @@ async function destroy(_id) {
 async function create(inputInfo) {
     "use strict";
     const user = await getUser(new ObjectId(inputInfo.uid));
-    if (!user) throw new MyError(404, 'User not found', {fileName: 'models/workouts.js', lineNum: 114});
+    if (!user) throw new MyError(404, 'User not found');
     try{
         const workouts = await getData();
         const result = await workouts.insertOne(inputInfo);
         return await workouts.findOne({_id: result.insertedId});
-    } catch (err) {throw err instanceof MyError ? err : new MyError(500, "Failed to create new Workout", {fileName: 'models/workouts.js', lineNum: 115});}
+    } catch (err) {throw err instanceof MyError ? err : new MyError(500, "Failed to create new Workout");}
 }
 
 module.exports = {

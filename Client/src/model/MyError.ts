@@ -1,14 +1,15 @@
 export class MyError {
-    code: number;
+    status: number;
     message: string;
     locationData?: LocationData
-    constructor(code: number, message: string, locationData?: LocationData){
-        this.code = code;
+    constructor(status: number, message: string, locationData?: LocationData){
+        this.status = status;
         this.message = message;
         if(locationData) this.locationData = locationData;
     }
 }
 interface LocationData {
     fileName: string,
-    lineNum: number
+    lineNum: number,
+    charNum: number
 }
