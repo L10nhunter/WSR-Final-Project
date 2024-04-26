@@ -164,6 +164,39 @@ jc.test("Status Test", () => {\
 });'
     },
     {
+      id : "96cf7f2e-da12-4eef-8e38-e5cc7113e4f6",
+      name : "Edit Nonexistent Workout",
+      method : "PATCH",
+      url : "{{API}}/:_id",
+      pathVariables : [
+        {
+          key : "_id",
+          value : "{{DeadID}}"
+        }
+      ],
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "time": 1714083462000\
+}'
+      },
+      testScript : 'jc.test("Data Test", () => {\
+    jc.expect(jc.response.json()["data"]).to.be.null;\
+});\
+jc.test("Message Test", () => {\
+    jc.expect(jc.response.json()["message"]).to.equal("Workout not Found");\
+});\
+jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("Not Found");\
+});'
+    },
+    {
       id : "804de0ea-ab8a-4215-855e-e1e105d87db1",
       name : "Remove Existent Workout",
       method : "DELETE",
@@ -192,7 +225,7 @@ jc.test("Status Test", () => {\
       pathVariables : [
         {
           key : "_id",
-          value : "662ade2e2dc12e21be387cdd"
+          value : "{{DeadID}}"
         }
       ],
       testScript : 'jc.test("Data Test", () => {\
