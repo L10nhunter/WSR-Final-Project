@@ -21,8 +21,7 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
     });
     //TODO: remove debug for production
     if(DEV_MODE) {
-        console.debug({
-            rest: 16,
+        console.debug("rest", {
             url: url,
             body: body,
             method: method,
