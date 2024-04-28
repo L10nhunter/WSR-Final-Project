@@ -16,19 +16,19 @@ definePage({
         requiresAdmin: true,
     }
 });
-console.log("editUser page please?");
+console.debug("editUser page please?");
 
 const route = useRoute();
-console.log(route);
-console.log(route.params);
-console.log(route.params.id);
+console.debug(route);
+console.debug(route.params);
+console.debug(route.params.id);
 for (const key in route) {
-    console.log(key + ": " + route.params[key]);
+    console.debug(key + ": " + route.params[key]);
 }
 const userId: string= route.params.id as string;
-console.log(userId);
+console.debug(userId);
 const user = ref<User>(await getUser(userId));
-console.log(user);
+console.debug(user);
 
 
 const textFields = [

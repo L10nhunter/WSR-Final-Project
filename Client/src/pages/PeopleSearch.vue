@@ -11,7 +11,7 @@ const search = ref("");
 function searchDB() {
     // This will be an API call to the database
     // This will need a search engine of some sort, problem for later
-    console.log("searching for " + search.value);
+    console.debug("searching for " + search.value);
 }
 
 </script>

@@ -8,7 +8,7 @@ import {getTextField} from "@/model/textField";
 
 definePage({meta: {requiresAuth: true,}});
 const user = ref<User>(getSession().user!);
-console.log(user);
+console.debug(user);
 
 const textFields = [
     {field: getTextField("First Name"), model: user.value.firstName},

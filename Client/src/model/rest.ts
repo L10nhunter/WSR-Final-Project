@@ -29,8 +29,17 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
         },
         body: JSON.stringify(body)
     });
-    if (DEV_MODE) console.log("rest.ts rest response: ", response);
-
+    //TODO: remove debug for production
+    if(DEV_MODE) {
+        console.debug({
+            rest: 16,
+            url: url,
+            body: body,
+            method: method,
+            headers: headers,
+            response: response
+        })
+    }
     const ret = response.ok ? await response.json() : response.json().then(err => {
         showError(err instanceof MyError ? err : new MyError(response.status, err.message));
         return Promise.reject(err);

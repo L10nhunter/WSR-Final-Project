@@ -34,7 +34,7 @@ async function getFriendsWorkouts(): Promise<Workout[]> {
     });
 }
 const friendsWorkouts = await getFriendsWorkouts();
-console.log(friendsWorkouts);
+console.debug(friendsWorkouts);
 
 const showAddWorkoutModal = ref(false);
 </script>
