@@ -135,6 +135,6 @@ export async function deleteUser(user: User): Promise<User> {
 function safetyCheck(adminCheck: boolean, user?: User, sessionCheck?: boolean) : User  {
     const sessionUser = getSession().user;
     if(!sessionUser) throw new MyError(401, "User not logged in");
-    if ((adminCheck && sessionUser.admin) || (sessionCheck && user !== sessionUser)) throw new MyError(403, "User not authorized");
+    if ((adminCheck && !sessionUser.admin) || (sessionCheck && user !== sessionUser)) throw new MyError(403, "User not authorized");
     return sessionUser;
 }
