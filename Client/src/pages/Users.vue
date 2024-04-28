@@ -51,12 +51,12 @@ function deleteHandler(user: User): void {
                     <td>{{ user.phone }}</td>
                     <td>{{ user.admin }}</td>
                     <td>
-                        <button class="button is-small is-primary">
-                            <!--TODO: Make this a router-link, and for the love of god, please make it work.-->
-                            <router-link :to="{ name: 'EditUser', params: {id: user._id.toString()}}">
+                        <router-link :to="{ name: 'EditUser', params: {id: user._id.toString()}}">
+                            <button class="button is-small is-primary">
+                                <!--TODO: Make this a router-link, and for the love of god, please make it work.-->
                                 <i class="fa-solid fa-pen"></i>
-                            </router-link>
-                        </button>
+                            </button>
+                        </router-link>
                         <button class="button is-small is-danger" @click="deleteHandler(user)">
                             <i class="fa-solid fa-trash"></i>
                         </button>
