@@ -4,6 +4,7 @@ import {getTextField} from "@/model/textField";
 import WorkoutTextField from "@/components/Fields/WorkoutTextField.vue";
 import {addWorkout, workoutTypes} from "@/model/workouts";
 import {getSession} from "@/model/session";
+import {showAddWorkoutModal} from "@/model/workouts";
 
 const workout = {
     Title: ref(""),
@@ -26,10 +27,6 @@ const textFields = [
     {field: getTextField("Picture"), model: workout.Picture},
 ]
 
-const emits = defineEmits<{
-    (event: 'hideModal', value: void): void;
-}>();
-
 async function addThisWorkout(workout: any) {
     await addWorkout({
         uid: getSession().user!._id,
@@ -49,11 +46,11 @@ async function addThisWorkout(workout: any) {
 
 <template>
     <div class="modal">
-        <div class="modal-background" @click="emits('hideModal')"></div>
+        <div class="modal-background" @click="showAddWorkoutModal = false"></div>
         <div class="modal-card dcs bordered">
             <header class="modal-card-head dcs">
                 <p class="modal-card-title dcs">Add a Workout</p>
-                <button class="delete" @click="emits('hideModal')" aria-label="close"></button>
+                <button class="delete" @click="showAddWorkoutModal = false" aria-label="close"></button>
             </header>
             <section class="modal-content dcs">
                 <div class="form">
@@ -70,8 +67,8 @@ async function addThisWorkout(workout: any) {
                 </div>
             </section>
             <footer class="modal-card-foot dcs">
-                <button class="button is-primary" @click.prevent="[addThisWorkout(workout), emits('hideModal')]">Add Workout</button>
-                <button class="button has-text-weight-bold" @click="emits('hideModal')">Cancel</button>
+                <button class="button is-primary" @click.prevent="[addThisWorkout(workout), showAddWorkoutModal = false]">Add Workout</button>
+                <button class="button has-text-weight-bold" @click="showAddWorkoutModal = false">Cancel</button>
             </footer>
         </div>
     </div>

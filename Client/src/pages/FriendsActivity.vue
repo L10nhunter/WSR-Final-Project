@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import "@/assets/main.css";
-import {ref} from "vue";
 import {getWorkoutsByUserID, type Workout} from "@/model/workouts";
 import WorkoutBox from "@/components/WorkoutBox.vue";
 import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
@@ -8,7 +7,7 @@ import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
 import {definePage} from "vue-router/auto";
 import {getSession} from "@/model/session";
-import type {User} from "@/model/users";
+import {showAddWorkoutModal} from "@/model/workouts";
 
 definePage({
     meta: {
@@ -19,11 +18,13 @@ definePage({
 // function to make API call to get all friends' workouts
 async function getFriendsWorkouts(): Promise<Workout[]> {
     // make API call to get all workouts of each friend
-    const user: User = getSession().user!;
+    const user = getSession().user;
     const workouts = [] as Workout[];
-    if (user.friends?.length === 0) return workouts;
-    for(const friend of user.friends!){
+    if (!user || !user.friends) return workouts;
+    console.debug(user.friends);
+    for(const friend of user.friends){
         const friendWorkouts = await getWorkoutsByUserID(friend);
+        console.debug(friendWorkouts);
         for(const workout of friendWorkouts){
             workouts.push(workout);
         }
@@ -33,10 +34,9 @@ async function getFriendsWorkouts(): Promise<Workout[]> {
         return b.time - a.time;
     });
 }
-const friendsWorkouts = await getFriendsWorkouts();
-console.debug(friendsWorkouts);
 
-const showAddWorkoutModal = ref(false);
+const friendsWorkouts = await getFriendsWorkouts();
+
 </script>
 
 <template>
@@ -52,7 +52,7 @@ const showAddWorkoutModal = ref(false);
                 </div>
             </div>
         </div>
-        <AddWorkoutModal :class="{'is-active': showAddWorkoutModal}" @hideModal="() => showAddWorkoutModal = false"/>
+        <AddWorkoutModal :class="{'is-active': showAddWorkoutModal}"/>
     </LoggedInContent>
 </template>
 

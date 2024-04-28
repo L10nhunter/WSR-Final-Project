@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import "@/assets/main.css";
 import {ref} from "vue";
-import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
+import {definePage} from "vue-router/auto";
 import {workoutsBySessionID} from "@/model/workouts";
+import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
 import WorkoutBox from "@/components/WorkoutBox.vue";
 import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
-import {definePage} from "vue-router/auto";
 
 definePage({meta: {requiresAuth: true}})
 const showAddWorkoutModal = ref(false);
@@ -26,7 +26,7 @@ const workouts = await workoutsBySessionID().then(workouts => workouts.slice().r
                 </div>
             </div>
         </div>
-        <AddWorkoutModal :class="{'is-active': showAddWorkoutModal}" @hideModal="() => showAddWorkoutModal = false"/>
+        <AddWorkoutModal :class="{'is-active': showAddWorkoutModal}"/>
     </LoggedInContent>
 </template>
 
