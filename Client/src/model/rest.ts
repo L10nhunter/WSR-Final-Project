@@ -10,23 +10,13 @@ const DEV_MODE: boolean = import.meta.env.VITE_DEV_MODE;
 async function rest(url: string, body?: unknown, method?: string, headers?: any) {
     const session = getSession();
     session.loading++;
-    if (session.token) {
-        headers = headers ?? {};
-        headers.Authorization = `Bearer ${session.token}`;
-    }
-    //TODO: remove debug for production
-    if(DEV_MODE) {
-        console.debug("rest.ts rest url: " + url)
-        console.debug("rest.ts rest body: " + JSON.stringify(body))
-        console.debug("rest.ts rest method: " + method)
-        console.debug("rest.ts rest headers: " + headers)
-    }
+    headers = headers ?? {};
+    if (session.token) headers.Authorization = `Bearer ${session.token}`;
+    headers = {'Content-Type': 'application/json', ...headers};
+    method = method ?? (body ? "POST" : "GET");
     const response = await fetch(url, {
-        method: method ?? (body ? "POST" : "GET"),
-        headers: {
-            'Content-Type': 'application/json',
-            ...headers
-        },
+        method: method,
+        headers: headers,
         body: JSON.stringify(body)
     });
     //TODO: remove debug for production
@@ -56,8 +46,9 @@ export async function api<T>(endpointURL: string, body?: unknown, method?: strin
 function showError(error: MyError): void {
     const toast = useToast();
     error.locationData
-        ? console.error("Error " + error.status + " (" + StatusCodes[error.status] + "):\nError Message: " + error.message + "\nthrown from " + error.locationData.fileName + " at line " + error.locationData.lineNum)
+        ? console.error("Error " + error.status + " (" + StatusCodes[error.status] + "):\nError Message: " + error.message + "\nthrown from " + error.locationData.fileName + " at line " + error.locationData.lineNum + ":" + error.locationData.charNum)
         : console.error("Error " + error.status + " (" + StatusCodes[error.status] + "):\nError Message: " + error.message + "\nthrown from rest.ts");
+    console.error(error.stack);
     getSession().messages.push({type: "error", message: error.message});
     toast.error(error.message);
 }

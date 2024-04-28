@@ -1,15 +1,20 @@
-export class MyError {
+export class MyError extends Error{
     status: number;
-    message: string;
-    locationData?: LocationData
-    constructor(status: number, message: string, locationData?: LocationData){
+    locationData: LocationData
+    constructor(status: number, message: string){
+        super(message);
         this.status = status;
-        this.message = message;
-        if(locationData) this.locationData = locationData;
+        Error.captureStackTrace(this, this.constructor);
+        const important = this.stack!.split("\n")[1].split("(")[1].split(")")[0].split(":");
+        this.locationData = {
+            fileName: important[0],
+            lineNum: important[1],
+            charNum: important[2]
+        };
     }
 }
 interface LocationData {
     fileName: string,
-    lineNum: number,
-    charNum: number
+    lineNum: string,
+    charNum: string
 }
