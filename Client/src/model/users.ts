@@ -70,12 +70,12 @@ export interface newUser extends Extras {
     phone: string
     username: string
     password: string
-    friends?: ObjectId[]
+    friends?: (ObjectId | string)[]
     image?: string
 }
 
 export interface User extends newUser {
-    _id: ObjectId
+    _id: ObjectId | string
     admin: boolean
 }
 

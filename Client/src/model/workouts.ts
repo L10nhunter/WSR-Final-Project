@@ -2,6 +2,7 @@ import {type User} from "@/model/users";
 import {getSession} from "@/model/session";
 import {api} from "@/model/rest";
 import type {ObjectId} from "mongodb";
+import {ref} from "vue";
 
 export interface NewWorkout {
     title: string
@@ -14,12 +15,14 @@ export interface NewWorkout {
     type: string
     imageURL?: string
     comments?: string[]
-    uid: ObjectId
+    uid: ObjectId | string
 }
 
 export interface Workout extends NewWorkout {
-    _id: ObjectId
+    _id: ObjectId | string
 }
+
+export const showAddWorkoutModal = ref(false);
 
 export const workoutTypes = ["Run", "Walk", "Bike", "Swim", "Cardio", "Strength", "Other"];
 const API = "workouts";
