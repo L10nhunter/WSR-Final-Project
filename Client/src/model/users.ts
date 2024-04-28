@@ -63,7 +63,7 @@ interface Extras {
     }
 }
 
-export interface newUser extends Extras{
+export interface newUser extends Extras {
     firstName: string
     lastName: string
     email: string
@@ -73,11 +73,14 @@ export interface newUser extends Extras{
     friends?: ObjectId[]
     image?: string
 }
-export interface User extends newUser{
+
+export interface User extends newUser {
     _id: ObjectId
     admin: boolean
 }
-export interface safeUser {
+
+//TODO: strain data through safeUser in appropriate places, on the server side
+export interface safeUser extends Extras{
     _id: ObjectId
     firstName: string
     lastName: string
@@ -85,6 +88,7 @@ export interface safeUser {
     friends?: ObjectId[]
     image?: string
 }
+
 export const showLoginModal = ref(false);
 
 const API = "users";
@@ -92,28 +96,45 @@ const API = "users";
 export async function addUser(newUser: newUser): Promise<User> {
     return (await api<User>(API, newUser, "POST")).data;
 }
-//TODO: add safeguards to prevent data leakage
+
 export async function getUsers(): Promise<User[]> {
-   return (await api<User[]>(API)).data;
+    safetyCheck(true);
+    return (await api<User[]>(API)).data;
 }
+
 //TODO: add safeguards to prevent data leakage
 export async function getUser(id: ObjectId | string): Promise<User> {
     return (await api<User>(`${API}/${id}`)).data;
 }
 
+//TODO: implement adding friends in workout box
 export async function addFriend(friend: User): Promise<User> {
-    const user = getSession().user;
-    if(!user) throw new MyError(401, "User not logged in");
+    let user = safetyCheck(false);
     user.friends ? user.friends.push(friend._id) : user.friends = [friend._id];
     return await updateUser(user);
 }
 
+//TODO: implement removing friends in workout box
+export async function removeFriend(friend: User): Promise<User> {
+    let user = safetyCheck(false);
+    if(!user.friends || user === friend) return user;
+    user.friends = user.friends.filter(f => f !== friend._id);
+    return await updateUser(user);
+}
+
 export async function updateUser(user: User): Promise<User> {
-    const sessionUser = getSession().user;
-    if(user !== sessionUser && !sessionUser?.admin) throw new MyError(401, "User not logged in");
+    safetyCheck(false, user, true);
     return (await api<User>(`${API}/${user._id}`, user, "PATCH")).data;
 }
-//TODO: add safeguards to prevent data leakage
+
 export async function deleteUser(user: User): Promise<User> {
+    safetyCheck(false, user, true);
     return (await api<User>(`${API}/${user._id}`, user, "DELETE")).data;
+}
+
+function safetyCheck(adminCheck: boolean, user?: User, sessionCheck?: boolean) : User  {
+    const sessionUser = getSession().user;
+    if(!sessionUser) throw new MyError(401, "User not logged in");
+    if ((adminCheck && sessionUser.admin) || (sessionCheck && user !== sessionUser)) throw new MyError(403, "User not authorized");
+    return sessionUser;
 }

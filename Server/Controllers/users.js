@@ -102,6 +102,7 @@ app
     });
 
 app
+    //TODO: add safeguard to strain data if user isnt an admin or session user isnt the user making the call
     .get('/:id', async (req, res, next) => {
         "use strict";
         try {
