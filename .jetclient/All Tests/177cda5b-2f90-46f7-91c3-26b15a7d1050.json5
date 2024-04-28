@@ -2,5 +2,8 @@
   id : "177cda5b-2f90-46f7-91c3-26b15a7d1050",
   name : "All Tests",
   icon : "FOLDER",
-  sortWeight : 500000
+  sortWeight : 500000,
+  testScript : 'jc.test("Status Test", () => {\
+    jc.expect(jc.response.status).to.equal("OK");\
+});'
 }

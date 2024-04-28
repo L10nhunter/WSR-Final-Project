@@ -20,7 +20,7 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
         body: JSON.stringify(body)
     });
     //TODO: remove debug for production
-    if(DEV_MODE) {
+    if (DEV_MODE) {
         console.debug("rest", {
             url: url,
             body: body,
@@ -30,7 +30,7 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
         })
     }
     const ret = response.ok ? await response.json() : response.json().then(err => {
-        showError(err instanceof MyError ? err : new MyError(response.status, err.message));
+        showError(new MyError(response.status, err.message));
         return Promise.reject(err);
     })
     session.loading--;
@@ -39,7 +39,14 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
 
 export async function api<T>(endpointURL: string, body?: unknown, method?: string, headers?: any): Promise<DynamicDataEnvelope<T>> {
     return await rest(`${API_ROOT}/${endpointURL}`, body, method, headers)
-        .catch(() => {});
+        .then(data => {
+            if (data?.error !== undefined) throw new MyError(data.error.status, data.message, data.error.locationData);
+            return data;
+        })
+        .catch(err => {
+            showError(err instanceof MyError ? err : new MyError(500, "Unknown error"))
+            return Promise.reject(err);
+        }) as Promise<DynamicDataEnvelope<T>>;
 }
 
 function showError(error: MyError): void {

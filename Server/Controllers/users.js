@@ -3,7 +3,6 @@ const express = require('express');
 MyError = require("../models/MyError");
 const {ObjectId} = require("mongodb");
 const app = express.Router();
-const devMode = process.env.NODE_ENV === 'development';
 
 app
     .get('/', async (req, res, next) => {
@@ -19,15 +18,13 @@ app
             };
             res.send(envelope);
         } catch (err) {
-            if (devMode) {
+            if (err instanceof MyError) {
                 envelope = {
                     data: [],
                     message: err.message,
-                    status: err instanceof MyError ? err.status : 500,
-                    error: err instanceof MyError ? err : new MyError(500, err.message)
+                    error: err
                 };
-                console.trace();
-                res.status(envelope.status).send(envelope);
+                res.send(envelope);
             } else (next(err));
         }
     })
@@ -44,14 +41,14 @@ app
             };
             res.send(envelope);
         } catch (err) {
-            if (devMode) {
+            if (err instanceof MyError) {
+                /**@type {DataEnvelope<User>} */
                 envelope = {
                     data: [],
                     message: err.message,
-                    status: err instanceof MyError ? err.status : 500,
-                    error: err instanceof MyError ? err : new MyError(500, err.message)
+                    error: err
                 };
-                res.status(envelope.status).send(envelope);
+                res.send(envelope);
             } else (next(err));
         }
     })
@@ -66,15 +63,14 @@ app
             };
             res.send(envelope);
         } catch (err) {
-            if (devMode) {
+            if (err instanceof MyError) {
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
                     data: null,
                     message: err.message,
-                    status: err instanceof MyError ? err.status : 500,
-                    error: err instanceof MyError ? err : new MyError(500, err.message)
+                    error: err
                 };
-                res.status(envelope.status).send(envelope);
+                res.send(envelope);
             } else (next(err));
         }
     })
@@ -88,15 +84,14 @@ app
             };
             res.send(envelope);
         } catch (err) {
-            if (devMode) {
+            if (err instanceof MyError) {
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
                     data: null,
                     message: err.message,
-                    status: err instanceof MyError ? err.status : 404,
-                    error: err instanceof MyError ? err : new MyError(404, err.message)
+                    error: err
                 };
-                res.status(envelope.status).send(envelope);
+                res.send(envelope);
             } else (next(err));
         }
     });
@@ -113,14 +108,14 @@ app
             };
             res.send(envelope);
         } catch (err) {
-            if (devMode) {
+            if (err instanceof MyError) {
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
                     data: null,
                     message: err.message,
-                    error: err instanceof MyError ? err : new MyError(500, err.message)
+                    error: err
                 };
-                res.status(err instanceof MyError ? err.status : 500).send(envelope);
+                res.send(envelope);
             } else (next(err));
         }
     })
@@ -134,15 +129,14 @@ app
             };
             res.send(envelope);
         } catch (err) {
-            if (devMode) {
+            if (err instanceof MyError) {
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
                     data: null,
                     message: err.message,
-                    status: err instanceof MyError ? err.status : 404,
-                    error: err instanceof MyError ? err : new MyError(404, err.message)
+                    error: err
                 };
-                res.status(envelope.status).send(envelope);
+                res.send(envelope);
             } else (next(err));
         }
 
@@ -157,15 +151,14 @@ app
             };
             res.send(envelope);
         } catch (err) {
-            if (devMode) {
+            if (err instanceof MyError) {
                 /**@type {DataEnvelope<User>} */
                 const envelope = {
                     data: null,
                     message: err.message,
-                    status: err instanceof MyError ? err.status : 404,
-                    error: err instanceof MyError ? err : new MyError(404, err.message)
+                    error: err
                 };
-                res.status(envelope.status).send(envelope);
+                res.send(envelope);
             } else (next(err));
         }
     });

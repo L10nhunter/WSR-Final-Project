@@ -14,9 +14,6 @@
 });\
 jc.test("Message Test", () => {\
     jc.expect(jc.response.json()["message"]).to.be.undefined\
-});\
-jc.test("Status Test", () => {\
-    jc.expect(jc.response.status).to.equal("OK");\
 });'
     },
     {
@@ -35,9 +32,6 @@ jc.test("Status Test", () => {\
 });\
 jc.test("Message Test", () => {\
     jc.expect(jc.response.json()["message"]).to.be.undefined\
-});\
-jc.test("Status Test", () => {\
-    jc.expect(jc.response.status).to.equal("OK");\
 });'
     },
     {
@@ -56,9 +50,6 @@ jc.test("Status Test", () => {\
 });\
 jc.test("Message Test", () => {\
     jc.expect(jc.response.json()["message"]).to.equal("User not found");\
-});\
-jc.test("Status Test", () => {\
-    jc.expect(jc.response.status).to.equal("Not Found");\
 });'
     },
     {
@@ -77,9 +68,6 @@ jc.test("Status Test", () => {\
 });\
 jc.test("Message Test", () => {\
     jc.expect(jc.response.json()["message"]).to.be.undefined\
-});\
-jc.test("Status Test", () => {\
-    jc.expect(jc.response.status).to.equal("OK");\
 });'
     },
     {
@@ -98,9 +86,6 @@ jc.test("Status Test", () => {\
 });\
 jc.test("Message Test", () => {\
     jc.expect(jc.response.json()["message"]).to.be.undefined\
-});\
-jc.test("Status Test", () => {\
-    jc.expect(jc.response.status).to.equal("OK");\
 });'
     },
     {
@@ -124,9 +109,6 @@ jc.test("Status Test", () => {\
 });\
 jc.test("Message Test", () => {\
     jc.expect(jc.response.json()["message"]).to.be.undefined\
-});\
-jc.test("Status Test", () => {\
-    jc.expect(jc.response.status).to.equal("OK");\
 });'
     },
     {
@@ -158,9 +140,6 @@ jc.test("Status Test", () => {\
 });\
 jc.test("Message Test", () => {\
     jc.expect(jc.response.json()["message"]).to.be.undefined\
-});\
-jc.test("Status Test", () => {\
-    jc.expect(jc.response.status).to.equal("OK");\
 });'
     },
     {
@@ -191,9 +170,6 @@ jc.test("Status Test", () => {\
 });\
 jc.test("Message Test", () => {\
     jc.expect(jc.response.json()["message"]).to.equal("Workout not Found");\
-});\
-jc.test("Status Test", () => {\
-    jc.expect(jc.response.status).to.equal("Not Found");\
 });'
     },
     {
@@ -212,9 +188,6 @@ jc.test("Status Test", () => {\
 });\
 jc.test("Message Test", () => {\
     jc.expect(jc.response.json()["message"]).to.be.undefined\
-});\
-jc.test("Status Test", () => {\
-    jc.expect(jc.response.status).to.equal("OK");\
 });'
     },
     {
@@ -233,9 +206,6 @@ jc.test("Status Test", () => {\
 });\
 jc.test("Message Test", () => {\
     jc.expect(jc.response.json()["message"]).to.equal("Workout not Found");\
-});\
-jc.test("Status Test", () => {\
-    jc.expect(jc.response.status).to.equal("Not Found");\
 });'
     }
   ]
