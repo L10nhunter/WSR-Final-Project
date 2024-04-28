@@ -46,9 +46,7 @@ async function getAll() {
  */
 async function create(inputInfo) {
     "use strict";
-    const users = await getData().catch(err => {
-        throw new MyError(500, err.message);
-    });
+    const users = await getData();
     if (await users.findOne({email: inputInfo.email})) throw new MyError(400, 'Email already exists');
     if (await users.findOne({username: inputInfo.username})) throw new MyError(400, 'Username already exists');
     /** @type {User} */
@@ -57,7 +55,7 @@ async function create(inputInfo) {
         ...inputInfo,
         friends: []
     };
-    const result = await users.insertOne(newUser).catch(err => {throw new MyError(500, err.message);});
+    const result = await users.insertOne(newUser);
     if(!result.acknowledged) throw new MyError(500, 'Insert failed: result not acknowledged');
     newUser._id = result.insertedId;
     return newUser;
@@ -69,9 +67,7 @@ async function create(inputInfo) {
 async function get(_id) {
     "use strict";
     const user = await getData().then(col => col.findOne({_id: _id}));
-    if (!user) {
-        throw new MyError(404, 'User not found');
-    }
+    if (!user) {throw new MyError(404, 'User not found');}
     return user;
 }
 
@@ -89,8 +85,7 @@ async function search(q) {
                 {username: {$regex: q, $options: 'i'}},
                 {email: {$regex: q, $options: 'i'}},
             ],
-        }).toArray())
-        .catch(err => {throw new MyError(500, err.message);});
+        }).toArray());
 }
 
 /**
@@ -100,16 +95,12 @@ async function search(q) {
  */
 async function update(_id, inputInfo) {
     "use strict";
-    const users = await getData()
-        .catch(err => {throw new MyError(500, err.message);});
+    const users = await getData();
     /** @type {User} */
-    const user= await users.findOne({_id:_id})
-        .catch(err => {throw new MyError(500, err.message);});
+    const user= await users.findOne({_id:_id});
     if (!user) throw new MyError(404, 'User not found');
-
     const result = await users.updateOne({_id: _id}, {$set: inputInfo});
     if(!result.acknowledged) throw new MyError(500, 'Update failed: result not acknowledged');
-
     return await users.findOne({_id:_id});
 
 }
@@ -122,7 +113,7 @@ async function destroy(_id) {
     "use strict";
     const col = await getData();
     /**@type {User}*/
-    const user = await col.findOne({_id: _id}).catch(err => {throw new MyError(500, err.message);});
+    const user = await col.findOne({_id: _id});
     if (!user) throw new MyError(404, 'User not found');
     await getData().then(col => col.deleteOne({_id: _id}));
     return user;
@@ -168,8 +159,7 @@ async function login(emailOrUsername, password) {
                 {email: emailOrUsername},
                 {username: emailOrUsername}
             ],
-        }))
-        .catch(err => {throw new MyError(500, err.message);});
+        }));
     if(!user || user.password !== password) throw new MyError(401,'Invalid login credentials. Please try again.');
     const token = await generateToken(user);
     return {user, token};

@@ -11,10 +11,9 @@ MyError = require("./MyError");
  */
 async function getData() {
     "use strict";
-    try {
-        const db = await connect();
-        return db.collection('Workouts');
-    } catch (err) {throw new MyError(500, err.message);}
+    const db = await connect();
+    return db.collection('Workouts');
+
 }
 
 /**
@@ -23,12 +22,11 @@ async function getData() {
  */
 async function seed() {
     "use strict";
-    try {
-        const col = await getData();
-        const count = await col.countDocuments();
-        if (count > 0) return;
-        await col.insertMany(require('../data/workouts.json').items);
-    } catch (err) {throw err instanceof MyError ? err : new MyError(500, err.message);}
+    const col = await getData();
+    const count = await col.countDocuments();
+    if (count > 0) return;
+    await col.insertMany(require('../data/workouts.json').items);
+
 }
 /**
  * @description Get all workouts
@@ -36,10 +34,8 @@ async function seed() {
  */
 async function getAll() {
     "use strict";
-    try {
-        const col = await getData();
-        return await col.find({}).toArray();
-    } catch (err) {throw err instanceof MyError ? err : new MyError(500, err.message);}
+    const col = await getData();
+    return await col.find({}).toArray();
 }
 
 /**
@@ -48,10 +44,9 @@ async function getAll() {
  * */
 async function get(_id) {
     "use strict";
-    try{
-        const col = await getData();
-        return await col.findOne({_id: _id});
-    } catch(err){throw err instanceof MyError ? err : new MyError(500, err.message);}
+    const col = await getData();
+    return await col.findOne({_id: _id});
+
 }
 /**
  * @description Get all workouts by a specific user
