@@ -9,8 +9,8 @@ const user = defineProps<User>();
 const isSessionUser = ref<boolean>(getSession().user?._id === user._id);
 
 watch(() => getSession().user, () => {
-    console.debug("session user changed seen in userBox");
     isSessionUser.value = getSession().user?._id === user._id ?? false;
+    console.debug({msg: "session user changed: listened to in UserBox", isSessionUser: isSessionUser.value});
 });
 
 </script>
@@ -18,7 +18,7 @@ watch(() => getSession().user, () => {
 <template>
     <div class="media box dcs">
         <div class="media-left dcs">
-            <figure class="image is-64x64">
+            <figure class="image is-64x64" @click="console.debug({user: user})">
                 <img :src="user.image" alt="Image">
             </figure>
         </div>
@@ -29,17 +29,9 @@ watch(() => getSession().user, () => {
         </div>
         <nav class="level is-mobile">
             <div class="level-left">
+                <div class="level-item">
                 <FriendButton v-bind="user"/>
-                <a class="level-item is-color-primary" aria-label="edit" v-if="isSessionUser">
-                    <span class="icon is-small">
-                        <i class="fa-solid fa-pen" aria-hidden="true"></i>
-                    </span>
-                </a>
-                <a class="level-item is-color-danger" aria-label="edit" v-if="isSessionUser">
-                    <span class="icon is-small">
-                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                    </span>
-                </a>
+                </div>
             </div>
         </nav>
     </div>

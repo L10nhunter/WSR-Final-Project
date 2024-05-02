@@ -3,18 +3,14 @@ import {getSession} from "@/model/session";
 import {ref, watch} from "vue";
 import {showLoginModal, addFriend, removeFriend, type User} from "@/model/users";
 import {useToast} from "vue-toastification";
-import type {ObjectId} from "mongodb";
 
 const user = defineProps<User>();
-const sessionUser = getSession().user;
-
-const sessionFriends = ref<(string | ObjectId)[]>(sessionUser?.friends ?? []);
-const isSessionFriend = ref<boolean>(sessionFriends.value.includes(user._id));
-const isSessionUser = ref<boolean>(sessionUser?._id === user._id ?? false);
+const isSessionFriend = ref<boolean>(getSession().user?.friends?.includes(user._id) ?? false);
+const isSessionUser = ref<boolean>(getSession().user?._id === user._id ?? false);
 const showUnfriendModal = ref<boolean>(false);
 async function updateSessionFriends() {
-    console.debug({click: true, sessionUser: sessionUser, boxUser: user, isSessionFriend: isSessionFriend.value, isSessionUser: isSessionUser.value});
-    if(!sessionUser) {
+    console.debug({click: true, sessionUser: getSession().user, boxUser: user, isSessionFriend: isSessionFriend.value, isSessionUser: isSessionUser.value});
+    if(!getSession().user) {
         useToast().warning("You must be logged in to add friends.");
         showLoginModal.value = true;
         return;
@@ -25,14 +21,19 @@ async function updateSessionFriends() {
     }
     if (isSessionFriend.value) showUnfriendModal.value = true;
     else {
-        await addFriend(user._id);
+        await addFriend(user._id).catch(e => console.error(e));
         isSessionFriend.value = true;
     }
 }
-watch(() => getSession().user, () => {
-    sessionFriends.value = sessionUser?.friends ?? [];
-    isSessionFriend.value = sessionFriends.value.includes(user._id);
-    isSessionUser.value = sessionUser?._id === user._id ?? false;
+async function unfriend() {
+    await removeFriend(user._id).catch(e => console.error(e));
+    showUnfriendModal.value=false
+    isSessionFriend.value = false;
+    showUnfriendModal.value = false;
+}
+watch(() => getSession(), () => {
+    isSessionFriend.value = getSession().user?.friends?.includes(user._id) ?? false;
+    isSessionUser.value = getSession()?.user?._id === user._id ?? false;
 });
 
 </script>
@@ -53,7 +54,7 @@ watch(() => getSession().user, () => {
             <section class="modal-content">
                 <div class="control">
                     <button class="button" @click="showUnfriendModal=false">Cancel</button>
-                    <button class="button is-danger" @click="removeFriend(user._id)">Unfriend</button>
+                    <button class="button is-danger" @click="unfriend()">Unfriend</button>
                 </div>
             </section>
         </div>
