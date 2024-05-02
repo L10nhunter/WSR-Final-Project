@@ -6,7 +6,7 @@ import {workoutTypes} from "@/model/workouts";
 import {ref} from "vue";
 import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
-import {definePage} from "vue-router/auto";
+import {definePage} from "unplugin-vue-router/runtime";
 
 definePage({meta: {requiresAuth: true}});
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import "@/assets/main.css";
 import {ref} from "vue";
-import {definePage} from "vue-router/auto";
+import {definePage} from "unplugin-vue-router/runtime";
 import {workoutsBySessionID} from "@/model/workouts";
 import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
 import WorkoutBox from "@/components/WorkoutBox.vue";

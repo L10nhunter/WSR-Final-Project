@@ -2,7 +2,7 @@
 
 import {getUser, updateUser, type User} from "@/model/users";
 import router from "@/router";
-import {definePage} from "vue-router/auto";
+import {definePage} from "unplugin-vue-router/runtime";
 import {useRoute} from "vue-router";
 import {getTextField} from "@/model/textField";
 import {ref} from "vue";

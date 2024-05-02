@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import {getUsers, type User, deleteUser} from "@/model/users";
-import {definePage} from "vue-router/auto";
+import {definePage} from "unplugin-vue-router/runtime";
 import {useRouter} from "vue-router";
 
 definePage({

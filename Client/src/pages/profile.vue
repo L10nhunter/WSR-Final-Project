@@ -2,7 +2,7 @@
 import {updateUser, type User} from "@/model/users";
 import {ref} from "vue";
 import {getSession} from "@/model/session";
-import {definePage} from "vue-router/auto";
+import {definePage} from "unplugin-vue-router/runtime";
 import EditUserTextField from "@/components/Fields/EditUserTextField.vue";
 import {getTextField} from "@/model/textField";
 

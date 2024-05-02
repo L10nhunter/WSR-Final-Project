@@ -5,7 +5,7 @@ import WorkoutBox from "@/components/WorkoutBox.vue";
 import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
 import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
-import {definePage} from "vue-router/auto";
+import {definePage} from "unplugin-vue-router/runtime";
 import {getSession} from "@/model/session";
 import {showAddWorkoutModal} from "@/model/workouts";
 
