@@ -99,6 +99,7 @@ async function update(_id, inputInfo) {
     /** @type {User} */
     const user= await users.findOne({_id:_id});
     if (!user) throw new MyError(404, 'User not found');
+    delete inputInfo._id;
     const result = await users.updateOne({_id: _id}, {$set: inputInfo});
     if(!result.acknowledged) throw new MyError(500, 'Update failed: result not acknowledged');
     return await users.findOne({_id:_id});

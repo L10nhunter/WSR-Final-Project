@@ -116,7 +116,7 @@ app
                     error: err
                 };
                 res.send(envelope);
-            } else {;
+            } else {
                 next(err);
             }
         }
