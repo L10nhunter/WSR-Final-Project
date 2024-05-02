@@ -116,7 +116,9 @@ app
                     error: err
                 };
                 res.send(envelope);
-            } else (next(err));
+            } else {;
+                next(err);
+            }
         }
     })
     .patch('/:id', async (req, res, next) => {

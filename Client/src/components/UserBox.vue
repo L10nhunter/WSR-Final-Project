@@ -15,7 +15,6 @@ const user = defineProps<User>()
         <div class="media-content">
             <p class="title is-4">{{user.username}}</p>
             <p class="subtitle is-6">{{user.email}}</p>
-
         </div>
     </div>
 

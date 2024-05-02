@@ -45,7 +45,6 @@ export function useLogin() {
                     return session.user;
                 })
                 .catch((err)=>{throw err}) as User;
-
         },
         logout(): void {
             session.user = null;
