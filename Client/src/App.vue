@@ -10,7 +10,7 @@ import {getSession} from "@/model/session";
     <body class="has-navbar-fixed-top">
     <div id="app">
         <NavBar/>
-        <progress class="progress is-primary is-small" max="100" v-if="getSession().loading"/>
+        <progress class="progress is-primary is-small" max="100" v-if="getSession().loading>0"/>
         <Suspense>
             <div class="container" id="site-container">
                 <RouterView/>
