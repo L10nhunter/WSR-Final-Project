@@ -34,13 +34,12 @@ mobileNav = getSession().user ? mobileNav : mobileNav.slice(3);
 </script>
 
 <template>
+
     <nav class="navbar is-fixed-top ics" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <router-link @click="isBurgerActive = false" class="navbar-item is-hovered-mute" to="/">
                 <img class="is-32x32" src="/l10nFitnessIcon.png" alt="logo">
             </router-link>
-
-
             <a role="button" :class="{'is-active': isBurgerActive}" @click="isBurgerActive = !isBurgerActive"
                class="navbar-burger"
                aria-label="menu" aria-expanded="false"
@@ -50,7 +49,8 @@ mobileNav = getSession().user ? mobileNav : mobileNav.slice(3);
                 <span aria-hidden="true"></span>
             </a>
         </div>
-
+        <!--TODO: maybe make loading bar the background of the navbar. I bet that would look super cool-->
+        <progress class="progress is-mine" max="100" v-if="getSession().loading>0"/>
         <div class="navbar-menu navbar-dropdown ics" :class="{'is-active': isBurgerActive, 'is-hidden': !isMyMobile}">
             <div class="navbar-start">
                 <router-link v-for="route in mobileNav" class="navbar-item ics is-hovered-mute"
@@ -106,5 +106,26 @@ mobileNav = getSession().user ? mobileNav : mobileNav.slice(3);
 <style scoped>
 .navbar {
     border-bottom: 1px solid var(--color-background-mute);
+}
+.progress {
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-radius: 0;
+}
+.progress.is-mine{
+    height: .5rem;
+    animation-duration: var(--bulma-progress-indeterminate-duration);
+    animation-iteration-count: infinite;
+    animation-name: moveIndeterminate;
+    animation-timing-function: linear;
+    background-color: var(--color-background-soft);
+    background-image: linear-gradient(to right, var(--color-primary) 50%, var(--color-background-soft) 50%);
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: 150% 150%;
 }
 </style>
