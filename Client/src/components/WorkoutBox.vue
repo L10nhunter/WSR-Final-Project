@@ -3,13 +3,12 @@ import {ref} from "vue";
 import {type Workout} from "@/model/workouts";
 import {getUser} from "@/model/users";
 import {getSession} from "@/model/session";
+import FriendButton from "@/components/FriendButton.vue";
 
 const isHidden = ref(false);
 const workout = defineProps<Workout>();
 const user = await getUser(workout.uid);
 const showChangeButtons = getSession().user && getSession().user!._id === workout.uid;
-const sessionFriends = getSession().user?.friends ?? [];
-const activeHeart = ref<boolean>(sessionFriends.includes(workout.uid));
 
 
 function distanceFormat(distance?: number): string {
@@ -100,11 +99,7 @@ const userImage = user.image ?? "/l10nFitnessIcon.png";
                                 <i class="fa-solid fa-reply" aria-hidden="true"></i>
                             </span>
                         </a>
-                        <a class="level-item" aria-label="like" :class="{'is-color-pink': showChangeButtons || activeHeart}">
-                            <span class="icon is-small">
-                                <i class="fa-solid fa-heart" aria-hidden="true"></i>
-                            </span>
-                        </a>
+                        <FriendButton v-bind="user!"/>
                         <a class="level-item is-color-primary" aria-label="edit" v-if="showChangeButtons">
                             <span class="icon is-small">
                                 <i class="fa-solid fa-pen" aria-hidden="true"></i>
@@ -128,9 +123,9 @@ const userImage = user.image ?? "/l10nFitnessIcon.png";
 
 <style scoped>
 button.delete {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
+    position: relative;
+    top:-1rem;
+    right:-1rem;
 }
 
 .columns {
@@ -142,9 +137,6 @@ div.box {
     margin-bottom: 1rem;
     border: 2px var(--color-border) solid;
     border-radius: .25rem;
-}
-.is-color-pink {
-    color: deeppink;
 }
 
 </style>
