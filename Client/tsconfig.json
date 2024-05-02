@@ -1,19 +1,12 @@
 {
-  "include": [
-    "./typed-router.d.ts",
-  ],
+  "include": ["./typed-router.d.ts",],
   "files": [],
   "references": [
-    {
-      "path": "./tsconfig.node.json"
-    },
-    {
-      "path": "./tsconfig.app.json"
-    }
+    {"path": "./tsconfig.node.json"},
+    {"path": "./tsconfig.app.json"}
   ],
   "compilerOptions": {
-    "types": [
-      "unplugin-vue-router/client"
-    ]
+    "lib" : ["esnext", "dom"],
+    "types": ["unplugin-vue-router/client"]
   }
 }

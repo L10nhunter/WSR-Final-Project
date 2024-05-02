@@ -2,7 +2,6 @@
 import "bulma/css/bulma.css";
 import NavBar from "@/components/NavBar.vue";
 import {RouterView} from 'vue-router';
-import {getSession} from "@/model/session";
 </script>
 
 <template>
@@ -10,7 +9,6 @@ import {getSession} from "@/model/session";
     <body class="has-navbar-fixed-top">
     <div id="app">
         <NavBar/>
-        <progress class="progress is-primary is-small" max="100" v-if="getSession().loading>0"/>
         <Suspense>
             <div class="container" id="site-container">
                 <RouterView/>
@@ -37,14 +35,10 @@ import {getSession} from "@/model/session";
 }
 
 #site-container {
-    padding-top: 1.25rem;
+    padding-top: 1rem;
     display: flex;
     flex-direction: column;
 }
-.progress.is-primary {
-    --bulma-progress-value-background-color: var(--color-primary) !important;
-    --bulma-progress-bar-background-color: var(--color-background-soft) !important;
-    background-image: linear-gradient(to right, var(--bulma-progress-value-background-color) 30%, var(--bulma-progress-bar-background-color) 30%);
-}
+
 </style>
 ```
