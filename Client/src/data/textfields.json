@@ -55,10 +55,6 @@
       "placeholder": "Title"
     },
     {
-      "label": "Workout Date",
-      "type": "date"
-    },
-    {
       "label": "Calories",
       "type": "number",
       "for": "Calories"
@@ -75,10 +71,6 @@
     },
     {
       "label": "Location",
-      "type": "text"
-    },
-    {
-      "label": "Picture",
       "type": "text"
     },
     {

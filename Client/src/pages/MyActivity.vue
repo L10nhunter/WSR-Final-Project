@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import "@/assets/main.css";
-import {ref} from "vue";
 import {definePage} from "unplugin-vue-router/runtime";
-import {workoutsBySessionID} from "@/model/workouts";
+import {type Workout, workoutsBySessionID, showAddWorkoutModal} from "@/model/workouts";
 import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
 import WorkoutBox from "@/components/WorkoutBox.vue";
 import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
+import {getSession} from "@/model/session";
 
 definePage({meta: {requiresAuth: true}})
-const showAddWorkoutModal = ref(false);
-const workouts = await workoutsBySessionID().then(workouts => workouts.slice().reverse());
+getSession().loading+=1000;
+const workouts: Workout[] = await workoutsBySessionID().then(workouts => workouts.slice().reverse());
+getSession().loading-=1000;
 </script>
 
 <template>

@@ -19,17 +19,14 @@ const workout = {
 
 const textFields = [
     {field: getTextField("Title"), model: workout.Title},
-    {field: getTextField("Workout Date"), model: workout.WorkoutDate},
     {field: getTextField("Calories"), model: workout.Calories},
     {field: getTextField("Duration"), model: workout.Duration},
     {field: getTextField("Distance"), model: workout.Distance},
-    {field: getTextField("Location"), model: workout.Location},
-    {field: getTextField("Picture"), model: workout.Picture},
+    {field: getTextField("Location"), model: workout.Location}
 ]
 
 async function addThisWorkout(workout: any) {
     await addWorkout({
-        uid: getSession().user!._id,
         title: workout.Title.value !== "" ? workout.Title.value : "Workout",
         time: new Date().getTime(),
         duration: workout.Duration.value !== "" ? workout.Duration.value : 0,
@@ -37,11 +34,10 @@ async function addThisWorkout(workout: any) {
         calories: workout.Calories.value !== "" ? workout.Calories.value : 0,
         location: workout.Location.value,
         picture: workout.Picture.value,
-        type: workout.type.value !== "" ? workout.type.value : "Other"
+        type: workout.type.value !== "" ? workout.type.value : "Other",
+        uid: getSession().user!._id
     })
 }
-
-
 </script>
 
 <template>
@@ -53,7 +49,7 @@ async function addThisWorkout(workout: any) {
                 <button class="delete" @click="showAddWorkoutModal = false" aria-label="close"></button>
             </header>
             <section class="modal-content dcs">
-                <div class="form">
+                <div class="form mx-4">
                     <WorkoutTextField v-for="text in textFields" v-bind="text.field" v-model="text.model.value"/>
                     <div class="field">
                         <label class="label dcs" for="type">Type</label>
