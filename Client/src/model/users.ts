@@ -108,17 +108,22 @@ export async function getUser(id: ObjectId | string): Promise<User> {
 }
 
 //TODO: implement adding friends in workout box
-export async function addFriend(friend: User): Promise<User> {
+export async function addFriend(friend: string | ObjectId): Promise<User> {
     let user = safetyCheck(false);
-    user.friends ? user.friends.push(friend._id) : user.friends = [friend._id];
+    user.friends ? user.friends.push(friend) : user.friends = [friend];
     return await updateUser(user);
 }
 
+export async function searchUsers(query: string | string[]): Promise<User[]> {
+    if (typeof query === "object") query = query.join("+");
+    return (await api<User[]>(`${API}/search?q=${query}`)).data;
+}
+
 //TODO: implement removing friends in workout box
-export async function removeFriend(friend: User): Promise<User> {
+export async function removeFriend(friend: string | ObjectId): Promise<User> {
     let user = safetyCheck(false);
-    if(!user.friends || user === friend) return user;
-    user.friends = user.friends.filter(f => f !== friend._id);
+    if(!user.friends || user._id === friend) return user;
+    user.friends = user.friends.filter(f => f !== friend);
     return await updateUser(user);
 }
 

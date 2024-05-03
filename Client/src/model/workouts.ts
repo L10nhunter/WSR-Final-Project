@@ -40,12 +40,19 @@ export async function getWorkoutsByUserID(userID?: ObjectId | string): Promise<W
 }
 
 export async function addWorkout(newWorkout: NewWorkout): Promise<Workout> {
-    newWorkout.uid = getSession().user!._id;
     return (await api<Workout>(API, newWorkout, "POST")).data;
 }
 
 export async function getWorkoutsByUser(user?: User): Promise<Workout[]> {
     return await getWorkoutsByUserID(user?._id);
+}
+export async function searchWorkouts(query: string | string[]): Promise<Workout[]> {
+    if (typeof query === "object") query = query.join("+");
+    return (await api<Workout[]>(`${API}/search?q=${query}`)).data;
+}
+export async function getWorkoutsBySearch(query: string | string[]): Promise<Workout[]> {
+    if (typeof query === "object") query = query.join("+");
+    return (await api<Workout[]>(`${API}/search/users?q=${query}`)).data;
 }
 
 export async function getWorkoutByType(type: string, user?: User): Promise<Workout[]> {
