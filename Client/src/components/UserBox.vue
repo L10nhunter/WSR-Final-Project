@@ -9,7 +9,7 @@ const user = defineProps<User>();
 const isSessionUser = ref<boolean>(getSession().user?._id === user._id);
 
 watch(() => getSession().user, () => {
-    isSessionUser.value = getSession().user?._id === user._id ?? false;
+    isSessionUser.value = getSession().user?._id === user._id;
     console.debug({msg: "session user changed: listened to in UserBox", isSessionUser: isSessionUser.value});
 });
 

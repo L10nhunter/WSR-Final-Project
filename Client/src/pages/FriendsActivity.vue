@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import "@/assets/main.css";
 import {getWorkoutsByUserID, type Workout} from "@/model/workouts";
-import WorkoutBox from "@/components/WorkoutBox.vue";
+import {defineAsyncComponent} from "vue";
 import AddWorkoutModal from "@/components/AddWorkoutModal.vue";
 import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
@@ -9,15 +9,10 @@ import {definePage} from "unplugin-vue-router/runtime";
 import {getSession} from "@/model/session";
 import {showAddWorkoutModal} from "@/model/workouts";
 
-definePage({
-    meta: {
-        requiresAuth: true
-    }
-})
+const WorkoutBox = defineAsyncComponent(() => import("@/components/WorkoutBox.vue"));
 
-// function to make API call to get all friends' workouts
+definePage({meta: {requiresAuth: true}})
 async function getFriendsWorkouts(): Promise<Workout[]> {
-    // make API call to get all workouts of each friend
     const user = getSession().user;
     const workouts = [] as Workout[];
     if (!user || !user.friends) return workouts;
@@ -34,9 +29,10 @@ async function getFriendsWorkouts(): Promise<Workout[]> {
         return b.time - a.time;
     });
 }
-
+// await to make make this async setup
+getSession().loading += 1000;
 const friendsWorkouts = await getFriendsWorkouts();
-
+getSession().loading -= 1000;
 </script>
 
 <template>

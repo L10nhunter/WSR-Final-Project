@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {type Workout} from "@/model/workouts";
-import {getUser} from "@/model/users";
+import {getUser, type User} from "@/model/users";
 import {getSession} from "@/model/session";
 import FriendButton from "@/components/FriendButton.vue";
 
 const isHidden = ref(false);
 const workout = defineProps<Workout>();
-const user = await getUser(workout.uid);
+const user: User = await getUser(workout.uid);
 const showChangeButtons = getSession().user && getSession().user!._id === workout.uid;
 
 
@@ -99,7 +99,7 @@ const userImage = user.image ?? "/l10nFitnessIcon.png";
                                 <i class="fa-solid fa-reply" aria-hidden="true"></i>
                             </span>
                         </a>
-                        <FriendButton v-bind="user!"/>
+                        <FriendButton v-bind="user"/>
                         <a class="level-item is-color-primary" aria-label="edit" v-if="showChangeButtons">
                             <span class="icon is-small">
                                 <i class="fa-solid fa-pen" aria-hidden="true"></i>

@@ -132,6 +132,7 @@ async function create(inputInfo) {
     "use strict";
     const user = await getUser(new ObjectId(inputInfo.uid));
     if (!user) throw new MyError(404, 'User not found');
+    inputInfo.uid = new ObjectId(inputInfo.uid);
     try{
         const workouts = await getData();
         const result = await workouts.insertOne(inputInfo);

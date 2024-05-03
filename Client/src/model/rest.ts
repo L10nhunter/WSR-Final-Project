@@ -26,7 +26,8 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
             body: body,
             method: method,
             headers: headers,
-            response: response
+            response: response,
+            stack: new Error().stack
         })
     }
     const ret = response.ok ? await response.json() : response.json().then(err => {

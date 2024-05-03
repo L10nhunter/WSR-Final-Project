@@ -7,18 +7,21 @@ import {ref} from "vue";
 import NotLoggedBox from "@/components/NotLoggedBox.vue";
 import LoggedInContent from "@/components/LoggedInContent.vue";
 import {definePage} from "unplugin-vue-router/runtime";
+import {getSession} from "@/model/session";
 
 definePage({meta: {requiresAuth: true}});
-
+getSession().loading++;
 const selected = ref("All");
 const todayStats = ref<Stats>(await getTodayStats(selected.value));
 const weekStats = ref<Stats>(await getWeekStats(selected.value));
 const allTimeStats = ref<Stats>(await getAllTimeStats(selected.value));
-
+getSession().loading--;
 const recalculateStats = async () => {
+    getSession().loading++;
     todayStats.value = await getTodayStats(selected.value);
     weekStats.value = await getWeekStats(selected.value);
     allTimeStats.value = await getAllTimeStats(selected.value);
+    getSession().loading--;
 }
 
 </script>

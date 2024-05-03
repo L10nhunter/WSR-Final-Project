@@ -40,6 +40,7 @@ export function useLogin() {
                     session.token = response.data.token;
                     showLoginModal.value = false;
                     router.push(session.redirectURL ?? "/").then((r) => r);
+                    session.redirectURL = null;
                     useToast().success("Welcome " + session.user.firstName + " " + session.user.lastName + "!\nYou are now logged in.");
                     console.debug("User " + session.user.firstName + " " + session.user.lastName + " logged in.");
                     return session.user;

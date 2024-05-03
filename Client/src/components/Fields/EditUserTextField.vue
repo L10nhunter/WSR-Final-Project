@@ -6,8 +6,7 @@ const contents = defineModel();
 const textField = defineProps<TextField>();
 const showPassword = ref(false);
 function toggleShowPassword(): void {showPassword.value = !showPassword.value;}
-
-
+//TODO: make this work for what it's supposed to do in profile and edit pages
 </script>
 
 <template>

@@ -33,7 +33,7 @@ async function unfriend() {
 }
 watch(() => getSession(), () => {
     isSessionFriend.value = getSession().user?.friends?.includes(user._id) ?? false;
-    isSessionUser.value = getSession()?.user?._id === user._id ?? false;
+    isSessionUser.value = getSession()?.user?._id === user._id;
 });
 
 </script>

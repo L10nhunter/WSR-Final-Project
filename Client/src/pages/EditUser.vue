@@ -13,18 +13,12 @@ definePage({
     path: "/editUser/:id",
     meta: {
         requiresAuth: true,
-        requiresAdmin: true,
     }
 });
-console.debug("editUser page please?");
 
 const route = useRoute();
-console.debug(route);
-console.debug(route.params);
-console.debug(route.params.id);
-for (const key in route) {
-    console.debug(key + ": " + route.params[key]);
-}
+console.debug({route: route});
+
 const userId: string= route.params.id as string;
 console.debug(userId);
 const user = ref<User>(await getUser(userId));
@@ -58,11 +52,11 @@ function editUserHandler(user: User): void {
                 <div class="field control">
                     <label>Admin: </label>
                     <label class="radio">
-                        <input type="radio" value="Yes" :checked="user.admin ?? false">
+                        <input type="radio" value="Yes" :checked="user?.admin ?? false">
                         Yes
                     </label>
                     <label class="radio">
-                        <input type="radio" value="No" :checked="!user.admin">
+                        <input type="radio" value="No" :checked="!user?.admin">
                         No
                     </label>
                 </div>
