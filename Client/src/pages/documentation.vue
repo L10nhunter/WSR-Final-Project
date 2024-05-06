@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import {isMobile} from "@/model/isMobile";
+import {isMobile} from "@/model/session";
 
 const activeTab = ref(0);
 const activeSubTab = ref(0);

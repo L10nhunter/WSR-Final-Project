@@ -5,9 +5,8 @@ import "bulma/css/bulma.css";
 import "../assets/base.css";
 import LoginModal from "@/components/LoginModal.vue";
 import {showLoginModal} from "@/model/users";
-import {isMobile} from "@/model/isMobile";
 import LoginBadge from "@/components/LoginBadge.vue";
-import {getSession, useLogin} from "@/model/session";
+import {getSession, useLogin, isMobile} from "@/model/session";
 
 const isMyMobile = computed<boolean>(() => isMobile.value < 1024);
 

@@ -1,9 +1,13 @@
-import {reactive} from "vue";
+import {reactive, ref} from "vue";
 import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
 import {showLoginModal, type User} from "@/model/users";
-import {api} from "@/model/rest";
+import {api, printDebug} from "@/model/rest";
 import type {DataEnvelope} from "@/model/TransferTypes";
+
+export const isMobile = ref<number>(0);
+window.addEventListener('resize', () => {isMobile.value = window.innerWidth;});
+window.addEventListener('pageshow', () => {isMobile.value = window.innerWidth;});
 
 interface LoginReturn {
     user: User,
