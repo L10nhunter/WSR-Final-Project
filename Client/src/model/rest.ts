@@ -4,7 +4,8 @@ import {MyError} from "@/model/MyError";
 import {StatusCodes} from "http-status-codes";
 import type {DynamicDataEnvelope} from "@/model/TransferTypes";
 
-const API_ROOT: string = import.meta.env.VITE_API_ROOT;
+const DEV_MODE: boolean = import.meta.env.VITE_DEV_MODE;
+const API_ROOT: string = DEV_MODE ? import.meta.env.VITE_DEV_API_ROOT : import.meta.env.VITE_API_ROOT;
 
 async function rest(url: string, body?: unknown, method?: string, headers?: any) {
     const session = getSession();
@@ -19,15 +20,17 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
         body: JSON.stringify(body)
     });
     //TODO: remove debug for production
-    console.debug("rest", {
-        url: url,
-        body: body,
-        method: method,
-        headers: headers,
-        response: response,
-        stack: new Error().stack
-    })
-
+    if(DEV_MODE) {
+        console.debug("rest", {
+            url: url,
+            endpoint: url.replace(API_ROOT, ""),
+            body: body,
+            method: method,
+            headers: headers,
+            response: response,
+            stack: new Error().stack
+        })
+    }
     const ret = response.ok ? await response.json() : response.json().then(err => {
         showError(new MyError(response.status, err.message));
         return Promise.reject(err);
