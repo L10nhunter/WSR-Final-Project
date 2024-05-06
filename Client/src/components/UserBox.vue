@@ -3,6 +3,7 @@ import type {User} from "@/model/users";
 import {getSession} from "@/model/session";
 import FriendButton from "@/components/FriendButton.vue";
 import {ref, watch} from "vue";
+import {printDebug} from "@/model/rest";
 
 const user = defineProps<User>();
 
@@ -10,7 +11,7 @@ const isSessionUser = ref<boolean>(getSession().user?._id === user._id);
 
 watch(() => getSession().user, () => {
     isSessionUser.value = getSession().user?._id === user._id;
-    console.debug({msg: "session user changed: listened to in UserBox", isSessionUser: isSessionUser.value});
+    printDebug({msg: "session user changed: listened to in UserBox", isSessionUser: isSessionUser.value});
 });
 
 </script>
@@ -18,7 +19,7 @@ watch(() => getSession().user, () => {
 <template>
     <div class="media box dcs">
         <div class="media-left dcs">
-            <figure class="image is-64x64" @click="console.debug({user: user})">
+            <figure class="image is-64x64" @click="printDebug({user: user})">
                 <img :src="user.image" alt="Image">
             </figure>
         </div>

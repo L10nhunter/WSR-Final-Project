@@ -5,10 +5,11 @@ import {getSession} from "@/model/session";
 import {definePage} from "unplugin-vue-router/runtime";
 import EditUserTextField from "@/components/Fields/EditUserTextField.vue";
 import {getTextField} from "@/model/textField";
+import {printDebug} from "@/model/rest";
 
 definePage({meta: {requiresAuth: true,}});
 const user = ref<User>(getSession().user!);
-console.debug(user);
+printDebug(user);
 
 const textFields = [
     {field: getTextField("First Name"), model: user.value.firstName},

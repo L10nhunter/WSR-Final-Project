@@ -19,18 +19,16 @@ async function rest(url: string, body?: unknown, method?: string, headers?: any)
         headers: headers,
         body: JSON.stringify(body)
     });
-    //TODO: remove debug for production
-    if(DEV_MODE) {
-        console.debug("rest", {
-            url: url,
-            endpoint: url.replace(API_ROOT, ""),
-            body: body,
-            method: method,
-            headers: headers,
-            response: response,
-            stack: new Error().stack
-        })
-    }
+    printDebug({
+        url: url,
+        endpoint: url.replace(API_ROOT, ""),
+        body: body,
+        method: method,
+        headers: headers,
+        response: response,
+        stack: new Error().stack
+    })
+
     const ret = response.ok ? await response.json() : response.json().then(err => {
         showError(new MyError(response.status, err.message));
         return Promise.reject(err);
@@ -59,4 +57,8 @@ function showError(error: MyError): void {
     console.error(error.stack);
     getSession().messages.push({type: "error", message: error.message});
     toast.error(error.message);
+}
+
+export function printDebug(obj: any) {
+    if (DEV_MODE) console.debug(obj);
 }

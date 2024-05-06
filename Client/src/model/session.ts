@@ -46,7 +46,7 @@ export function useLogin() {
                     router.push(session.redirectURL ?? "/").then((r) => r);
                     session.redirectURL = null;
                     useToast().success("Welcome " + session.user.firstName + " " + session.user.lastName + "!\nYou are now logged in.");
-                    console.debug("User " + session.user.firstName + " " + session.user.lastName + " logged in.");
+                    printDebug({msg: "User " + session.user.firstName + " " + session.user.lastName + " logged in."});
                     return session.user;
                 })
                 .catch((err)=>{throw err}) as User;

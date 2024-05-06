@@ -3,13 +3,14 @@ import {getSession} from "@/model/session";
 import {ref, watch} from "vue";
 import {showLoginModal, addFriend, removeFriend, type User} from "@/model/users";
 import {useToast} from "vue-toastification";
+import {printDebug} from "@/model/rest";
 
 const user = defineProps<User>();
 const isSessionFriend = ref<boolean>(getSession().user?.friends?.includes(user._id) ?? false);
 const isSessionUser = ref<boolean>(getSession().user?._id === user._id ?? false);
 const showUnfriendModal = ref<boolean>(false);
 async function updateSessionFriends() {
-    console.debug({click: true, sessionUser: getSession().user, boxUser: user, isSessionFriend: isSessionFriend.value, isSessionUser: isSessionUser.value});
+    printDebug({click: true, sessionUser: getSession().user, boxUser: user, isSessionFriend: isSessionFriend.value, isSessionUser: isSessionUser.value});
     if(!getSession().user) {
         useToast().warning("You must be logged in to add friends.");
         showLoginModal.value = true;
