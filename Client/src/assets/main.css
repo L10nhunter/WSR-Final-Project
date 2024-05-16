@@ -16,7 +16,7 @@
         --color-primary-hover: var(--vt-c-turquois-light);
         --shadow-1: rgba(245, 245, 245, 0.1);
         --shadow-2: rgba(245, 245, 245, 0.02);
-        input, textarea, select, button {
+        input o-field, textarea, select, button {
             color-scheme: dark !important;
         }
     }
@@ -37,7 +37,7 @@
         --color-primary-hover: var(--vt-c-turquois-dark);
         --shadow-1: rgba(10, 10, 10, 0.1);
         --shadow-2: rgba(10, 10, 10, 0.02);
-        input, textarea, select, button{
+        input o-field, textarea, select, button{
             color-scheme: light !important;
         }
     }

@@ -24,9 +24,9 @@ watch(() => getSession().user, () => {
             </figure>
         </div>
         <div class="media-content">
-            <p class="title is-4">{{ user.username }}</p>
-            <p class="subtitle mb-0 is-6">{{ user.firstName + " " + user.lastName }}</p>
-            <p class="subtitle is-6">{{ user.email }}</p>
+            <div class="title is-4 dcs">{{ user.username }}</div>
+            <div class="subtitle mb-0 is-6 dcs">{{ user.firstName + " " + user.lastName }}</div>
+            <div class="subtitle is-6 dcs">{{ user.email }}</div>
         </div>
         <nav class="level is-mobile">
             <div class="level-left">
@@ -45,5 +45,14 @@ div.box {
     margin-bottom: 1rem;
     border: 2px var(--color-border) solid;
     border-radius: .25rem;
+}
+.subtitle{
+    margin-top: 0 !important;
+}
+.dropdown-content {
+    background-color: var(--color-background) !important;
+}
+.dropdown-item {
+    color: var(--color-text) !important;
 }
 </style>
